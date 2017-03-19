@@ -7,17 +7,22 @@
 @endsection
 
 @section('content')
+    @include('layout.flash')
     <div class="ui centered grid">
-        <div class="thriteen wide mobile eleven wide tablet five wide computer five wide large screen column">
-            <form method="GET" action="dashboard" class="ui form center aligned padded segment">
+        <div class="thirteen wide mobile eleven wide tablet five wide computer five wide large screen column">
+            <form method="POST" action="login" class="ui form center aligned padded segment @if(sizeof($errors->all()) > 0)) error @endif">
                 <h1 class="ui teal center aligned header">LOG IN</h1>
                 <div class="ui clearing divider"></div>
                 <p>New to here?? Click here to <a href="signup">Sign Up</a></p>
 
+                {{ csrf_field() }}
+
+                @include('layout.errors')
+
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
-                        <input type="text" name="email" placeholder="E-mail address">
+                        <input type="text" name="email" placeholder="E-mail address" value="{{ old('email') }}">
                     </div>
                 </div>
 

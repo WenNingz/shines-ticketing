@@ -10,9 +10,11 @@
                 <i class="circular teal user icon"></i>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="dashboard">Username</a>
+                    @if(Auth::check())
+                        <a class="item" href="dashboard">{{ Auth::user()->first_name }}</a>
+                    @endif
                     <a class="item" href="profile">Account Setting</a>
-                    <a class="item" href="home">Log Out</a>
+                    <a class="item" href="logout">Log Out</a>
                 </div>
             </div>
         </div>

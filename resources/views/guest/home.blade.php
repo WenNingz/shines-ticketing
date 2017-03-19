@@ -7,6 +7,7 @@
 @endsection
 
 @section('content')
+    @include('layout.flash')
     <form action="events" action="GET" class="ui form center aligned raised segment">
         <h4 class="font-4">"The only source of Knowledge <br> is Experience"</h4>
         <span class="font-2">by Albert Einstein</span>

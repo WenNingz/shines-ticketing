@@ -1,6 +1,21 @@
 <?php
 
 /* --- Guest --- */
+Route::get('signup', 'SignUpController@index');
+
+Route::post('signup', 'SignUpController@submit');
+
+Route::get('signup/verify/{email_token}', 'SignUpController@confirm');
+
+Route::get('login', 'SessionController@index');
+
+Route::post('login', 'SessionController@submit');
+
+Route::get('logout', 'SessionController@destroy');
+
+/* --- Errors --- */
+Route::get('error-email-token', 'ErrorController@errorEmailToken');
+
 Route::get('home', function () {
     return view('guest.home');
 });
@@ -13,13 +28,6 @@ Route::get('event-detail', function () {
     return view('guest.event-detail');
 });
 
-Route::get('signup', function () {
-    return view('guest.signup');
-});
-
-Route::get('login', function () {
-    return view('guest.login');
-});
 
 /* --- Attendee --- */
 Route::get('dashboard', function () {
