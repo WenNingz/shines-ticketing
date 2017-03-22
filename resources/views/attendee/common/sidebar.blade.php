@@ -1,4 +1,4 @@
-<a href="dashboard" class="item">
+<a href="/dashboard" class="item">
     Home
 </a>
 <a href="support" class="item">
@@ -15,6 +15,6 @@
     <a href="payments" class="item">Payments</a>
 </div>
 
-<a href="home" class="item">
+<a href="/logout" class="item">
     Log Out
 </a>

@@ -13,8 +13,8 @@
                     <a class="item" href="support">Support</a>
                 </div>
             </div>
-            <a href="signup" class="item">SIGN UP</a>
-            <a href="login" class="item">LOG IN</a>
+            <a href="/signup" class="item">SIGN UP</a>
+            <a href="/login" class="item">LOG IN</a>
         </div>
     </div>
 </div>

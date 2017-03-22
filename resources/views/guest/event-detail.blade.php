@@ -1,9 +1,9 @@
 @extends('master')
 
-@section('title', 'Event Detail')
+@section('title', 'Event Details')
 
 @section('navbar');
-@include('guest.navbar')
+    @include('guest.navbar')
 @endsection
 
 @section('content')

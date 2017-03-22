@@ -1,16 +1,16 @@
 @extends('master')
 
-@section('title', 'All Events')
+@section('title', 'Change Password')
 
 @section('navbar')
-    @include('admin.common.navbar')
+    @include('super-admin.common.navbar')
 @endsection
 
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile three wide tablet three wide computer three wide large screen column">
             <div class="ui fluid secondary vertical menu">
-                @include('admin.common.sidebar')
+                @include('super-admin.common.sidebar')
             </div>
         </div>
 

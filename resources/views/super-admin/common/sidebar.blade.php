@@ -1,4 +1,4 @@
-<a href="admin-dashboard" class="item">
+<a href="/dashboard" class="item">
     Home
 </a>
 

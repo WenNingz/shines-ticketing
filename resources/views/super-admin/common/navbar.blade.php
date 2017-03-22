@@ -11,7 +11,11 @@
                 <i class="circular teal user icon"></i>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="admin-dashboard">Username</a>
+                    <a class="item" href="admin-dashboard">
+                        @if(auth()->check())
+                            {{ auth()->user()->first_name }}
+                        @endif
+                    </a>
                     <a class="item" href="tickets">Tickets</a>
                     <a class="item" href="profile">Account Setting</a>
                     <a class="item" href="/logout">Log Out</a>

@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'All Events')
+@section('title', 'Ticket Details')
 
 @section('navbar')
     @include('admin.common.navbar')

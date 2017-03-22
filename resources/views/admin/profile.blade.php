@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Profile')
+@section('title', 'Edit Profile')
 
 @section('navbar')
     @include('admin.common.navbar')

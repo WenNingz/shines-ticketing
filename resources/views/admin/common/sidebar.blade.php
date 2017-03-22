@@ -1,4 +1,4 @@
-<a href="admin-dashboard" class="item">
+<a href="/dashboard" class="item">
     Home
 </a>
 
@@ -11,7 +11,7 @@
 </div>
 
 <a href="manage-users" class="item">
-    Users
+    Attendees
 </a>
 
 <a href="ticket-list" class="item">
@@ -37,6 +37,6 @@
     Payment
 </a>
 
-<a href="home" class="item">
+<a href="/logout" class="item">
     Log Out
 </a>
