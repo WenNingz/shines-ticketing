@@ -10,9 +10,13 @@
     <a href="sync-event" class="item">Sync Event</a>
 </div>
 
-<a href="manage-users" class="item">
+<a href="/manage-admin" class="item">
     Users
 </a>
+<div class="menu">
+    <a href="/manage-admin" class="item">Admin</a>
+    <a href="/manage-attendee" class="item">Attendee</a>
+</div>
 
 <a href="ticket-list" class="item">
     Support

@@ -1,20 +1,34 @@
 <?php
 
 /* --- Guest --- */
-Route::get('signup', 'SignUpController@index');
+Route::get('/signup', 'SignUpController@index');
 
-Route::post('signup', 'SignUpController@submit');
+Route::post('/signup', 'SignUpController@submit');
 
-Route::get('signup/verify/{email_token}', 'SignUpController@confirm');
+Route::get('/signup/verify/{email_token}', 'SignUpController@confirm');
 
-Route::get('login', 'SessionController@index');
+Route::get('/login', 'SessionController@index');
 
-Route::post('login', 'SessionController@submit');
+Route::post('/login', 'SessionController@submit');
 
-Route::get('logout', 'SessionController@destroy');
+Route::get('/logout', 'SessionController@destroy');
 
 /* --- Errors --- */
 Route::get('error-email-token', 'ErrorController@errorEmailToken');
+
+/* --- Users --- */
+Route::get('/dashboard', 'DashboardController@index');
+
+Route::get('/manage-admin', 'User\AdminController@index');
+
+Route::get('/add-admin', 'User\AdminController@create');
+
+Route::post('/add-admin', 'User\AdminController@submit');
+
+Route::get('/setup', 'SetupController@index');
+
+Route::post('/setup', 'SetupController@submit');
+
 
 Route::get('home', function () {
     return view('guest.home');
@@ -30,9 +44,6 @@ Route::get('event-detail', function () {
 
 
 /* --- Attendee --- */
-Route::get('dashboard', function () {
-    return view('attendee.dashboard');
-});
 
 Route::get('event-details', function () {
     return view('attendee.event-detail');
@@ -89,9 +100,6 @@ Route::get('sync-event', function () {
     return view('admin.sync-event');
 });
 
-Route::get('manage-users', function () {
-    return view('admin.manage-users');
-});
 
 Route::get('ticket-list', function () {
     return view('admin.support-list');
@@ -115,4 +123,8 @@ Route::get('admin-password', function () {
 
 Route::get('admin-payments', function () {
     return view('admin.payments');
+});
+
+Route::get('test', function (){
+    return view('super-admin.add-user');
 });

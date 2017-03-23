@@ -60,4 +60,46 @@
             </form>
         </div>
     </div>
+
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    first_name: {
+                        identifier: 'first_name',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The first name field is required.'
+                            }]
+                    },
+                    email: {
+                        identifier: 'email',
+                        rules: [
+                            {
+                                type: 'email',
+                                prompt: 'The email must be a valid email address.'
+                            }]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'minLength[8]',
+                                prompt: 'The password must be at least 8 characters.'
+                            }
+                        ]
+                    },
+                    password_confirmation: {
+                        identifier: 'password_confirmation',
+                        rules: [
+                            {
+                                type: 'match[password]',
+                                prompt: 'The password confirmation does not match.'
+                            }
+                        ]
+                    }
+                }
+            });
+    </script>
 @endsection

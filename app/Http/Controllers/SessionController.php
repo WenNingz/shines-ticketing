@@ -31,12 +31,12 @@ class SessionController extends Controller
 
         Flash::message('Welcome back!');
 
-        return redirect('dashboard');
+        return redirect('/dashboard');
 
     }
 
     public function destroy() {
         auth()->logout();
-        return redirect('login');
+        return redirect('/login');
     }
 }
