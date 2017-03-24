@@ -21,8 +21,44 @@ class AdminController extends Controller
 
     public function index() {
         $role = Role::where('name', 'admin')->first();
-        $users = $role->users;
-        return view('super-admin.manage-admin', compact('users'));
+        $search = Input::get('query');
+
+        switch (Input::get('status')) {
+            default:
+                $users = $role->users()->where(function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                })->get();
+                break;
+            case 'active':
+                $users = $role->users()->where(function ($query) use ($search) {
+                    $query->where('status', 2)
+                        ->orWhere('status', 3);
+                })->where(function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                })->get();
+                break;
+            case 'inactive':
+                $users = $role->users()->where(function ($query) use ($search) {
+                    $query->where('status', '!=', 2)
+                        ->where('status', '!=', 3)
+                        ->where(function ($query) use ($search) {
+                            $query->where('first_name', 'like', '%' . $search . '%')
+                                ->orWhere('last_name', 'like', '%' . $search . '%')
+                                ->orWhere('email', 'like', '%' . $search . '%');
+                        });
+                })->get();
+                break;
+        }
+
+        return view('super-admin.manage-admin', [
+            'users' => $users,
+            'status' => Input::get('status'),
+            'search' => Input::get('query')
+        ]);
     }
 
     public function create() {
@@ -59,25 +95,24 @@ class AdminController extends Controller
     public function edit() {
 
         $user = User::find(Input::get('user_id'));
-        if($user->hasRole('admin')){
-            switch(Input::get('action')) {
+        if ($user->hasRole('admin')) {
+            switch (Input::get('action')) {
                 case 'suspend':
-                    if($user->status == 2 || $user->status == 3) {
+                    if ($user->status == 2 || $user->status == 3) {
                         $user->status -= 2;
                         $user->save();
                     }
                     break;
                 case 'activate':
-                    if($user->status != 2 || $user->status != 3) {
+                    if ($user->status != 2 || $user->status != 3) {
                         $user->status += 2;
                         $user->save();
                     }
                     break;
             }
         }
-
         return response()->json([
-            'success'=>true
+            'success' => true
         ]);
     }
 }

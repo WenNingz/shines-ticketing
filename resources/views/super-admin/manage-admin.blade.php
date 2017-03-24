@@ -19,24 +19,24 @@
                 Manage Users
             </h3>
 
-            <form class="ui form">
+            <form method="GET" action="/manage-admin" class="ui form">
                 <h4 class="ui dividing header">
                     Manage Admin
                 </h4>
                 <div class="ui stackable grid">
-                    <div class="two wide mobile two wide tablet four wide computer four wide large screen column">
+                    <div class="four wide mobile four wide tablet four wide computer four wide large screen column">
                         <div class="field">
-                            <select class="ui selection dropdown">
-                                <option value="3">All</option>
-                                <option value="2">Active</option>
-                                <option value="0">Inactive</option>
+                            <select name="status" class="ui dropdown" id="select">
+                                <option value="all" @if($status == 'all') selected="selected" @endif>All</option>
+                                <option value="active" @if($status == 'active') selected="selected" @endif>Active</option>
+                                <option value="inactive" @if($status == 'inactive') selected="selected" @endif>Inactive</option>
                             </select>
                         </div>
                     </div>
-                    <div class="fourteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
+                    <div class="twelve wide mobile twelve wide tablet twelve wide computer twelve wide large screen column">
                         <div class="field">
                             <div class="ui icon input">
-                                <input type="text" name="event" placeholder="Search admins">
+                                <input type="text" name="query" placeholder="Search admins and emails" value="{{ $search }}">
                                 <i class="blue search icon"></i>
                             </div>
                         </div>
@@ -44,39 +44,48 @@
                 </div>
             </form>
 
-            <table class="ui celled table">
+            <table class="ui unstackable celled table">
                 <thead>
                 <tr>
-                    <th class="four wide">Admin Name</th>
-                    <th class="four wide">Email</th>
-                    <th class="three wide">Date Created</th>
-                    <th class="two wide">Status</th>
-                    <th class="two wide">Action</th>
+                    <th>Admin Name</th>
+                    <th>Email</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($users as $user)
-                    <tr>
-                        <td>{{ $user->first_name.' '.$user->last_name  }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->created_at->formatLocalized('%d %B %Y') }}</td>
 
-                        <td>
-                            @if($user->status == 2 || $user->status == 3)
-                                Active
-                            @else
-                                Inactive
-                            @endif
-                        </td>
-                        <td>
-                            @if($user->status == 2 || $user->status == 3)
-                                <a class="ui mini fluid basic red button suspend" data-action="suspend" data-value="{{ $user->id }}">Suspend</a>
-                            @else
-                                <a class="ui mini fluid basic blue button activate" data-action="activate" data-value="{{ $user->id }}">Active</a>
-                            @endif
-                        </td>
+                @if($users->isEmpty())
+                    <tr>
+                        <td colspan="5">There is no user</td>
                     </tr>
-                @endforeach
+                @else
+                    @foreach($users as $user)
+                        <tr>
+                            <td>{{ $user->first_name.' '.$user->last_name  }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->created_at->formatLocalized('%d %B %Y') }}</td>
+
+                            <td>
+                                @if($user->status == 2 || $user->status == 3)
+                                    Active
+                                @else
+                                    Inactive
+                                @endif
+                            </td>
+                            <td>
+                                @if($user->status == 2 || $user->status == 3)
+                                    <a class="ui mini fluid basic red button suspend" data-action="suspend"
+                                       data-value="{{ $user->id }}">Suspend</a>
+                                @else
+                                    <a class="ui mini fluid basic blue button activate" data-action="activate"
+                                       data-value="{{ $user->id }}">Activate</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
                 <tfoot>
                 <tr>
@@ -103,7 +112,17 @@
     </div>
 
     <script>
-        $('.suspend, .activate').click(function(){
+        $('#select')
+            .dropdown();
+        ;
+
+        $('select').on('change', function() {
+            var status = (this.value);
+            this.form.submit();
+            return status;
+        });
+
+        $('.suspend, .activate').click(function () {
             $.ajax({
                 url: '/suspend',
                 method: 'POST',
