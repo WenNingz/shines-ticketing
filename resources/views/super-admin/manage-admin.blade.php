@@ -70,10 +70,9 @@
                         </td>
                         <td>
                             @if($user->status == 2 || $user->status == 3)
-                                <a class="ui mini fluid basic red button">Suspend</a>
-
+                                <a class="ui mini fluid basic red button suspend" data-action="suspend" data-value="{{ $user->id }}">Suspend</a>
                             @else
-                                <a class="ui mini fluid basic blue button">Active</a>
+                                <a class="ui mini fluid basic blue button activate" data-action="activate" data-value="{{ $user->id }}">Active</a>
                             @endif
                         </td>
                     </tr>
@@ -102,4 +101,27 @@
             </table>
         </div>
     </div>
+
+    <script>
+        $('.suspend, .activate').click(function(){
+            $.ajax({
+                url: '/suspend',
+                method: 'POST',
+                data: {
+                    _method: 'put',
+                    _token: '{{ csrf_token() }}',
+                    user_id: $(this).attr('data-value'),
+                    action: $(this).attr('data-action')
+                },
+                beforeSend: function (jqXHR, settings) {
+                    console.log(settings.data);
+                    return settings;
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
 @endsection

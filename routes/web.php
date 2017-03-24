@@ -29,6 +29,8 @@ Route::get('/setup', 'SetupController@index');
 
 Route::post('/setup', 'SetupController@submit');
 
+Route::put('/suspend', 'User\AdminController@edit');
+
 
 Route::get('home', function () {
     return view('guest.home');
@@ -126,5 +128,10 @@ Route::get('admin-payments', function () {
 });
 
 Route::get('test', function (){
-    return view('super-admin.add-user');
+
+    $super_admin_role = App\Role::where('name', 'super-admin')->first();
+
+    $user_admin_edit = App\Permission::where('name', 'user-admin-edit')->first();
+
+    $super_admin_role->attachPermission($user_admin_edit);
 });

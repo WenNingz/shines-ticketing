@@ -68,10 +68,17 @@ class UsersTableSeeder extends Seeder
             'description' => 'Add a new admin'
         ]);
 
+        $user_admin_edit = Permission::create([
+            'name' => 'user-admin-edit',
+            'display_name' => 'Edit Status',
+            'description' => 'Activate or suspend an admin'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index,
             $user_admin_index,
-            $user_admin_create
+            $user_admin_create,
+            $user_admin_edit
 
         ));
 

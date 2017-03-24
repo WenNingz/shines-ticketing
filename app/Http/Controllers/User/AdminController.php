@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\AdminRequest;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use App\Role;
 use App\User;
@@ -15,6 +16,7 @@ class AdminController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:user-admin-index')->only('index');
         $this->middleware('permission:user-admin-create')->only('create');
+        $this->middleware('permission:user-admin-edit')->only('edit');
     }
 
     public function index() {
@@ -54,4 +56,28 @@ class AdminController extends Controller
         return redirect('/manage-admin');
     }
 
+    public function edit() {
+
+        $user = User::find(Input::get('user_id'));
+        if($user->hasRole('admin')){
+            switch(Input::get('action')) {
+                case 'suspend':
+                    if($user->status == 2 || $user->status == 3) {
+                        $user->status -= 2;
+                        $user->save();
+                    }
+                    break;
+                case 'activate':
+                    if($user->status != 2 || $user->status != 3) {
+                        $user->status += 2;
+                        $user->save();
+                    }
+                    break;
+            }
+        }
+
+        return response()->json([
+            'success'=>true
+        ]);
+    }
 }
