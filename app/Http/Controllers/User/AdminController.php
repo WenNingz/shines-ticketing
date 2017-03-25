@@ -39,7 +39,7 @@ class AdminController extends Controller
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%');
-                })->get();
+                })->paginate(10);
                 break;
             case 'inactive':
                 $users = $role->users()->where(function ($query) use ($search) {
@@ -50,14 +50,14 @@ class AdminController extends Controller
                                 ->orWhere('last_name', 'like', '%' . $search . '%')
                                 ->orWhere('email', 'like', '%' . $search . '%');
                         });
-                })->get();
+                })->paginate(10);
                 break;
         }
 
         return view('super-admin.manage-admin', [
             'users' => $users,
             'status' => Input::get('status'),
-            'search' => Input::get('query')
+            'query' => Input::get('query')
         ]);
     }
 
@@ -83,11 +83,11 @@ class AdminController extends Controller
             'email_token' => $email_token
         ];
 
-        Mail::send('email.verify', $data, function ($message) use ($request) {
-
-            $message->from(env('MAIL_USERNAME'), 'Shines Service');
-            $message->to($request->email)->subject('Verify Email Address');
-        });
+//        Mail::send('email.verify', $data, function ($message) use ($request) {
+//
+//            $message->from(env('MAIL_USERNAME'), 'Shines Service');
+//            $message->to($request->email)->subject('Verify Email Address');
+//        });
 
         return redirect('/manage-admin');
     }

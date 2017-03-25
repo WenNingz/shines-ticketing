@@ -36,7 +36,7 @@
                     <div class="twelve wide mobile twelve wide tablet twelve wide computer twelve wide large screen column">
                         <div class="field">
                             <div class="ui icon input">
-                                <input type="text" name="query" placeholder="Search admins and emails" value="{{ $search }}">
+                                <input type="text" name="query" placeholder="Search admins and emails" value="{{ $query }}">
                                 <i class="blue search icon"></i>
                             </div>
                         </div>
@@ -92,21 +92,7 @@
                     <th colspan="6">
                         <a href="/add-admin" class="ui tiny basic blue button">Add User</a>
 
-
-                        {{--<div class="ui tiny right floated pagination menu">
-                            <a class="icon item">
-                                <i class="left chevron icon"></i>
-                            </a>
-                            <a class="item">1</a>
-                            <a class="item">2</a>
-                            <a class="item">3</a>
-                            <a class="item">4</a>
-                            <a class="icon item">
-                                <i class="right chevron icon"></i>
-                            </a>
-                        </div>--}}
-                        {{ $users->links('layout.semantic-paginate') }}
-                        {{--{{ (new Landish\Pagination\SemanticUI($users))->links() }}--}}
+                        {{ $users->appends(['status' => $status, 'query' => $query])->links('layout.semantic-paginate') }}
                     </th>
                 </tr>
                 </tfoot>
