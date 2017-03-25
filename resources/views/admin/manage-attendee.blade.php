@@ -27,16 +27,16 @@
                     <div class="four wide mobile four wide tablet four wide computer four wide large screen column">
                         <div class="field">
                             <select name="status" class="ui dropdown" id="select">
-                                <option value="all">All</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
+                                <option value="all" @if($status == 'all') selected="selected" @endif>All</option>
+                                <option value="active" @if($status == 'active') selected="selected" @endif>Active</option>
+                                <option value="inactive" @if($status == 'inactive') selected="selected" @endif>Inactive</option>
                             </select>
                         </div>
                     </div>
                     <div class="twelve wide mobile twelve wide tablet twelve wide computer twelve wide large screen column">
                         <div class="field">
                             <div class="ui icon input">
-                                <input type="text" name="query" placeholder="Search attendees and emails">
+                                <input type="text" name="query" placeholder="Search admins and emails" value="{{ $query }}">
                                 <i class="blue search icon"></i>
                             </div>
                         </div>
@@ -111,6 +111,12 @@
         $('#select')
             .dropdown();
         ;
+
+        $('select').on('change', function() {
+            var status = (this.value);
+            this.form.submit();
+            return status;
+        });
 
         $('.suspend, .activate').click(function () {
             $.ajax({
