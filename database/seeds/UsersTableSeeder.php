@@ -53,18 +53,12 @@ class UsersTableSeeder extends Seeder
         $user_admin_index = Permission::create([
             'name' => 'user-admin-index',
             'display_name' => 'Admin List',
-            'description' => 'View admin list'
+            'description' => 'View admins list'
         ]);
 
         $user_admin_create = Permission::create([
             'name' => 'user-admin-create',
             'display_name' => 'Add Admin',
-            'description' => 'Add a new admin'
-        ]);
-
-        $user_admin_confirm = Permission::create([
-            'name' => 'user-admin-confirm',
-            'display_name' => 'Verify Email',
             'description' => 'Add a new admin'
         ]);
 
@@ -74,16 +68,32 @@ class UsersTableSeeder extends Seeder
             'description' => 'Activate or suspend an admin'
         ]);
 
+        $user_attendee_index = Permission::create([
+            'name' => 'user-attendee-index',
+            'display_name' => 'Attendee List',
+            'description' => 'View attendees list'
+        ]);
+
+        $user_attendee_edit = Permission::create([
+            'name' => 'user-attendee-edit',
+            'display_name' => 'Edit Status',
+            'description' => 'Activate or suspend an attendee'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index,
             $user_admin_index,
             $user_admin_create,
-            $user_admin_edit
+            $user_admin_edit,
+            $user_attendee_index,
+            $user_attendee_edit
 
         ));
 
         $admin_role->attachPermissions(array(
-            $dashboard_index
+            $dashboard_index,
+            $user_attendee_index,
+            $user_attendee_edit
         ));
 
         $attendee_role->attachPermissions(array(

@@ -10,7 +10,7 @@
     <a href="sync-event" class="item">Sync Event</a>
 </div>
 
-<a href="manage-users" class="item">
+<a href="manage-attendee" class="item">
     Attendees
 </a>
 

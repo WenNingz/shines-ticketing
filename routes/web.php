@@ -19,17 +19,29 @@ Route::get('error-email-token', 'ErrorController@errorEmailToken');
 /* --- Users --- */
 Route::get('/dashboard', 'DashboardController@index');
 
+    /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
 Route::get('/add-admin', 'User\AdminController@create');
 
 Route::post('/add-admin', 'User\AdminController@submit');
 
+Route::put('/suspend', 'User\AdminController@edit');
+
+Route::get('/manage-attendee', 'User\AttendeeController@index');
+
+Route::put('/suspend', 'User\AttendeeController@edit');
+
+    /* --- Admin --- */
 Route::get('/setup', 'SetupController@index');
 
 Route::post('/setup', 'SetupController@submit');
 
-Route::put('/suspend', 'User\AdminController@edit');
+
+
+
+
+
 
 
 Route::get('home', function () {
@@ -129,9 +141,9 @@ Route::get('admin-payments', function () {
 
 Route::get('test', function (){
 
-    $super_admin_role = App\Role::where('name', 'super-admin')->first();
+    $super_admin_role = App\Role::where('name', 'admin')->first();
 
-    $user_admin_edit = App\Permission::where('name', 'user-admin-edit')->first();
+    $user_attendee_edit = App\Permission::where('name', 'user-attendee-edit')->first();
 
-    $super_admin_role->attachPermission($user_admin_edit);
+    $super_admin_role->attachPermission( $user_attendee_edit);
 });
