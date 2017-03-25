@@ -17,7 +17,7 @@
                         @endif
                     </a>
                     <a class="item" href="tickets">Tickets</a>
-                    <a class="item" href="profile">Account Setting</a>
+                    <a class="item" href="/profile">Account Setting</a>
                     <a class="item" href="/logout">Log Out</a>
                 </div>
             </div>

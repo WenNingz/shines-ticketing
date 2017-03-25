@@ -16,8 +16,16 @@ Route::get('/logout', 'SessionController@destroy');
 /* --- Errors --- */
 Route::get('error-email-token', 'ErrorController@errorEmailToken');
 
-/* --- Users --- */
+/* --- Users - Common --- */
 Route::get('/dashboard', 'DashboardController@index');
+
+Route::get('/manage-attendee', 'User\AttendeeController@index');
+
+Route::put('/suspend', 'User\AttendeeController@edit');
+
+Route::get('/profile', 'Account\ProfileController@index');
+
+Route::post('/profile', 'Account\ProfileController@edit');
 
     /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
@@ -28,9 +36,6 @@ Route::post('/add-admin', 'User\AdminController@submit');
 
 Route::put('/suspend', 'User\AdminController@edit');
 
-Route::get('/manage-attendee', 'User\AttendeeController@index');
-
-Route::put('/suspend', 'User\AttendeeController@edit');
 
     /* --- Admin --- */
 Route::get('/setup', 'SetupController@index');
@@ -77,9 +82,6 @@ Route::get('support-ticket', function () {
 });
 
 /* --- Account Information Section --- */
-Route::get('profile', function () {
-    return view('attendee.profile');
-});
 
 Route::get('password', function () {
     return view('attendee.password');
@@ -141,9 +143,9 @@ Route::get('admin-payments', function () {
 
 Route::get('test', function (){
 
-    $super_admin_role = App\Role::where('name', 'admin')->first();
+    $super_admin_role = App\Role::where('name', 'attendee')->first();
 
-    $user_attendee_edit = App\Permission::where('name', 'user-attendee-edit')->first();
+    $user_attendee_edit = App\Permission::where('name', 'profile-edit')->first();
 
-    $super_admin_role->attachPermission( $user_attendee_edit);
+    $super_admin_role->attachPermission($user_attendee_edit);
 });

@@ -15,7 +15,7 @@
                             {{ auth()->user()->first_name }}
                         @endif
                     </a>
-                    <a class="item" href="profile">Account Setting</a>
+                    <a class="item" href="/profile">Account Setting</a>
                     <a class="item" href="/logout">Log Out</a>
                 </div>
             </div>

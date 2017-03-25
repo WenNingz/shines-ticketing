@@ -21,24 +21,36 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <form method="GET" action="admin-profile" class="ui form">
+                    <form method="POST" action="/profile" class="ui form @if(sizeof($errors->all()) > 0)) error @endif"
+                          @if (session('status')) success @endif>
                         <h4 class="ui dividing header">
                             Basic Information
                         </h4>
+                        {{ csrf_field() }}
+
+                        @include('layout.errors')
+                        @include('layout.success')
 
                         <label>Name</label>
                         <div class="two fields">
                             <div class="field">
-                                <input type="text" name="first-name" placeholder="First Name" value="Admin">
+                                <input type="text" name="first_name" placeholder="First Name"
+                                       value="{{ $user->first_name }}">
                             </div>
                             <div class="field">
-                                <input type="text" name="last-name" placeholder="Last Name" value="#1">
+                                <input type="text" name="last_name" placeholder="Last Name"
+                                       value="{{ $user->last_name }}">
                             </div>
                         </div>
 
                         <label>Email</label>
                         <div class="field">
-                            <input type="text" name="email" placeholder="E-mail" value="attendee#1@google.com">
+                            <input type="text" name="email" placeholder="E-mail" value="{{ $user->email }}">
+                        </div>
+
+                        <label>Password</label>
+                        <div class="field">
+                            <input type="password" name="password" placeholder="Password">
                         </div>
 
                         <div class="field">
@@ -50,16 +62,48 @@
 
                         <div class="fields">
                             <div class="two wide field">
-                                <div class="ui fluid basic red button">Cancel</div>
-                            </div>  &nbsp;
+                                <button class="ui fluid small basic red button">Cancel</button>
+                            </div> &nbsp;
                             <div class="two wide field">
-                                <div class="ui fluid basic teal button">Save</div>
+                                <button class="ui fluid small basic blue button">Save</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    first_name: {
+                        identifier: 'first_name',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The first name field is required.'
+                            }]
+                    },
+                    email: {
+                        identifier: 'email',
+                        rules: [
+                            {
+                                type: 'email',
+                                prompt: 'The email must be a valid email address.'
+                            }]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The password field is required.'
+                            }
+                        ]
+                    }
+                }
+            });
+    </script>
 @endsection

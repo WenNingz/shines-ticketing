@@ -80,24 +80,42 @@ class UsersTableSeeder extends Seeder
             'description' => 'Activate or suspend an attendee'
         ]);
 
+        $profile_index = Permission::create([
+            'name' => 'profile-index',
+            'display_name' => 'View Profile',
+            'description' => 'View profile'
+        ]);
+
+        $profile_edit = Permission::create([
+            'name' => 'profile-edit',
+            'display_name' => 'Edit Profile',
+            'description' => 'Edit profile'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index,
             $user_admin_index,
             $user_admin_create,
             $user_admin_edit,
             $user_attendee_index,
-            $user_attendee_edit
+            $user_attendee_edit,
+            $profile_index,
+            $profile_edit
 
         ));
 
         $admin_role->attachPermissions(array(
             $dashboard_index,
             $user_attendee_index,
-            $user_attendee_edit
+            $user_attendee_edit,
+            $profile_index,
+            $profile_edit
         ));
 
         $attendee_role->attachPermissions(array(
-            $dashboard_index
+            $dashboard_index,
+            $profile_index,
+            $profile_edit
         ));
 
     }

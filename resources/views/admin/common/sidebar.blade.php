@@ -25,11 +25,11 @@
     </a>
 </div>
 
-<a href="admin-profile" class="item">
+<a href="/profile" class="item">
     Account Setting
 </a>
 <div class="menu">
-    <a href="admin-profile" class="item">Personal Information</a>
+    <a href="/profile" class="item">Personal Information</a>
     <a href="admin-password" class="item">Password</a>
 </div>
 
