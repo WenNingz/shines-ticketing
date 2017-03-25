@@ -92,7 +92,8 @@
                     <th colspan="6">
                         <a href="/add-admin" class="ui tiny basic blue button">Add User</a>
 
-                        <div class="ui tiny right floated pagination menu">
+
+                        {{--<div class="ui tiny right floated pagination menu">
                             <a class="icon item">
                                 <i class="left chevron icon"></i>
                             </a>
@@ -103,7 +104,9 @@
                             <a class="icon item">
                                 <i class="right chevron icon"></i>
                             </a>
-                        </div>
+                        </div>--}}
+                        {{ $users->links('layout.semantic-paginate') }}
+                        {{--{{ (new Landish\Pagination\SemanticUI($users))->links() }}--}}
                     </th>
                 </tr>
                 </tfoot>

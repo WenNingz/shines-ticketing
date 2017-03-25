@@ -29,7 +29,7 @@ class AdminController extends Controller
                     $query->where('first_name', 'like', '%' . $search . '%')
                         ->orWhere('last_name', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%');
-                })->get();
+                })->paginate(10);
                 break;
             case 'active':
                 $users = $role->users()->where(function ($query) use ($search) {
