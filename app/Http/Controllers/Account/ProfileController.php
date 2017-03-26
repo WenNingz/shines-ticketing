@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Mail\VerificationMail;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 class ProfileController extends Controller
 {
@@ -59,7 +61,11 @@ class ProfileController extends Controller
             }
             if (Hash::check(Input::get('password'), $user->password)) {
                 $user->save();
-                //send mail
+                $data = [
+                    'email_token' => $user->email_token
+                ];
+
+                Mail::to($request->email)->queue(new VerificationMail($data));
                 return redirect('/profile')->with('status', 'Profile Updated!');
             }
             return redirect('/profile')->withErrors(['message' => 'Invalid Password']);

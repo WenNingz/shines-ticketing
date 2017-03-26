@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SignUpRequest;
+use App\Mail\VerificationMail;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Mail;
@@ -36,11 +37,8 @@ class SignUpController extends Controller
         $data = [
             'email_token' => $email_token
         ];
-        Mail::send('email.verify', $data, function ($message) use ($request) {
 
-            $message->from(env('MAIL_USERNAME'), 'Shines Service Admin');
-            $message->to($request->email)->subject('Verify Email Address');
-        });
+        Mail::to($request->email)->queue(new VerificationMail($data));
 
         Flash::message('Thanks for signing up! Please check your email.');
 

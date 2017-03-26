@@ -113,7 +113,8 @@ class UsersTableSeeder extends Seeder
             $user_attendee_edit,
             $profile_index,
             $profile_edit,
-            $password_index
+            $password_index,
+            $password_edit
 
         ));
 
@@ -123,14 +124,16 @@ class UsersTableSeeder extends Seeder
             $user_attendee_edit,
             $profile_index,
             $profile_edit,
-            $password_index
+            $password_index,
+            $password_edit
         ));
 
         $attendee_role->attachPermissions(array(
             $dashboard_index,
             $profile_index,
             $profile_edit,
-            $password_index
+            $password_index,
+            $password_edit
         ));
 
     }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\AdminRequest;
+use App\Mail\VerificationMail;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use App\Role;
 use App\User;
-
 
 class AdminController extends Controller
 {
@@ -53,7 +53,6 @@ class AdminController extends Controller
                 })->paginate(10);
                 break;
         }
-
         return view('super-admin.manage-admin', [
             'users' => $users,
             'status' => Input::get('status'),
@@ -82,13 +81,7 @@ class AdminController extends Controller
         $data = [
             'email_token' => $email_token
         ];
-
-//        Mail::send('email.verify', $data, function ($message) use ($request) {
-//
-//            $message->from(env('MAIL_USERNAME'), 'Shines Service');
-//            $message->to($request->email)->subject('Verify Email Address');
-//        });
-
+        Mail::to($request->email)->queue(new VerificationMail($data));
         return redirect('/manage-admin');
     }
 
