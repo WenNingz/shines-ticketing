@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SignUpRequest;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -38,14 +36,14 @@ class ProfileController extends Controller
         }
     }
 
-    public function edit() {
+    public function edit(Request $request) {
         $user = auth()->user();
 
-        Validator::make(Request::all(), [
+        $this->validate($request, [
             'first_name' => 'required',
             'email' => 'required|email',
             'password' => 'required'
-        ])->validate();
+        ]);
 
         try {
             User::where('id', '!=', $user->id)
