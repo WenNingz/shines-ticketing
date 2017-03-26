@@ -62,10 +62,10 @@
 
                         <div class="fields">
                             <div class="two wide field">
-                                <button class="ui fluid small basic red button">Cancel</button>
+                                <button type="reset" class="ui fluid small basic red button">Cancel</button>
                             </div> &nbsp;
                             <div class="two wide field">
-                                <button class="ui fluid small basic blue button">Save</button>
+                                <button type="submit" class="ui fluid small basic blue button">Save</button>
                             </div>
                         </div>
                     </form>
