@@ -21,8 +21,8 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <form method="POST" action="/profile" class="ui form @if(sizeof($errors->all()) > 0)) error @endif"
-                          @if (session('status')) success @endif>
+                    <form method="POST" action="/profile" class="ui form @if(sizeof($errors->all()) > 0)) error @endif
+                          @if (session('status')) success @endif">
                         <h4 class="ui dividing header">
                             Basic Information
                         </h4>
