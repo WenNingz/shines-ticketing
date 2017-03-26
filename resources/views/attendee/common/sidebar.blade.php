@@ -10,7 +10,7 @@
 </a>
 <div class="menu">
     <a href="/profile" class="item">Personal Information</a>
-    <a href="password" class="item">Password</a>
+    <a href="/change-password" class="item">Password</a>
     <a href="linked-account" class="item">Linked Accounts</a>
     <a href="payments" class="item">Payments</a>
 </div>

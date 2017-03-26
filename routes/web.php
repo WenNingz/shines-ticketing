@@ -27,6 +27,10 @@ Route::get('/profile', 'Account\ProfileController@index');
 
 Route::post('/profile', 'Account\ProfileController@edit');
 
+Route::get('/change-password', 'Account\PasswordController@index');
+
+Route::post('/change-password', 'Account\PasswordController@edit');
+
     /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
@@ -82,10 +86,6 @@ Route::get('support-ticket', function () {
 });
 
 /* --- Account Information Section --- */
-
-Route::get('password', function () {
-    return view('attendee.password');
-});
 
 Route::get('linked-account', function () {
     return view('attendee.linked-account');
@@ -143,9 +143,17 @@ Route::get('admin-payments', function () {
 
 Route::get('test', function (){
 
-    $super_admin_role = App\Role::where('name', 'attendee')->first();
+    $super_admin = App\Role::where('name', 'super-admin')->first();
+    $admin = App\Role::where('name', 'admin')->first();
+    $attendee = App\Role::where('name', 'attendee')->first();
 
-    $user_attendee_edit = App\Permission::where('name', 'profile-edit')->first();
+    $password_edit = App\Permission::create([
+        'name' => 'password-edit',
+        'display_name' => 'Edit Password',
+        'description' => 'Change password'
+    ]);
 
-    $super_admin_role->attachPermission($user_attendee_edit);
+    $super_admin->attachPermission($password_edit);
+    $admin->attachPermission($password_edit);
+    $attendee->attachPermission($password_edit);
 });

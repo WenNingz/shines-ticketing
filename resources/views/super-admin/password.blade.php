@@ -20,33 +20,37 @@
             </h3>
 
             <div class="ui stackable grid">
-                <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <form method="GET" action="profile" class="ui form">
+                <div class="sixteen wide mobile fourteen wide tablet six wide computer six wide large screen column">
+                    <form method="POST" action="/change-password"
+                          class="ui form @if(sizeof($errors->all()) > 0)) error @endif @if(session('status')) success @endif">
                         <h4 class="ui dividing header">
                             Change Password
                         </h4>
+                        {{ csrf_field() }}
+                        @include('layout.errors')
+                        @include('layout.success')
 
-                        <label>Current Password</label>
-                        <div class="six wide field">
-                            <input type="text" name="currentPassword" placeholder="Current Password">
+                        <div class="field">
+                            <label>Current Password</label>
+                            <input type="password" name="current_password" placeholder="Current Password">
                         </div>
 
-                        <label>New Password</label>
-                        <div class="six wide field">
-                            <input type="text" name="newPassword" placeholder="New Password">
+                        <div class="field">
+                            <label>New Password</label>
+                            <input type="password" name="password" placeholder="New Password">
                         </div>
 
-                        <label>Verify Password</label>
-                        <div class="six wide field">
-                            <input type="text" name="newPassword" placeholder="Verify Password">
+                        <div class="field">
+                            <label>Confirm Password</label>
+                            <input type="password" name="password_confirmation" placeholder="Confirm Password">
                         </div>
 
                         <div class="fields">
-                            <div class="two wide field">
-                                <div class="ui fluid basic red button">Cancel</div>
-                            </div>  &nbsp;
-                            <div class="two wide field">
-                                <div class="ui fluid basic teal button">Save</div>
+                            <div class="four wide field">
+                                <button type="reset" class="ui fluid basic red button">Cancel</button>
+                            </div> &nbsp;
+                            <div class="four wide field">
+                                <button type="submit" class="ui fluid basic teal button">Save</button>
                             </div>
                         </div>
                     </form>
@@ -54,4 +58,39 @@
             </div>
         </div>
     </div>
- @endsection
+
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    current_password: {
+                        identifier: 'current_password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The current password field is required.'
+                            }
+                        ]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'minLength[8]',
+                                prompt: 'The password must be at least 8 characters.'
+                            }
+                        ]
+                    },
+                    password_confirmation: {
+                        identifier: 'password_confirmation',
+                        rules: [
+                            {
+                                type: 'match[password]',
+                                prompt: 'The password confirmation does not match.'
+                            }
+                        ]
+                    }
+                }
+            });
+    </script>
+@endsection

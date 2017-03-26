@@ -30,7 +30,7 @@
 </a>
 <div class="menu">
     <a href="/profile" class="item">Personal Information</a>
-    <a href="admin-password" class="item">Password</a>
+    <a href="/change-password" class="item">Password</a>
 </div>
 
 <a href="admin-payments" class="item">

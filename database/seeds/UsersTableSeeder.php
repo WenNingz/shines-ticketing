@@ -92,6 +92,18 @@ class UsersTableSeeder extends Seeder
             'description' => 'Edit profile'
         ]);
 
+        $password_index = Permission::create([
+            'name' => 'password-index',
+            'display_name' => 'Password View',
+            'description' => 'View change password page'
+        ]);
+
+        $password_edit = Permission::create([
+            'name' => 'password-edit',
+            'display_name' => 'Edit Password',
+            'description' => 'Change password'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index,
             $user_admin_index,
@@ -100,7 +112,8 @@ class UsersTableSeeder extends Seeder
             $user_attendee_index,
             $user_attendee_edit,
             $profile_index,
-            $profile_edit
+            $profile_edit,
+            $password_index
 
         ));
 
@@ -109,13 +122,15 @@ class UsersTableSeeder extends Seeder
             $user_attendee_index,
             $user_attendee_edit,
             $profile_index,
-            $profile_edit
+            $profile_edit,
+            $password_index
         ));
 
         $attendee_role->attachPermissions(array(
             $dashboard_index,
             $profile_index,
-            $profile_edit
+            $profile_edit,
+            $password_index
         ));
 
     }
