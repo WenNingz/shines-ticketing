@@ -29,28 +29,33 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr id="js-ticket-1">
-                            <td>Case #1</td>
-                            <td>Open</td>
-                            <td>Mar 11, 2017</td>
-                        </tr>
-                        <tr>
-                            <td>Case #2</td>
-                            <td>Close</td>
-                            <td>Yesterday</td>
-                        </tr>
-                        <tr>
-                            <td>Case #3</td>
-                            <td>Close</td>
-                            <td>Yesterday</td>
-                        </tr>
+                        @if($posts->isEmpty())
+                            <tr>
+                                <td colspan="5">There is no user</td>
+                            </tr>
+                        @else
+                            @foreach($posts as $post)
+                                <tr class="details" data-value="{{ $post->ticket_number }}">
+                                    <td>{{ $post->title }}</td>
+                                    <td>
+                                        @if($post->status == 1)
+                                            Open
+                                        @elseif($post->status == 2)
+                                            Replied
+                                        @else
+                                            Closed
+                                        @endif
+                                    </td>
+                                    <td>{{ $post->created_at->toFormattedDateString() }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                         <tfoot>
                         <tr>
                             <th colspan="3">
-                                <div id="js-request" class="ui right floated mini blue basic button">
-                                    New Request
-                                </div>
+                                <a href="/new-ticket" class="ui mini blue basic button">New Request</a>
+                                {{ $posts->links('layout.semantic-paginate') }}
                             </th>
                         </tr>
                         </tfoot>
@@ -61,12 +66,8 @@
     </div>
 
     <script>
-        $("#js-ticket-1").click(function () {
-            window.location.href = "/support-ticket";
-        });
-
-        $("#js-request").click(function () {
-            window.location.href = "/new-ticket";
+        $(".details").click(function () {
+            window.location.href = "/ticket-details/" + $(this).attr('data-value');
         });
 
     </script>

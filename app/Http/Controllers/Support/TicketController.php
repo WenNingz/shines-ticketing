@@ -30,7 +30,10 @@ class TicketController extends Controller
             return view('admin.support-ticket');
         }
         if ($user->hasRole('attendee')) {
-            return view('attendee.support-ticket');
+            $posts = Post::where('user_id', $user->id)->paginate(10);
+            return view('attendee.support-ticket', [
+                'posts' => $posts
+            ]);
         }
     }
 
