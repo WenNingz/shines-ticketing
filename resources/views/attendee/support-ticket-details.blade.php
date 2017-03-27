@@ -19,7 +19,7 @@
                 Ticket Details
             </h3>
             <div class="ui stackable grid">
-                <div class="sixteen wide mobile sixteen wide tablet fourteen wide computer fourteen wide large screen column">
+                <div class="sixteen wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
                     <div align="right">Has this issue been resolved? <a href="#"> Close It</a></div>
                     <h4 class="header">
                         <p>Ticket No. {{ $post->ticket_number }}</p>
@@ -29,13 +29,12 @@
                         <div class="ui comments">
                             <div class="comment">
                                 <a class="avatar teal large ui label">{{ substr($post->user->first_name, 0, 1) }}</a>
-
                                 <div class="content">
                                     <a class="author">{{ $post->user->first_name }}</a>
                                     <div class="metadata">
                                         <span class="date">{{ $post->created_at->format('M d, Y h:i A') .' | '. $post->created_at->diffForHumans()}}</span>
                                     </div>
-                                    <div class="text">
+                                    <div align="justify" class="text">
                                         {{ $post->message }}
                                     </div>
 
