@@ -57,7 +57,7 @@
                         ]
                     },
                     message: {
-                        identifier: 'password',
+                        identifier: 'message',
                         rules: [
                             {
                                 type: 'empty',
