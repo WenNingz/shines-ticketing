@@ -146,7 +146,8 @@ class UsersTableSeeder extends Seeder
             $user_attendee_index, $user_attendee_edit,
             $profile_index, $profile_edit,
             $password_index, $password_edit,
-            $queue_index, $ticket_index
+            $queue_index, $ticket_index,
+            $ticket_show
 
         ));
 
@@ -155,7 +156,7 @@ class UsersTableSeeder extends Seeder
             $user_attendee_edit, $profile_index,
             $profile_edit, $password_index,
             $password_edit, $queue_index,
-            $ticket_index
+            $ticket_index, $ticket_show
         ));
 
         $attendee_role->attachPermissions(array(

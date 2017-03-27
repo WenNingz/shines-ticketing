@@ -8,7 +8,6 @@ use App\Post;
 use App\Reply;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
@@ -67,12 +66,30 @@ class TicketController extends Controller
         $user = auth()->user();
 
         try {
-            $post = Post::where('ticket_number', $ticket_number)
-                ->where('user_id', $user->id)
-                ->firstOrFail();
-            return view('attendee.support-ticket-details', [
-                'post' => $post
-            ]);
+            if ($user->hasRole('attendee')) {
+                $post = Post::where('ticket_number', $ticket_number)
+                    ->where('user_id', $user->id)
+                    ->firstOrFail();
+                return view('attendee.support-ticket-details', [
+                    'post' => $post
+                ]);
+            }
+
+            if($user->hasRole('super-admin')) {
+                $post = Post::where('ticket_number', $ticket_number)
+                    ->firstOrFail();
+                return view('super-admin.support-ticket-details', [
+                    'post' => $post
+                ]);
+            }
+
+            if($user->hasRole('admin')) {
+                $post = Post::where('ticket_number', $ticket_number)
+                    ->firstOrFail();
+                return view('admin.support-ticket-details', [
+                    'post' => $post
+                ]);
+            }
         } catch (ModelNotFoundException $e) {
             abort(404);
         }

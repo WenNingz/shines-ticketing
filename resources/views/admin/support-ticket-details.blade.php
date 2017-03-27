@@ -19,55 +19,61 @@
                 Ticket Details
             </h3>
 
-            <h4 class="header">Ticket No. 123-456-789</h4>
-            <h4 class="header">Title : Case #1</h4>
+            <div class="ui stackable grid">
+                <div class="sixteen wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
+                    <div align="right">Has this issue been resolved? <a href="#"> Close It</a></div>
+                    <h4 class="header">
+                        <p>Ticket No. {{ $post->ticket_number }}</p>
+                        <p>Title : {{ $post->title }}</p>
+                    </h4>
+                    <div class="ui message">
+                        <div class="ui comments">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <span class="teal large ui label">
+                                    {{ substr($post->user->first_name, 0, 1).
+                                     substr($post->user->last_name, 0, 1)}}
+                                    </span>
+                                </a>
+                                <div class="content">
+                                    <a class="author">{{ $post->user->first_name }}</a>
+                                    <div class="metadata">
+                                        <span class="date">{{ $post->created_at->format('M d, Y h:i A') .
+                                            ' | '. $post->created_at->diffForHumans() }}
+                                        </span>
+                                    </div>
+                                    <div align="justify" class="text">
+                                        {{ $post->message }}
+                                    </div>
 
-            <div class="ui message">
-                <div class="ui comments">
-                    <div class="comment">
-                        <a class="avatar"><img src="http://placehold.it/15x15"></a>
+                                    <div class="ui comments">
+                                        <div class="comment">
+                                            <a class="avatar">
+                                                <span class="orange large ui label">
+                                                    {{ substr(Auth::user()->first_name, 0, 1).
+                                                    substr(Auth::user()->last_name, 0, 1) }}
+                                                </span>
+                                            </a>
+                                            <div class="content">
+                                                <a class="author">
 
-                        <div class="content">
-                            <a class="author">User Name</a>
-                            <div class="metadata">
-                                <span class="date">Mar 11, at 5:42PM</span>
-                            </div>
-                            <div class="text">
-                                I'm very interested in this motherboard. Do you know if it'd work in a Intel LGA775 CPU
-                                socket?
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-
-                            <div class="ui comments">
-                                <div class="comment">
-                                    <a class="avatar"><img src="http://placehold.it/15x15"></a>
-                                    <div class="content">
-                                        <a class="author">Admin #1</a>
-                                        <div class="metadata">
-                                            <span class="date">Mar 11, at 5:42PM</span>
-                                        </div>
-                                        <div class="text">
-                                            Yes, it would definitely
+                                                </a>
+                                                <div class="metadata">
+                                                    <span class="date">
+                                                        {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
+                                                    </span>
+                                                </div>
+                                                <div class="text">
+                                                    <form class="ui form">
+                                                        <div class="field">
+                                                            <textarea rows="2"></textarea>
+                                                        </div>
+                                                        <button class="ui mini blue basic button">Add Reply</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment">
-                            <a class="avatar"><img src="http://placehold.it/15x15"></a>
-
-                            <div class="content">
-                                <a class="author">User Name</a>
-                                <div class="metadata">
-                                    <span class="date">Mar 11, at 5:47PM</span>
-                                </div>
-                                <div class="text">
-                                    Ok
-                                </div>
-                                <div class="actions">
-                                    <a class="reply">Reply</a>
                                 </div>
                             </div>
                         </div>

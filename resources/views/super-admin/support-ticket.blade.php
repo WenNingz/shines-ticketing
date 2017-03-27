@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Support Ticket')
+@section('title', 'Ticket List')
 
 @section('navbar')
     @include('super-admin.common.navbar')
