@@ -44,6 +44,28 @@
     </div>
 
     <script>
-
+        $('.ui.form')
+            .form({
+                fields: {
+                    title: {
+                        identifier: 'title',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The title field is required.'
+                            }
+                        ]
+                    },
+                    message: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The message field is required.'
+                            }
+                        ]
+                    }
+                }
+            });
     </script>
 @endsection
