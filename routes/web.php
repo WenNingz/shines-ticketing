@@ -35,6 +35,8 @@ Route::get('/ticket-list', 'Support\QueueController@index');
 
 Route::get('/my-tickets', 'Support\TicketController@index');
 
+Route::get('/ticket-details/{ticket_number}', 'Support\TicketController@show');
+
     /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
@@ -54,7 +56,6 @@ Route::get('/new-ticket', 'Support\TicketController@create');
 
 Route::post('/new-ticket', 'Support\TicketController@submit');
 
-Route::get('/ticket-details/{ticket_number}', 'Support\TicketController@show');
 
 
 
@@ -133,15 +134,16 @@ Route::get('test', function (){
 
     $super_admin = App\Role::where('name', 'super-admin')->first();
     $admin = App\Role::where('name', 'admin')->first();
-    $attendee = App\Role::where('name', 'attendee')->first();
+    //$attendee = App\Role::where('name', 'attendee')->first();
 
-    $queue_index = App\Permission::create([
-        'name' => 'ticket-show',
-        'display_name' => 'Ticket Detail',
-        'description' => 'View created ticket details'
-    ]);
+    $permission = App\Permission::where('name', 'ticket-show')->first();
+//    $permission = App\Permission::create([
+//        'name' => 'ticket-show',
+//        'display_name' => 'Ticket Detail',
+//        'description' => 'View created ticket details'
+//    ]);
 
-    //$super_admin->attachPermission($queue_index);
-    //$admin->attachPermission($queue_index);
-    $attendee->attachPermission($queue_index);
+    $super_admin->attachPermission($permission);
+    $admin->attachPermission($permission);
+    //$attendee->attachPermission($permission);
 });
