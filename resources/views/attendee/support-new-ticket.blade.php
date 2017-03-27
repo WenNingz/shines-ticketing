@@ -19,17 +19,31 @@
                 New Ticket
             </h3>
 
-            <form method="GET" action="support-ticket" class="ui form">
-                <div class="ten wide field">
-                    <label>Title</label>
-                    <input type="text" name="title" placeholder="Title">
+            <div class="ui stackable grid">
+                <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
+                    <form method="POST" action="/new-ticket" class="ui form @if(sizeof($errors) > 0) error @endif">
+                        <h4 class="ui dividing header">
+                            Please provide details issue
+                        </h4>
+                        {{ csrf_field() }}
+
+                        @include('layout.errors')
+                        <div class="field">
+                            <label>Title</label>
+                            <input type="text" name="title" placeholder="Title">
+                        </div>
+                        <div class="field">
+                            <label>Message</label>
+                            <textarea name="message" placeholder="Message" rows="6"></textarea>
+                        </div>
+                        <button type="submit" class="ui basic blue button">Submit</button>
+                    </form>
                 </div>
-                <div class="ten wide field">
-                    <label>Message</label>
-                    <textarea placeholder="Message" rows="6"></textarea>
-                </div>
-                <button class="ui basic teal button" type="submit">Submit</button>
-            </form>
+            </div>
         </div>
     </div>
+
+    <script>
+
+    </script>
 @endsection

@@ -104,36 +104,66 @@ class UsersTableSeeder extends Seeder
             'description' => 'Change password'
         ]);
 
+        $queue_index = Permission::create([
+            'name' => 'queue-index',
+            'display_name' => 'New Tickets List',
+            'description' => 'View all new requested ticket'
+        ]);
+
+        $ticket_index = Permission::create([
+            'name' => 'ticket-index',
+            'display_name' => 'Users Ticket List',
+            'description' => 'View all requested ticket'
+        ]);
+
+        $ticket_create = Permission::create([
+            'name' => 'ticket-index',
+            'display_name' => 'Users Ticket List',
+            'description' => 'View all requested ticket'
+        ]);
+
+        $ticket_create = Permission::create([
+            'name' => 'ticket-create',
+            'display_name' => 'Create Ticket',
+            'description' => 'Create a new ticket'
+        ]);
+
+        $ticket_submit = Permission::create([
+            'name' => 'ticket-submit',
+            'display_name' => 'Submit Ticket',
+            'description' => 'Submit new ticket'
+        ]);
+
+        $ticket_show = Permission::create([
+            'name' => 'ticket-show',
+            'display_name' => 'Ticket Detail',
+            'description' => 'View created ticket details'
+        ]);
+
         $super_admin_role->attachPermissions(array(
-            $dashboard_index,
-            $user_admin_index,
-            $user_admin_create,
-            $user_admin_edit,
-            $user_attendee_index,
-            $user_attendee_edit,
-            $profile_index,
-            $profile_edit,
-            $password_index,
-            $password_edit
+            $dashboard_index, $user_admin_index,
+            $user_admin_create, $user_admin_edit,
+            $user_attendee_index, $user_attendee_edit,
+            $profile_index, $profile_edit,
+            $password_index, $password_edit,
+            $queue_index, $ticket_index
 
         ));
 
         $admin_role->attachPermissions(array(
-            $dashboard_index,
-            $user_attendee_index,
-            $user_attendee_edit,
-            $profile_index,
-            $profile_edit,
-            $password_index,
-            $password_edit
+            $dashboard_index, $user_attendee_index,
+            $user_attendee_edit, $profile_index,
+            $profile_edit, $password_index,
+            $password_edit, $queue_index,
+            $ticket_index
         ));
 
         $attendee_role->attachPermissions(array(
-            $dashboard_index,
-            $profile_index,
-            $profile_edit,
-            $password_index,
-            $password_edit
+            $dashboard_index, $profile_index,
+            $profile_edit, $password_index,
+            $password_edit, $ticket_index,
+            $ticket_create, $ticket_submit,
+            $ticket_show
         ));
 
     }

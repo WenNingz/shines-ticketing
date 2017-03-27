@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Support Ticket')
+@section('title', 'My Tickets List')
 
 @section('navbar')
     @include('attendee.common.navbar')
@@ -16,58 +16,58 @@
 
         <div class="fifteen wide mobile thirteen wide tablet thirteen wide computer thirteen wide large screen column">
             <h3 class="ui teal dividing header">
-                Support Ticket
+                My Ticket List
             </h3>
-
-            <h4 class="header">Ticket No. 123-456-789</h4>
-            <h4 class="header">Title : Case #1</h4>
-
-            <div class="ui message">
-                <div class="ui comments">
-                    <div class="comment">
-                        <a class="avatar"><img src="http://placehold.it/15x15"></a>
-
-                        <div class="content">
-                            <a class="author">User Name</a>
-                            <div class="metadata">
-                                <span class="date">Mar 11, at 5:42PM</span>
-                            </div>
-                            <div class="text">
-                                I'm very interested in this motherboard. Do you know if it'd work in a Intel LGA775 CPU
-                                socket?
-                            </div>
-
-                            <div class="ui comments">
-                                <div class="comment">
-                                    <a class="avatar"><img src="http://placehold.it/15x15"></a>
-                                    <div class="content">
-                                        <a class="author">Admin #1</a>
-                                        <div class="metadata">
-                                            <span class="date">Mar 11, at 5:42PM</span>
-                                        </div>
-                                        <div class="text">
-                                            Yes
-                                        </div>
-                                    </div>
+            <div class="ui stackable grid">
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
+                    <table class="ui unstackable selectable table">
+                        <thead>
+                        <tr>
+                            <th class="eleven wide">Title</th>
+                            <th class="two wide">Status</th>
+                            <th class="three wide">Date Created</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="js-ticket-1">
+                            <td>Case #1</td>
+                            <td>Open</td>
+                            <td>Mar 11, 2017</td>
+                        </tr>
+                        <tr>
+                            <td>Case #2</td>
+                            <td>Close</td>
+                            <td>Yesterday</td>
+                        </tr>
+                        <tr>
+                            <td>Case #3</td>
+                            <td>Close</td>
+                            <td>Yesterday</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="3">
+                                <div id="js-request" class="ui right floated mini blue basic button">
+                                    New Request
                                 </div>
-                            </div>
-                        </div>
-                        <div class="comment">
-                            <a class="avatar"><img src="http://placehold.it/15x15"></a>
-
-                            <div class="content">
-                                <a class="author">User Name</a>
-                                <div class="metadata">
-                                    <span class="date">Mar 11, at 5:47PM</span>
-                                </div>
-                                <div class="text">
-                                    Ok
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $("#js-ticket-1").click(function () {
+            window.location.href = "/support-ticket";
+        });
+
+        $("#js-request").click(function () {
+            window.location.href = "/new-ticket";
+        });
+
+    </script>
 @endsection

@@ -31,6 +31,10 @@ Route::get('/change-password', 'Account\PasswordController@index');
 
 Route::post('/change-password', 'Account\PasswordController@edit');
 
+Route::get('/ticket-list', 'Support\QueueController@index');
+
+Route::get('/my-tickets', 'Support\TicketController@index');
+
     /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
@@ -40,11 +44,17 @@ Route::post('/add-admin', 'User\AdminController@submit');
 
 Route::put('/suspend', 'User\AdminController@edit');
 
-
     /* --- Admin --- */
 Route::get('/setup', 'SetupController@index');
 
 Route::post('/setup', 'SetupController@submit');
+
+    /* --- Attendee --- */
+Route::get('/new-ticket', 'Support\TicketController@create');
+
+Route::post('/new-ticket', 'Support\TicketController@submit');
+
+Route::get('/ticket-details/{ticket_number}', 'Support\TicketController@show');
 
 
 
@@ -73,17 +83,7 @@ Route::get('event-details', function () {
 });
 
 /* --- Support Section --- */
-Route::get('support', function () {
-    return view('attendee.support');
-});
 
-Route::get('support-new-ticket', function () {
-    return view('attendee.support-new-ticket');
-});
-
-Route::get('support-ticket', function () {
-    return view('attendee.support-ticket');
-});
 
 /* --- Account Information Section --- */
 
@@ -117,18 +117,6 @@ Route::get('sync-event', function () {
 });
 
 
-Route::get('ticket-list', function () {
-    return view('admin.support-list');
-});
-
-Route::get('ticket-details', function () {
-    return view('admin.support-ticket-details');
-});
-
-Route::get('my-ticket', function () {
-    return view('admin.support-ticket');
-});
-
 Route::get('admin-profile', function () {
     return view('admin.profile');
 });
@@ -147,13 +135,13 @@ Route::get('test', function (){
     $admin = App\Role::where('name', 'admin')->first();
     $attendee = App\Role::where('name', 'attendee')->first();
 
-    $password_edit = App\Permission::create([
-        'name' => 'password-edit',
-        'display_name' => 'Edit Password',
-        'description' => 'Change password'
+    $queue_index = App\Permission::create([
+        'name' => 'ticket-show',
+        'display_name' => 'Ticket Detail',
+        'description' => 'View created ticket details'
     ]);
 
-    $super_admin->attachPermission($password_edit);
-    $admin->attachPermission($password_edit);
-    $attendee->attachPermission($password_edit);
+    //$super_admin->attachPermission($queue_index);
+    //$admin->attachPermission($queue_index);
+    $attendee->attachPermission($queue_index);
 });

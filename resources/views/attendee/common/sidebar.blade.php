@@ -1,7 +1,7 @@
 <a href="/dashboard" class="item">
     Home
 </a>
-<a href="support" class="item">
+<a href="/my-tickets" class="item">
     Support
 </a>
 
