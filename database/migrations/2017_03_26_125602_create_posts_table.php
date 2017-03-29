@@ -15,6 +15,7 @@ class CreatePostsTable extends Migration
             $table->text('message');
             $table->tinyInteger('status')->default(1);
             $table->integer('user_id')->unsigned();
+            $table->integer('admin_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

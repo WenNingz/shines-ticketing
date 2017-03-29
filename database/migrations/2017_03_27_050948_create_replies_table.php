@@ -13,6 +13,7 @@ class CreateRepliesTable extends Migration
             $table->integer('post_id');
             $table->text('message');
             $table->integer('user_id');
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
         });
     }
