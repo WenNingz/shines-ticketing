@@ -28,58 +28,128 @@
                     </h4>
                     <div class="ui message">
                         <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <span class="teal large ui label">
-                                    {{ substr($post->user->first_name, 0, 1).
-                                     substr($post->user->last_name, 0, 1)}}
-                                    </span>
-                                </a>
-                                <div class="content">
-                                    <a class="author">{{ $post->user->first_name }}</a>
-                                    <div class="metadata">
-                                        <span class="date">{{ $post->created_at->format('M d, Y h:i A') .
-                                            ' | '. $post->created_at->diffForHumans() }}
-                                        </span>
-                                    </div>
-                                    <div align="justify" class="text">
-                                        {{ $post->message }}
-                                    </div>
-
-                                    <div class="ui comments">
-                                        <div class="comment">
-                                            <a class="avatar">
-                                                <span class="orange large ui label">
-                                                    {{ substr(Auth::user()->first_name, 0, 1).
-                                                    substr(Auth::user()->last_name, 0, 1) }}
-                                                </span>
-                                            </a>
-                                            <div class="content">
-                                                <a class="author">
-
-                                                </a>
-                                                <div class="metadata">
-                                                    <span class="date">
-                                                        {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
-                                                    </span>
-                                                </div>
-                                                <div class="text">
-                                                    <form class="ui form">
-                                                        <div class="field">
-                                                            <textarea rows="2"></textarea>
-                                                        </div>
-                                                        <button class="ui mini blue basic button">Add Reply</button>
-                                                    </form>
-                                                </div>
-                                            </div>
+                            @php $replies = $post->getReplies() @endphp
+                            @foreach($replies as $key => $reply)
+                                <div class="comment">
+                                    <a class="avatar">
+                                        <span class="ui teal large label"> {{ $reply->getUserInitial() }} </span>
+                                    </a>
+                                    <div class="content">
+                                        <a class="author"> {{ $reply->getUserName() }} </a>
+                                        <div class="metadata">
+                                            <span class="date">
+                                                {{ $reply->created_at->format('M d, Y h:i A') . ' | '. $reply->created_at->diffForHumans() }}
+                                            </span>
                                         </div>
+                                        <div align="justify" class="text"> {{ $reply->message }} </div>
+
+                                        @if($reply->childrenCount() > 0)
+                                            <div class="ui comments">
+                                                @foreach($reply->children as $child)
+                                                    <div class="comment">
+                                                        <a class="avatar">
+                                                            <span class="ui orange large label"> {{ $child->getUserInitial() }} </span>
+                                                        </a>
+                                                        <div class="content">
+                                                            <a class="author">{{ $child->getUserName() }}</a>
+                                                            <div class="metadata">
+                                                                <span class="date">
+                                                                    {{ $child->created_at->format('M d, Y h:i A') . ' | '. $child->created_at->diffForHumans()}}
+                                                                </span>
+                                                            </div>
+                                                            <div align="justify"
+                                                                 class="text"> {{ $child->message }} </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                                @if($key == sizeof($replies) - 1 )
+                                                    <div class="comment">
+                                                        <a class="avatar">
+                                                            <span class="orange large ui label">
+                                                                {{ substr($user->first_name, 0, 1).substr($user->last_name, 0, 1) }}
+                                                            </span>
+                                                        </a>
+                                                        <div class="content">
+                                                            <a class="author"> {{ $user->first_name . ' ' . $user->last_name}} </a>
+                                                            <div class="metadata">
+                                                                <span class="date">
+                                                                    {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="text">
+                                                                <form method="post"
+                                                                      action="/ticket-details/{{ $post->ticket_number }}"
+                                                                      class="ui form @if(sizeof($errors) > 0) error @endif">
+                                                                    {{ csrf_field() }}
+
+                                                                    @include('layout.errors')
+                                                                    <div class="field">
+                                                                        <textarea name="message" rows="2"></textarea>
+                                                                    </div>
+                                                                    <button type="submit"
+                                                                            class="ui mini blue basic button">
+                                                                        Add Reply
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @else
+                                            @if($key == sizeof($replies) - 1 )
+                                                <div class="ui comments">
+                                                    <div class="comment">
+                                                        <a class="avatar">
+                                                            <span class="orange large ui label">
+                                                                {{ substr($user->first_name, 0, 1).substr($user->last_name, 0, 1) }}
+                                                            </span>
+                                                        </a>
+                                                        <div class="content">
+                                                            <a class="author"> {{ $user->first_name . ' ' . $user->last_name}} </a>
+                                                            <div class="metadata">
+                                                                <span class="date">
+                                                                    {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="text">
+                                                                <form method="post"
+                                                                      action="/ticket-details/{{ $post->ticket_number }}"
+                                                                      class="ui form @if(sizeof($errors) > 0) error @endif">
+                                                                    {{ csrf_field() }}
+
+                                                                    @include('layout.errors')
+                                                                    <div class="field">
+                                                                        <textarea name="message" rows="2"></textarea>
+                                                                    </div>
+                                                                    <button type="submit"
+                                                                            class="ui mini blue basic button">
+                                                                        Add Reply
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    message: 'empty'
+                }
+            });
+    </script>
 @endsection

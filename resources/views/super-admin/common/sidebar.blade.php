@@ -23,7 +23,7 @@
 </a>
 <div class="menu">
     <a href="/ticket-list" class="item">Ticket List</a>
-    <a href="my-ticket" class="item">
+    <a href="/my-tickets" class="item">
         My Ticket
         <span class="ui mini red label">2</span>
     </a>

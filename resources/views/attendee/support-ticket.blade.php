@@ -31,7 +31,7 @@
                         <tbody>
                         @if($posts->isEmpty())
                             <tr>
-                                <td colspan="5">There is no user</td>
+                                <td colspan="5">There is no request</td>
                             </tr>
                         @else
                             @foreach($posts as $post)

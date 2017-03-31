@@ -117,12 +117,6 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $ticket_create = Permission::create([
-            'name' => 'ticket-index',
-            'display_name' => 'Users Ticket List',
-            'description' => 'View all requested ticket'
-        ]);
-
-        $ticket_create = Permission::create([
             'name' => 'ticket-create',
             'display_name' => 'Create Ticket',
             'description' => 'Create a new ticket'
@@ -140,6 +134,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'View created ticket details'
         ]);
 
+        $ticket_store = Permission::create([
+            'name' => 'ticket-store',
+            'display_name' => 'Reply Ticket',
+            'description' => 'Reply support request'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -147,8 +147,7 @@ class UsersTableSeeder extends Seeder
             $profile_index, $profile_edit,
             $password_index, $password_edit,
             $queue_index, $ticket_index,
-            $ticket_show
-
+            $ticket_show, $ticket_store
         ));
 
         $admin_role->attachPermissions(array(
@@ -156,7 +155,8 @@ class UsersTableSeeder extends Seeder
             $user_attendee_edit, $profile_index,
             $profile_edit, $password_index,
             $password_edit, $queue_index,
-            $ticket_index, $ticket_show
+            $ticket_index, $ticket_show,
+            $ticket_store
         ));
 
         $attendee_role->attachPermissions(array(
@@ -164,7 +164,7 @@ class UsersTableSeeder extends Seeder
             $profile_edit, $password_index,
             $password_edit, $ticket_index,
             $ticket_create, $ticket_submit,
-            $ticket_show
+            $ticket_show, $ticket_store
         ));
 
     }

@@ -18,6 +18,7 @@
             <h3 class="ui teal dividing header">
                 Ticket Details
             </h3>
+
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
                     <div align="right">Has this issue been resolved? <a href="#"> Close It</a></div>
@@ -27,48 +28,73 @@
                     </h4>
                     <div class="ui message">
                         <div class="ui comments">
-                            <div class="comment">
-                                <a class="avatar teal large ui label">{{ substr($post->user->first_name, 0, 1) }}</a>
-                                <div class="content">
-                                    <a class="author">{{ $post->user->first_name }}</a>
-                                    <div class="metadata">
-                                        <span class="date">{{ $post->created_at->format('M d, Y h:i A') .' | '. $post->created_at->diffForHumans()}}</span>
-                                    </div>
-                                    <div align="justify" class="text">
-                                        {{ $post->message }}
-                                    </div>
-
-                                    <div class="ui comments">
-                                        <div class="comment">
-                                            <a class="avatar orange large ui label">A</a>
-                                            <div class="content">
-                                                <a class="author">Admin #1</a>
-                                                <div class="metadata">
-                                                    <span class="date">Mar 11, at 5:42PM</span>
-                                                </div>
-                                                <div class="text">
-                                                    Yes
-                                                </div>
-                                            </div>
+                            @php $replies = $post->getReplies() @endphp
+                            @foreach($replies as $key => $reply)
+                                <div class="comment">
+                                    <a class="avatar">
+                                        <span class="ui teal large label"> {{ $reply->getUserInitial() }} </span>
+                                    </a>
+                                    <div class="content">
+                                        <a class="author"> {{ $reply->getUserName() }} </a>
+                                        <div class="metadata">
+                                            <span class="date">
+                                                {{ $reply->created_at->format('M d, Y h:i A') . ' | '. $reply->created_at->diffForHumans() }}
+                                            </span>
                                         </div>
+                                        <div align="justify" class="text"> {{ $reply->message }} </div>
+
+                                        @if($reply->childrenCount() > 0)
+                                            <div class="ui comments">
+                                                @foreach($reply->children as $child)
+                                                    <div class="comment">
+                                                        <a class="avatar">
+                                                            <span class="ui orange large label">
+                                                                {{ $child->getUserInitial() }}
+                                                            </span>
+                                                        </a>
+                                                        <div class="content">
+                                                            <a class="author">{{ $child->getUserName() }}</a>
+                                                            <div class="metadata">
+                                                                <span class="date">
+                                                                    {{ $child->created_at->format('M d, Y h:i A') . ' | '. $child->created_at->diffForHumans()}}
+                                                                </span>
+                                                            </div>
+                                                            <div align="justify" class="text"> {{ $child->message }} </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="comment">
-                                    <a class="avatar"><img src="http://placehold.it/15x15"></a>
+                            @endforeach
+                            <div class="comment">
+                                <a class="avatar">
+                                    <span class="teal large ui label">
+                                        {{ substr($user->first_name, 0, 1).substr($user->last_name, 0, 1) }}
+                                    </span>
+                                </a>
+                                <div class="content">
+                                    <a class="author"> {{ $user->first_name . ' ' . $user->last_name}} </a>
+                                    <div class="metadata">
+                                        <span class="date">
+                                            {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
+                                        </span>
+                                    </div>
+                                    <div class="text">
+                                        <form method="post" action="/ticket-details/{{ $post->ticket_number }}"
+                                              class="ui form @if(sizeof($errors) > 0) error @endif">
 
-                                    <div class="content">
-                                        <a class="author">User Name</a>
-                                        <div class="metadata">
-                                            <span class="date">Mar 11, at 5:47PM</span>
-                                        </div>
-                                        <div class="text">
-                                            <form class="ui form">
-                                                <div class="field">
-                                                    <textarea rows="2"></textarea>
-                                                </div>
-                                                <button class="ui mini blue basic button">Add Reply</button>
-                                            </form>
-                                        </div>
+                                            {{ csrf_field() }}
+
+                                            @include('layout.errors')
+                                            <div class="field">
+                                                <textarea name="message" rows="2"></textarea>
+                                            </div>
+                                            <button type="submit" class="ui mini blue basic button">
+                                                Add Reply
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -78,4 +104,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    message: 'empty'
+                }
+            });
+    </script>
 @endsection

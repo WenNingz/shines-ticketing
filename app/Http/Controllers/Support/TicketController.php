@@ -7,7 +7,10 @@ use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Reply;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -17,16 +20,23 @@ class TicketController extends Controller
         $this->middleware('permission:ticket-create')->only('create');
         $this->middleware('permission:ticket-submit')->only('submit');
         $this->middleware('permission:ticket-show')->only('show');
+        $this->middleware('permission:ticket-store')->only('store');
     }
 
     public function index() {
         $user = auth()->user();
 
         if ($user->hasRole('super-admin')) {
-            return view('super-admin.support-ticket');
+            $posts = Post::where('admin_id', $user->id)->paginate(10);
+            return view('super-admin.support-ticket', [
+                'posts' => $posts
+            ]);
         }
         if ($user->hasRole('admin')) {
-            return view('admin.support-ticket');
+            $posts = Post::where('admin_id', $user->id)->paginate(10);
+            return view('admin.support-ticket', [
+                'posts' => $posts
+            ]);
         }
         if ($user->hasRole('attendee')) {
             $posts = Post::where('user_id', $user->id)->paginate(10);
@@ -43,23 +53,33 @@ class TicketController extends Controller
     public function submit(PostRequest $request) {
         $user = auth()->user();
 
-        $post = Post::create([
-            'title' => request('title'),
-            'message' => request('message'),
-            'status' => 1,
-            'user_id' => $user->id
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $ticket_id = Carbon::now()->format('ymd-hi-') . substr('000000' . $post->id, -7);
-        $post->ticket_number = $ticket_id;
-        $post->save();
+            $post = Post::create([
+                'title' => request('title'),
+                'message' => request('message'),
+                'status' => 1,
+                'user_id' => $user->id
+            ]);
 
-        Reply::create([
-            'post_id' => $post->id,
-            'message' => request('message'),
-            'user_id' => $user->id
-        ]);
-        return redirect('/ticket-details/' . $post->ticket_number);
+            $ticket_id = Carbon::now()->format('ymd-hi-') . substr('000000' . $post->id, -7);
+            $post->ticket_number = $ticket_id;
+            $post->save();
+
+            $reply = $post->replies()->create([
+                'message' => request('message'),
+                'user_id' => $user->id,
+            ]);
+
+            DB::commit();
+
+            return redirect('/ticket-details/' . $post->ticket_number);
+        } catch (Exception $e) {
+            DB::rollback();
+            abort(500);
+        }
+
     }
 
     public function show($ticket_number) {
@@ -71,28 +91,72 @@ class TicketController extends Controller
                     ->where('user_id', $user->id)
                     ->firstOrFail();
                 return view('attendee.support-ticket-details', [
-                    'post' => $post
+                    'post' => $post,
+                    'user' => $user
                 ]);
             }
 
-            if($user->hasRole('super-admin')) {
+            if ($user->hasRole('super-admin')) {
                 $post = Post::where('ticket_number', $ticket_number)
                     ->firstOrFail();
                 return view('super-admin.support-ticket-details', [
-                    'post' => $post
+                    'post' => $post,
+                    'user' => $user,
                 ]);
             }
 
-            if($user->hasRole('admin')) {
+            if ($user->hasRole('admin')) {
                 $post = Post::where('ticket_number', $ticket_number)
                     ->firstOrFail();
                 return view('admin.support-ticket-details', [
-                    'post' => $post
+                    'post' => $post,
+                    'user' => $user
                 ]);
             }
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
+    }
 
+    public function store(Request $request, $ticket_number) {
+        $this->validate($request, [
+            'message' => 'required'
+        ]);
+
+        $user = auth()->user();
+        try {
+            $post = Post::where('ticket_number', $ticket_number)->firstOrFail();
+
+            if ($user->hasRole('super-admin') or $user->hasRole('admin')) {
+                Reply::create([
+                    'post_id' => $post->id,
+                    'message' => request('message'),
+                    'user_id' => $user->id,
+                    'parent_id' => $post->getParentId($post->user_id)->id
+                ]);
+
+                if ($post->admin_id == null) {
+                    $post->admin_id = $user->id;
+                    $post->save();
+                }
+                if ($post->status == 1) {
+                    $post->status = 2;
+                    $post->save();
+                }
+                return redirect('/ticket-details/' . $ticket_number);
+            }
+
+            if($user->hasRole('attendee')) {
+                Reply::create([
+                    'post_id' => $post->id,
+                    'message' => request('message'),
+                    'user_id' => $user->id,
+                ]);
+
+                return redirect('/ticket-details/' . $ticket_number);
+            }
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 }

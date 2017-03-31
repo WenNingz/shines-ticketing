@@ -37,6 +37,8 @@ Route::get('/my-tickets', 'Support\TicketController@index');
 
 Route::get('/ticket-details/{ticket_number}', 'Support\TicketController@show');
 
+Route::post('/ticket-details/{ticket_number}', 'Support\TicketController@store');
+
     /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
@@ -134,16 +136,16 @@ Route::get('test', function (){
 
     $super_admin = App\Role::where('name', 'super-admin')->first();
     $admin = App\Role::where('name', 'admin')->first();
-    //$attendee = App\Role::where('name', 'attendee')->first();
+    $attendee = App\Role::where('name', 'attendee')->first();
 
-    $permission = App\Permission::where('name', 'ticket-show')->first();
+    $permission = App\Permission::where('name', 'ticket-index')->first();
 //    $permission = App\Permission::create([
-//        'name' => 'ticket-show',
-//        'display_name' => 'Ticket Detail',
-//        'description' => 'View created ticket details'
+//        'name' => 'ticket-store',
+//        'display_name' => 'Reply Ticket',
+//        'description' => 'Reply support request'
 //    ]);
 
     $super_admin->attachPermission($permission);
-    $admin->attachPermission($permission);
+    //$admin->attachPermission($permission);
     //$attendee->attachPermission($permission);
 });
