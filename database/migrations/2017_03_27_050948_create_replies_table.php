@@ -16,6 +16,7 @@ class CreateRepliesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('parent_id')->unsigned()->nullable();
             $table->foreign('parent_id')->references('id')->on('replies');
+            $table->boolean('viewed')->default(false);
             $table->timestamps();
         });
     }
