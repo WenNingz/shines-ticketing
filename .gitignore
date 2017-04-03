@@ -7,3 +7,5 @@
 Homestead.json
 Homestead.yaml
 .env
+.bash_aliases
+.sudo_as_admin_successful
