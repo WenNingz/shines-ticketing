@@ -19,15 +19,20 @@
                 My Ticket List
             </h3>
 
+            @php
+                $my_ticket = \Route::current()->getName() == 'my-tickets';
+                $solved_tickets = \Route::current()->getName() == 'solved-tickets';
+            @endphp
+
             <div class="ui segment">
                 <div class="ui secondary menu">
-                    <a href='/my-tickets' class="item">
+                    <a href='/my-tickets' class="@if($my_ticket) active @endif item">
                         Active Tickets
-                        <div class="ui teal label">{{ $active_posts->count() }}</div>
+                        <div class="ui @if($my_ticket) teal @endif  label">{{ $active_posts->count() }}</div>
                     </a>
-                    <a href='/solved-tickets' class="item">
+                    <a href='/solved-tickets' class="@if($solved_tickets) active @endif item">
                         Solved Tickets
-                        <div class="ui label">{{ $solved_posts->count() }}</div>
+                        <div class="ui @if($solved_tickets) teal @endif label">{{ $solved_posts->count() }}</div>
                     </a>
                 </div>
             </div>
@@ -42,7 +47,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(\Route::current()->getName() == 'my-tickets')
+                        @if($my_ticket)
                             @if($active_posts->isEmpty())
                                 <tr>
                                     <td colspan="5">There is no request</td>

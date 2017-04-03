@@ -92,36 +92,38 @@
                                     </div>
                                 </div>
                             @endforeach
-                            <div class="comment">
-                                <a class="avatar">
+                            @if($post->status == 0 && $post->status == 3)
+                                <div class="comment">
+                                    <a class="avatar">
                                     <span class="teal large ui label">
                                         {{ substr($user->first_name, 0, 1).substr($user->last_name, 0, 1) }}
                                     </span>
-                                </a>
-                                <div class="content">
-                                    <a class="author"> {{ $user->first_name . ' ' . $user->last_name}} </a>
-                                    <div class="metadata">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author"> {{ $user->first_name . ' ' . $user->last_name}} </a>
+                                        <div class="metadata">
                                         <span class="date">
                                             {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
                                         </span>
-                                    </div>
-                                    <div class="text">
-                                        <form method="post" action="/ticket-details/{{ $post->ticket_number }}"
-                                              class="ui form @if(sizeof($errors) > 0) error @endif">
+                                        </div>
+                                        <div class="text">
+                                            <form method="post" action="/ticket-details/{{ $post->ticket_number }}"
+                                                  class="ui form @if(sizeof($errors) > 0) error @endif">
 
-                                            {{ csrf_field() }}
+                                                {{ csrf_field() }}
 
-                                            @include('layout.errors')
-                                            <div class="field">
-                                                <textarea name="message" rows="2"></textarea>
-                                            </div>
-                                            <button type="submit" class="ui mini blue basic button">
-                                                Add Reply
-                                            </button>
-                                        </form>
+                                                @include('layout.errors')
+                                                <div class="field">
+                                                    <textarea name="message" rows="2"></textarea>
+                                                </div>
+                                                <button type="submit" class="ui mini blue basic button">
+                                                    Add Reply
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
