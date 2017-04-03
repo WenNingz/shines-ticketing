@@ -9,8 +9,8 @@
 @section('content')
     @include('layout.flash')
     <form action="events" action="GET" class="ui form center aligned raised segment">
-        <h4 class="font-4">"The only source of Knowledge <br> is Experience"</h4>
-        <span class="font-2">by Albert Einstein</span>
+        <h4 class="amatic-4">"The only source of Knowledge <br> is Experience"</h4>
+        <span class="amatic-2">by Albert Einstein</span>
         <p class="font-2">Seek your knowledge</p>
 
         <div class="ui stackable centered grid">
@@ -34,9 +34,9 @@
         </div>
     </form>
 
-    <div class="ui form basic padded segment">
-        <div class="ui stackable grid">
-            <div class="ui four stackable doubling cards">
+    <div class="ui basic padded segment">
+        <div class="ui centered stackable grid">
+            <div class="ui four doubling stackable cards">
                 <div class="ui card">
                     <a class="ui image" href="event-detail">
                         <div class="ui yellow ribbon label">Featured</div>

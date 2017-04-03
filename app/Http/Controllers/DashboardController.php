@@ -15,10 +15,16 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         if($user->hasRole('super-admin'))
-            return view('super-admin.dashboard');
+            return view('super-admin.dashboard', [
+                '_active' => 'dashboard'
+            ]);
         if ($user->hasRole('admin'))
-            return view('admin.dashboard');
+            return view('admin.dashboard', [
+                '_active' => 'dashboard'
+            ]);
         if ($user->hasRole('attendee'))
-            return view('attendee.dashboard');
+            return view('attendee.dashboard', [
+                '_active' => 'dashboard'
+            ]);
     }
 }

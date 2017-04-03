@@ -19,13 +19,19 @@ class PasswordController extends Controller
         $user = auth()->user();
 
         if ($user->hasRole('super-admin')) {
-            return view('super-admin.password');
+            return view('super-admin.password', [
+                '_active' => 'change-password'
+            ]);
         }
         if ($user->hasRole('admin')) {
-            return view('admin.password');
+            return view('admin.password', [
+                '_active' => 'change-password'
+            ]);
         }
         if ($user->hasRole('attendee')) {
-            return view('attendee.password');
+            return view('attendee.password', [
+                '_active' => 'change-password'
+            ]);
         }
     }
 

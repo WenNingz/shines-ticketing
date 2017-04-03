@@ -140,6 +140,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'Reply support request'
         ]);
 
+        $ticket_close = Permission::create([
+            'name' => 'ticket-close',
+            'display_name' => 'Close Ticket',
+            'description' => 'Close resolved ticket'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -164,7 +170,8 @@ class UsersTableSeeder extends Seeder
             $profile_edit, $password_index,
             $password_edit, $ticket_index,
             $ticket_create, $ticket_submit,
-            $ticket_show, $ticket_store
+            $ticket_show, $ticket_store,
+            $ticket_close
         ));
 
     }

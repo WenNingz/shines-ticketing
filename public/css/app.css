@@ -2,20 +2,44 @@ body {
     padding-top: 40px;
 }
 
-.font-4 {
+/*--- Custom Font ---*/
+.amatic-4 {
     font-family: 'Amatic SC', cursive;
     font-size: 4em;
     text-shadow: 0.05em 0.05em 0.05em #aaa;
 }
-
-.font-2 {
+.amatic-2 {
     font-family: 'Amatic SC', cursive;
     font-size: 2.5em;
 }
+#monserrat-300 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+.monserrat-300-1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8em;
+    font-weight: 400;
+}
+.monserrat-700-16 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16.5vw;
+    font-weight: 600;
+}
+.monserrat-700-22 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22vw;
+    font-weight: 600;
+}
 
+.icon-size {
+    width: 14vw;
+    padding: 1vw;
+}
 #img-padding {
     padding: 0px; !important;
 }
+
 /*--- Custom Color ---*/
 .white {
     background-color: #FFFFFF;
@@ -40,6 +64,9 @@ body {
 }
 .text.teal {
     color: #00B5AD;
+}
+.text.light-teal {
+    color: #3FBCA7;
 }
 .text.red {
     color: #D95C5C;

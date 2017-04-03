@@ -21,11 +21,34 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
-                    <div align="right">Has this issue been resolved? <a href="#"> Close It</a></div>
-                    <h4 class="header">
-                        <p>Ticket No. {{ $post->ticket_number }}</p>
-                        <p>Title : {{ $post->title }}</p>
+                    @if($post->status != 0 && $post->status != 3)
+                        <div align="right">Has this issue been resolved? <a
+                                    href="/my-tickets/{{$post->ticket_number}}/close"> Close It</a></div>
+                    @endif
+
+                    <h4 class="ui large header">
+                        <p><u>Title: {{ $post->title }}</u></p>
                     </h4>
+                    <div class="ui stackable grid">
+                        <div class="eight wide mobile eight wide tablet eight wide computer eight wide large screen column">
+                            <p><b>Ticket No: </b>{{ $post->ticket_number }}</p>
+                            <p><b>Status: </b>
+                                @if($post->status == 0)
+                                    <span class="text red">Closed</span>
+                                @elseif($post->status == 1)
+                                    <span class="text blue">Open</span>
+                                @elseif($post->status == 2)
+                                    <span class="text orange">Replied</span>
+                                @else
+                                    <span class="text green">Solved</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div class="eight wide mobile eight wide tablet eight wide computer eight wide large screen column">
+                            <p><b>Created: </b>{{ $post->created_at->diffForHumans()}}</p>
+                            <p><b>Last Updated: </b>{{ $post->replies->last()->updated_at->diffForHumans() }}</p>
+                        </div>
+                    </div>
                     <div class="ui message">
                         <div class="ui comments">
                             @php $replies = $post->getReplies() @endphp
@@ -59,7 +82,8 @@
                                                                     {{ $child->created_at->format('M d, Y h:i A') . ' | '. $child->created_at->diffForHumans()}}
                                                                 </span>
                                                             </div>
-                                                            <div align="justify" class="text"> {{ $child->message }} </div>
+                                                            <div align="justify"
+                                                                 class="text"> {{ $child->message }} </div>
                                                         </div>
                                                     </div>
                                                 @endforeach

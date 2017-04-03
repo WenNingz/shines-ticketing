@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="{{asset('semantic/semantic.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
 
-   {{-- <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>--}}
+    {{-- <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>--}}
 
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500" rel="stylesheet">
 </head>
 
 <body>

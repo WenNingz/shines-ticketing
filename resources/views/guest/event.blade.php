@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-    <div class="ui grid">
-        <div class="one wide mobile two wide tablet four wide computer four wide large screen column">
+    <div class="ui stackable grid">
+        <div class="one wide mobile three wide tablet three wide computer three wide large screen column">
             <div class="ui form">
                 <div class="row">
                     <div class="column">
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="fifteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
+        <div class="fifteen wide mobile thirteen wide tablet thirteen wide computer thirteen wide large screen column">
             <form class="ui form">
                 <div class="ui fluid icon input">
                     <input type="text" name="event" placeholder="Search events">

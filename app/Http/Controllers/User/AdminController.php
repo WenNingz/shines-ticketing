@@ -56,12 +56,15 @@ class AdminController extends Controller
         return view('super-admin.manage-admin', [
             'users' => $users,
             'status' => Input::get('status'),
-            'query' => Input::get('query')
+            'query' => Input::get('query'),
+            '_active' => 'manage-admin'
         ]);
     }
 
     public function create() {
-        return view('super-admin.manage-admin-add');
+        return view('super-admin.manage-admin-add', [
+            '_active' => 'manage-admin'
+        ]);
     }
 
     public function submit(AdminRequest $request) {

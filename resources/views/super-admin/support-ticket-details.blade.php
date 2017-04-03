@@ -22,7 +22,6 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
-                    <div align="right">Has this issue been resolved? <a href="#"> Close It</a></div>
                     <h4 class="header">
                         <p>Ticket No. {{ $post->ticket_number }}</p>
                         <p>Title : {{ $post->title }}</p>
@@ -125,8 +124,10 @@
                                                                         <textarea name="message" rows="2"></textarea>
                                                                     </div>
                                                                     <button type="submit"
-                                                                            class="ui mini blue basic button">
-                                                                        Add Reply
+                                                                            class="ui mini blue basic button">Reply
+                                                                    </button>
+                                                                    <button type="submit"
+                                                                            class="ui mini red basic button">Reply & Close
                                                                     </button>
                                                                 </form>
                                                             </div>
@@ -152,5 +153,6 @@
                     message: 'empty'
                 }
             });
+
     </script>
 @endsection

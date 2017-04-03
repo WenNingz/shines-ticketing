@@ -56,13 +56,15 @@ class AttendeeController extends Controller
             return view('super-admin.manage-attendee', [
                 'users' => $users,
                 'status' => Input::get('status'),
-                'query' => Input::get('query')
+                'query' => Input::get('query'),
+                '_active' => 'manage-attendee'
             ]);
         if ($user->hasRole('admin'))
             return view('admin.manage-attendee', [
                 'users' => $users,
                 'status' => Input::get('status'),
-                'query' => Input::get('query')
+                'query' => Input::get('query'),
+                '_active' => 'manage-attendee'
             ]);
     }
 

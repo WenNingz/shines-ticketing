@@ -29,8 +29,11 @@
                         </div>
                     </div>
                     <div class="field">
-                        <input type="text" name="last_name" placeholder="Last Name"
-                               value="{{ old('last_name') }}">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="last_name" placeholder="Last Name"
+                                   value="{{ old('last_name') }}">
+                        </div>
                     </div>
                 </div>
 

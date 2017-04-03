@@ -6,13 +6,7 @@
         <div class="right menu">
             <a href="events" class="item">BROWSE EVENT</a>
 
-            <div class="ui simple dropdown item">
-                HELP
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <a class="item" href="support">Support</a>
-                </div>
-            </div>
+            <a class="ui simple dropdown item">HELP</a>
             <a href="/signup" class="item">SIGN UP</a>
             <a href="/login" class="item">LOG IN</a>
         </div>

@@ -19,12 +19,14 @@ class QueueController extends Controller
 
         if ($user->hasRole('super-admin')) {
             return view('super-admin.support-list', [
-                'posts' => $posts
+                'posts' => $posts,
+                '_active' => 'ticket-list'
             ]);
         }
         if ($user->hasRole('admin')) {
             return view('admin.support-list', [
-                'posts' => $posts
+                'posts' => $posts,
+                '_active' => 'ticket-list'
             ]);
         }
     }

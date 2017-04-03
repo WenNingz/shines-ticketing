@@ -30,12 +30,13 @@
                         @include('layout.errors')
                         <div class="field">
                             <label>Title</label>
-                            <input type="text" name="title" placeholder="Title">
+                            <input type="text" name="title" placeholder="A brief of your issue ticket">
                         </div>
                         <div class="field">
                             <label>Message</label>
-                            <textarea name="message" placeholder="Message" rows="6"></textarea>
+                            <textarea name="message" placeholder="Describe your issue here in details" rows="6"></textarea>
                         </div>
+                        <a href='/my-tickets' class="ui basic black button">Back</a>
                         <button type="submit" class="ui basic blue button">Submit</button>
                     </form>
                 </div>

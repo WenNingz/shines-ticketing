@@ -33,11 +33,15 @@ Route::post('/change-password', 'Account\PasswordController@edit');
 
 Route::get('/ticket-list', 'Support\QueueController@index');
 
-Route::get('/my-tickets', 'Support\TicketController@index');
+Route::get('/my-tickets', 'Support\TicketController@index')->name('my-tickets');
+
+Route::get('/solved-tickets', 'Support\TicketController@index')->name('solved-tickets');
 
 Route::get('/ticket-details/{ticket_number}', 'Support\TicketController@show');
 
 Route::post('/ticket-details/{ticket_number}', 'Support\TicketController@store');
+
+Route::get('/my-tickets/{ticket_number}/close', 'Support\TicketController@close');
 
     /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
@@ -57,6 +61,7 @@ Route::post('/setup', 'SetupController@submit');
 Route::get('/new-ticket', 'Support\TicketController@create');
 
 Route::post('/new-ticket', 'Support\TicketController@submit');
+
 
 
 
@@ -128,8 +133,16 @@ Route::get('admin-password', function () {
     return view('admin.password');
 });
 
-Route::get('admin-payments', function () {
-    return view('admin.payments');
+Route::get('403', function () {
+    return view('errors.403');
+});
+
+Route::get('404', function () {
+    return view('errors.404');
+});
+
+Route::get('500', function () {
+    return view('errors.500');
 });
 
 Route::get('test', function (){
@@ -138,14 +151,14 @@ Route::get('test', function (){
     $admin = App\Role::where('name', 'admin')->first();
     $attendee = App\Role::where('name', 'attendee')->first();
 
-    $permission = App\Permission::where('name', 'ticket-index')->first();
-//    $permission = App\Permission::create([
-//        'name' => 'ticket-store',
-//        'display_name' => 'Reply Ticket',
-//        'description' => 'Reply support request'
-//    ]);
+//    $permission = App\Permission::where('name', 'ticket-index')->first();
+    $permission = App\Permission::create([
+        'name' => 'ticket-close',
+        'display_name' => 'Close Ticket',
+        'description' => 'Close resolved ticket'
+    ]);
 
-    $super_admin->attachPermission($permission);
-    //$admin->attachPermission($permission);
-    //$attendee->attachPermission($permission);
+//    $super_admin->attachPermission($permission);
+//    $admin->attachPermission($permission);
+    $attendee->attachPermission($permission);
 });

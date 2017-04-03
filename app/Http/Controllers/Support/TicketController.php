@@ -21,6 +21,7 @@ class TicketController extends Controller
         $this->middleware('permission:ticket-submit')->only('submit');
         $this->middleware('permission:ticket-show')->only('show');
         $this->middleware('permission:ticket-store')->only('store');
+        $this->middleware('permission:ticket-close')->only('close');
     }
 
     public function index() {
@@ -29,25 +30,36 @@ class TicketController extends Controller
         if ($user->hasRole('super-admin')) {
             $posts = Post::where('admin_id', $user->id)->paginate(10);
             return view('super-admin.support-ticket', [
-                'posts' => $posts
+                'posts' => $posts,
+                '_active' => 'my-tickets'
             ]);
         }
         if ($user->hasRole('admin')) {
             $posts = Post::where('admin_id', $user->id)->paginate(10);
             return view('admin.support-ticket', [
-                'posts' => $posts
+                'posts' => $posts,
+                '_active' => 'my-tickets'
             ]);
         }
         if ($user->hasRole('attendee')) {
-            $posts = Post::where('user_id', $user->id)->paginate(10);
+            $posts = Post::where('user_id', $user->id)
+                ->where('status', '!=', 0)
+                ->where('status', '!=', 3)->paginate(10);
+            $posts_solved = Post::where('user_id', $user->id)
+                ->where('status', 0)
+                ->orWhere('status', 3)->paginate(10);
             return view('attendee.support-ticket', [
-                'posts' => $posts
+                'active_posts' => $posts,
+                'solved_posts' => $posts_solved,
+                '_active' => 'my-tickets'
             ]);
         }
     }
 
     public function create() {
-        return view('attendee.support-new-ticket');
+        return view('attendee.support-new-ticket', [
+            '_active' => 'my-tickets'
+        ]);
     }
 
     public function submit(PostRequest $request) {
@@ -92,7 +104,8 @@ class TicketController extends Controller
                     ->firstOrFail();
                 return view('attendee.support-ticket-details', [
                     'post' => $post,
-                    'user' => $user
+                    'user' => $user,
+                    '_active' => 'my-tickets'
                 ]);
             }
 
@@ -102,6 +115,7 @@ class TicketController extends Controller
                 return view('super-admin.support-ticket-details', [
                     'post' => $post,
                     'user' => $user,
+                    '_active' => 'my-tickets'
                 ]);
             }
 
@@ -110,7 +124,8 @@ class TicketController extends Controller
                     ->firstOrFail();
                 return view('admin.support-ticket-details', [
                     'post' => $post,
-                    'user' => $user
+                    'user' => $user,
+                    '_active' => 'my-tickets'
                 ]);
             }
         } catch (ModelNotFoundException $e) {
@@ -146,7 +161,7 @@ class TicketController extends Controller
                 return redirect('/ticket-details/' . $ticket_number);
             }
 
-            if($user->hasRole('attendee')) {
+            if ($user->hasRole('attendee')) {
                 Reply::create([
                     'post_id' => $post->id,
                     'message' => request('message'),
@@ -158,5 +173,15 @@ class TicketController extends Controller
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
+    }
+
+    public function close($ticket_number) {
+        $user = auth()->user();
+
+        $post = Post::where('ticket_number', $ticket_number)->first();
+        $post->status = 3;
+        $post->save();
+
+        return redirect('my-tickets');
     }
 }

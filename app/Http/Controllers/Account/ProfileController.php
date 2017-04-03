@@ -23,17 +23,20 @@ class ProfileController extends Controller
         $user = auth()->user();
         if ($user->hasRole('super-admin')) {
             return view('super-admin.profile', [
-                'user' => $user
+                'user' => $user,
+                '_active' => 'profile'
             ]);
         }
         if ($user->hasRole('admin')) {
             return view('admin.profile', [
-                'user' => $user
+                'user' => $user,
+                '_active' => 'profile'
             ]);
         }
         if ($user->hasRole('attendee')) {
             return view('attendee.profile', [
-                'user' => $user
+                'user' => $user,
+                '_active' => 'profile'
             ]);
         }
     }
