@@ -14,7 +14,7 @@
         <p class="font-2">Seek your knowledge</p>
 
         <div class="ui stackable centered grid">
-            <div class="four wide column">
+            <div class="six wide mobile six wide tablet four wide computer four wide large screen column">
                 <input type="text" placeholder="Search events">
             </div>
             {{--<div class="three wide column">
@@ -28,7 +28,7 @@
                     <option value="month">Next Month</option>
                 </select>
             </div>--}}
-            <div class="two wide column">
+            <div class="four wide mobile four wide tablet two wide computer two wide large screen column">
                 <button type="submit" class="ui fluid teal basic button">Search</button>
             </div>
         </div>

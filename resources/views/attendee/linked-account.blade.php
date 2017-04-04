@@ -8,12 +8,12 @@
 
 @section('content')
     <div class="ui stackable grid">
-        <div class="one wide mobile three wide tablet three wide computer three wide large screen column">
+        <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
             <div class="ui fluid secondary vertical menu">
                 @include('attendee.common.sidebar')
             </div>
         </div>
-        <div class="fifteen wide mobile thirteen wide tablet thirteen wide computer thirteen wide large screen column">
+        <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
             <h3 class="ui teal dividing header">
                 Account Information
             </h3>

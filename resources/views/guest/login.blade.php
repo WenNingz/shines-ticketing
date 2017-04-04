@@ -9,7 +9,7 @@
 @section('content')
     @include('layout.flash')
     <div class="ui centered grid">
-        <div class="thirteen wide mobile eleven wide tablet five wide computer five wide large screen column">
+        <div class="thirteen wide mobile nine wide tablet five wide computer five wide large screen column">
             <form method="POST" action="/login"
                   class="ui form center aligned padded segment @if(sizeof($errors->all()) > 0)) error @endif">
                 <h1 class="ui teal center aligned header">LOG IN</h1>

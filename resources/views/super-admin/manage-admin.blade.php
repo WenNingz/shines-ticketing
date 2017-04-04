@@ -8,13 +8,13 @@
 
 @section('content')
     <div class="ui stackable grid">
-        <div class="one wide mobile three wide tablet three wide computer three wide large screen column">
+        <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
             <div class="ui fluid secondary vertical menu">
                 @include('super-admin.common.sidebar')
             </div>
         </div>
 
-        <div class="fifteen wide mobile thirteen wide tablet thirteen wide computer thirteen wide large screen column">
+        <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
             <h3 class="ui teal dividing header">
                 Manage Users
             </h3>
@@ -24,7 +24,7 @@
                     Manage Admin
                 </h4>
                 <div class="ui stackable grid">
-                    <div class="four wide mobile four wide tablet four wide computer four wide large screen column">
+                    <div class="four wide mobile sixteen wide tablet four wide computer four wide large screen column">
                         <div class="field">
                             <select name="status" class="ui dropdown" id="select">
                                 <option value="all" @if($status == 'all') selected="selected" @endif>All</option>
@@ -33,7 +33,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="twelve wide mobile twelve wide tablet twelve wide computer twelve wide large screen column">
+                    <div class="twelve wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
                         <div class="field">
                             <div class="ui icon input">
                                 <input type="text" name="query" placeholder="Search admins and emails" value="{{ $query }}">

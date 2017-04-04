@@ -32,14 +32,6 @@ body {
     font-weight: 600;
 }
 
-.icon-size {
-    width: 14vw;
-    padding: 1vw;
-}
-#img-padding {
-    padding: 0px; !important;
-}
-
 /*--- Custom Color ---*/
 .white {
     background-color: #FFFFFF;
@@ -87,5 +79,23 @@ body {
     color: #3B83C0;
 }
 
+/*--- Custom SUI ---*/
+.segment.no-border{
+    border: 0 !important;
+}
+.icon-size {
+    width: 14vw;
+    padding: 1vw;
+}
+.segment.dashboard{
+    /*min-height: 100px !important;*/
+    font-size: 1vw;
+}
+
+.box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 

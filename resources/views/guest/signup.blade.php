@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="ui centered grid">
-        <div class="thirteen wide mobile eleven wide tablet five wide computer five wide large screen column">
+        <div class="thirteen wide mobile nine wide tablet five wide computer five wide large screen column">
             <form action="/signup" method="POST"
                   class="ui form center aligned padded segment @if(sizeof($errors->all()) > 0)) error @endif">
 
