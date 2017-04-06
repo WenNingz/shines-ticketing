@@ -52,6 +52,12 @@ Route::post('/add-admin', 'User\AdminController@submit');
 
 Route::put('/suspend', 'User\AdminController@edit');
 
+Route::get('/sync-event', 'Event\EventController@index');
+
+Route::get('/edit-event/{id}', 'Event\EventController@create');
+
+Route::post('/edit-event/{id}', 'Event\EventController@update');
+
     /* --- Admin --- */
 Route::get('/setup', 'SetupController@index');
 
@@ -120,10 +126,6 @@ Route::get('admin-event-edit', function () {
     return view('admin.event-edit');
 });
 
-Route::get('sync-event', function () {
-    return view('admin.sync-event');
-});
-
 
 Route::get('admin-profile', function () {
     return view('admin.profile');
@@ -151,14 +153,14 @@ Route::get('test', function (){
     $admin = App\Role::where('name', 'admin')->first();
     $attendee = App\Role::where('name', 'attendee')->first();
 
-//    $permission = App\Permission::where('name', 'ticket-index')->first();
-    $permission = App\Permission::create([
-        'name' => 'ticket-close',
-        'display_name' => 'Close Ticket',
-        'description' => 'Close resolved ticket'
-    ]);
-
+    $permission = App\Permission::where('name', 'event-create')->first();
+//    $permission = App\Permission::create([
+//        'name' => 'event-update',
+//        'display_name' => 'Update Event',
+//        'description' => 'Update new event'
+//    ]);
 //    $super_admin->attachPermission($permission);
-//    $admin->attachPermission($permission);
-    $attendee->attachPermission($permission);
+    $admin->attachPermission($permission);
+//    $attendee->attachPermission($permission);
+
 });

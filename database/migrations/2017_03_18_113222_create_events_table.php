@@ -19,7 +19,7 @@ class CreateEventsTable extends Migration
             $table->string('image')->nullable();
             $table->timestamp('date');
             $table->string('venue');
-            $table->boolean('status')->default(false);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
 

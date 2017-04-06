@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -22,7 +23,8 @@ class APIController extends Controller
             'venue' => $data->venue
         ]);
 
-        $client = new Client();
-        Image::make('http://192.168.1.4:8000'.$data->image)->save(substr($data->image, 1));
+        $filename = Carbon::now()->timestamp . '.jpg';
+
+        Image::make('http://192.168.100.7:8000' . $data->image)->save('storage/' . $filename);
     }
 }

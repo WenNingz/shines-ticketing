@@ -146,6 +146,24 @@ class UsersTableSeeder extends Seeder
             'description' => 'Close resolved ticket'
         ]);
 
+        $event_index = Permission::create([
+            'name' => 'event-index',
+            'display_name' => 'Event Index',
+            'description' => 'View events list'
+        ]);
+
+        $event_create = Permission::create([
+            'name' => 'event-create',
+            'display_name' => 'Event Edit View',
+            'description' => 'View edit event page'
+        ]);
+
+        $event_update = Permission::create([
+            'name' => 'event-update',
+            'display_name' => 'Update Event',
+            'description' => 'Update new event'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -153,7 +171,9 @@ class UsersTableSeeder extends Seeder
             $profile_index, $profile_edit,
             $password_index, $password_edit,
             $queue_index, $ticket_index,
-            $ticket_show, $ticket_store
+            $ticket_show, $ticket_store,
+            $event_index, $event_create,
+            $event_update
         ));
 
         $admin_role->attachPermissions(array(
@@ -162,7 +182,8 @@ class UsersTableSeeder extends Seeder
             $profile_edit, $password_index,
             $password_edit, $queue_index,
             $ticket_index, $ticket_show,
-            $ticket_store
+            $ticket_store,  $event_index,
+            $event_create, $event_update
         ));
 
         $attendee_role->attachPermissions(array(

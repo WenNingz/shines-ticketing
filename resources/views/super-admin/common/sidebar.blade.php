@@ -6,8 +6,11 @@
     Events
 </a>
 <div class="menu">
+    <a href="/sync-event" class="@if($_active == 'sync-event') active @endif item">
+        Sync Event
+        <span class="ui mini red label">{{ \App\Event::where('status', 1)->count() }}</span>
+    </a>
     <a href="event-list" class="@if($_active == 'event-list') active @endif item">Event List</a>
-    <a href="sync-event" class="@if($_active == 'sync-event') active @endif item">Sync Event</a>
 </div>
 
 <a href="/manage-admin" class="item">

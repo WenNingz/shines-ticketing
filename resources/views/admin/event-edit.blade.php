@@ -15,13 +15,14 @@
         </div>
 
         <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
+            @include('layout.success')
             <div class="ui stackable grid">
                 <div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
                     <div class="ui teal dividing header">
                         <div class="content">Event Detail</div>
                     </div>
 
-                    <h1>Event Name #1</h1>
+                    <h1>{{ $event->name }}</h1>
                     <p>By Dina the Front End Developer</p>
                 </div>
 
@@ -31,9 +32,9 @@
                     </div>
 
                     <h5>Date and Time</h5>
-                    <p>Fri, April 2017</p>
-                    <p>08.00 a.m. - 02.00 p.m.</p>
-                    <p>City Square KZL</p>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
+                    <p>{{ $event->venue }}</p>
                 </div>
 
                 <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
@@ -49,34 +50,39 @@
                         <div class="content">Event Description</div>
                     </div>
 
-                    <form class="ui center aligned form">
+                    <form method="POST" action="/edit-event/{{ $event->id }}" class="ui center aligned form">
+                        {{ csrf_field() }}
+
                         <div class="fields">
                             <div class="six wide field">
                                 <div class="ui segment">
-                                    <img class="ui large rounded image" src="http://placehold.it/2160x1080">
+                                    <img class="ui large rounded image" src="{{ asset($event->image) }}">
                                     <div class="ui divider"></div>
                                     <a class="ui mini red basic button">Remove</a>
                                     <a id="js-img-adjust" class="ui mini basic teal button">Change</a>
                                     <div class="description">Recommended using image at least xpx X xpx (x:x ratio)
-                                        that's no
-                                        larger than xxMB
+                                        that's no larger than xxMB
                                     </div>
                                 </div>
                             </div>
 
                             <div class="ten wide field">
                                 <div class="description">
-                                    <textarea id="js-event-description">Test</textarea>
+                                    <textarea name="description"
+                                              id="js-event-description">{{ $event->description }}</textarea>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="publish" id="publish" value="false">
+                        <input type="hidden" name="reject" id="reject" value="false">
 
                         <div class="ui divider"></div>
 
                         <div class="field">
                             <div class="ui center aligned basic segment">
-                                <a href="admin-event-detail" class="ui basic teal button">Save</a>
-                                <a class="ui basic green button">Publish</a>
+                                <button type="submit" class="ui basic teal button">Save</button>
+                                <button type="submit" class="ui basic green button publish">Save & Publish</button>
+                                <button type="submit" class="ui basic red button reject">Reject</button>
                             </div>
                         </div>
 
@@ -118,6 +124,14 @@
                 variation: "mini inverted"
             })
         ;
+
+        $('.publish').on('click', function () {
+            $('#publish').val('true')
+        });
+
+        $('.reject').on('click', function () {
+            $('#reject').val('true')
+        });
 
         tinymce.init({
             selector: '#js-event-description'
