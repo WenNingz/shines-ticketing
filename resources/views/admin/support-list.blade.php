@@ -19,12 +19,20 @@
                 Support Ticket List
             </h3>
 
-            <form class="ui form">
-                <div class="ui fluid icon input">
-                    <input type="text" name="query" placeholder="Search ticket">
-                    <i class="blue search icon"></i>
+            <div class="ui stackable grid">
+                <div class="sixteen wide mobile eight wide tablet four wide computer four wide large screen column">
+                    <form class="ui form">
+                        <select name="category" class="ui fluid selection dropdown" id="select">
+                            <option value="all" @if($category == 'all') selected="selected" @endif>All</option>
+                            <option value="bill" @if($category == 'bill') selected="selected" @endif>Billing</option>
+                            <option value="technical" @if($category == 'technical') selected="selected" @endif>Technical</option>
+                            <option value="cs" @if($category == 'cs') selected="selected" @endif>Customer Service
+                            </option>
+                            <option value="other" @if($category == 'other') selected="selected" @endif>Other</option>
+                        </select>
+                    </form>
                 </div>
-            </form>
+            </div>
 
             <table class="ui unstackable table">
                 <thead>
@@ -33,13 +41,14 @@
                     <th>Title</th>
                     <th>Status</th>
                     <th>Request Date</th>
+                    <th>Category</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 @if($posts->isEmpty())
                     <tr>
-                        <td colspan="5">There is no user</td>
+                        <td colspan="6">There is no issues</td>
                     </tr>
                 @else
                     @foreach($posts as $post)
@@ -48,6 +57,17 @@
                             <td>{{ $post->title }}</td>
                             <td>Open</td>
                             <td>{{ $post->created_at->toFormattedDateString() }}</td>
+                            <td>
+                                @if($post->category == 'bill')
+                                    <span class="text red">Billing</span>
+                                @elseif($post->category == 'technical')
+                                    <span class="text blue">Technical</span>
+                                @elseif($post->category == 'cs')
+                                    <span class="text green">Customer Services</span>
+                                @else
+                                    <span>Others</span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="/ticket-details/{{ $post->ticket_number }}"
                                    class="ui mini fluid basic blue button">Reply</a>
@@ -58,7 +78,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="5">
+                    <th colspan="6">
                         {{ $posts->links('layout.semantic-paginate') }}
                     </th>
                 </tr>
@@ -66,4 +86,15 @@
             </table>
         </div>
     </div>
+
+    <script>
+        $('#select')
+            .dropdown();
+
+        $('select').on('change', function () {
+            var category = (this.value);
+            this.form.submit();
+            return category;
+        });
+    </script>
 @endsection

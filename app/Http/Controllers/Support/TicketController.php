@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -27,32 +29,73 @@ class TicketController extends Controller
     public function index() {
         $user = auth()->user();
 
-        if ($user->hasRole('super-admin')) {
-            $posts = Post::where('admin_id', $user->id)->paginate(10);
-            return view('super-admin.support-ticket', [
-                'posts' => $posts,
-                '_active' => 'my-tickets'
-            ]);
-        }
-        if ($user->hasRole('admin')) {
-            $posts = Post::where('admin_id', $user->id)->paginate(10);
-            return view('admin.support-ticket', [
-                'posts' => $posts,
-                '_active' => 'my-tickets'
-            ]);
-        }
         if ($user->hasRole('attendee')) {
             $posts = Post::where('user_id', $user->id)
-                ->where('status', '!=', 0)
-                ->where('status', '!=', 3)->paginate(10);
+                ->where('status', '!=', 4)
+                ->where('status', '!=', 3)
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10);
             $posts_solved = Post::where('user_id', $user->id)
-                ->where('status', 0)
-                ->orWhere('status', 3)->paginate(10);
+                ->where('status', 4)
+                ->orWhere('status', 3)
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10);
             return view('attendee.support-ticket', [
                 'active_posts' => $posts,
                 'solved_posts' => $posts_solved,
                 '_active' => 'my-tickets'
             ]);
+        } else {
+            switch (Input::get('category')) {
+                default :
+                    $posts = Post::where('admin_id', $user->id)
+                        ->orderBy('status', 'asc')
+                        ->orderBy('updated_at', 'desc')->paginate(10);
+                    break;
+                case 'bill':
+                    $posts = Post::where('admin_id', $user->id)
+                        ->where('category', 'bill')
+                        ->orderBy('status', 'asc')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
+                    break;
+                case 'technical':
+                    $posts = Post::where('admin_id', $user->id)
+                        ->where('category', 'technical')
+                        ->orderBy('status', 'asc')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
+                    break;
+                case 'cs':
+                    $posts = Post::where('admin_id', $user->id)
+                        ->where('category', 'cs')
+                        ->orderBy('status', 'asc')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
+                    break;
+                case 'other':
+                    $posts = Post::where('admin_id', $user->id)
+                        ->where('category', 'other')
+                        ->orderBy('status', 'asc')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
+                    break;
+            }
+
+            if ($user->hasRole('super-admin')) {
+                return view('super-admin.support-ticket', [
+                    'posts' => $posts,
+                    '_active' => 'my-tickets',
+                    'category' => Input::get('category')
+                ]);
+            }
+            if ($user->hasRole('admin')) {
+                return view('admin.support-ticket', [
+                    'posts' => $posts,
+                    '_active' => 'my-tickets',
+                    'category' => Input::get('category')
+                ]);
+            }
         }
     }
 
@@ -64,13 +107,13 @@ class TicketController extends Controller
 
     public function submit(PostRequest $request) {
         $user = auth()->user();
-
         try {
             DB::beginTransaction();
 
             $post = Post::create([
                 'title' => request('title'),
                 'message' => request('message'),
+                'category' => Input::get('category'),
                 'status' => 1,
                 'user_id' => $user->id
             ]);
@@ -89,6 +132,7 @@ class TicketController extends Controller
             return redirect('/ticket-details/' . $post->ticket_number);
         } catch (Exception $e) {
             DB::rollback();
+            Log::error($e);
             abort(500);
         }
 
@@ -149,6 +193,11 @@ class TicketController extends Controller
                     'user_id' => $user->id,
                     'parent_id' => $post->getParentId($post->user_id)->id
                 ]);
+
+                if (Input::get('close') == 'true') {
+                    $post->status = 4;
+                    $post->save();
+                }
 
                 if ($post->admin_id == null) {
                     $post->admin_id = $user->id;

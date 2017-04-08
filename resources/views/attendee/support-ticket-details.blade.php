@@ -21,32 +21,34 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
-                    @if($post->status != 0 && $post->status != 3)
-                        <div align="right">Has this issue been resolved? <a
-                                    href="/my-tickets/{{$post->ticket_number}}/close"> Close It</a></div>
+                    @if($post->status != 4 && $post->status != 3)
+                        <div align="right">
+                            Has this issue been resolved?
+                            <a href="/my-tickets/{{$post->ticket_number}}/close"> Close It</a>
+                        </div>
                     @endif
 
-                    <h4 class="ui large header">
+                    <div class="ui large header">
                         <p><u>Title: {{ $post->title }}</u></p>
-                    </h4>
+                    </div>
                     <div class="ui stackable grid">
                         <div class="eight wide mobile eight wide tablet eight wide computer eight wide large screen column">
                             <p><b>Ticket No: </b>{{ $post->ticket_number }}</p>
                             <p><b>Status: </b>
-                                @if($post->status == 0)
+                                @if($post->status == 4)
                                     <span class="text red">Closed</span>
                                 @elseif($post->status == 1)
                                     <span class="text blue">Open</span>
                                 @elseif($post->status == 2)
                                     <span class="text orange">Replied</span>
-                                @else
+                                @elseif($post->status == 3)
                                     <span class="text green">Solved</span>
                                 @endif
                             </p>
                         </div>
                         <div class="eight wide mobile eight wide tablet eight wide computer eight wide large screen column">
                             <p><b>Created: </b>{{ $post->created_at->diffForHumans()}}</p>
-                            <p><b>Last Updated: </b>{{ $post->replies->last()->updated_at->diffForHumans() }}</p>
+                            <p><b>Last Updated: </b>{{ $post->updated_at->diffForHumans() }}</p>
                         </div>
                     </div>
                     <div class="ui message">
@@ -71,19 +73,16 @@
                                                 @foreach($reply->children as $child)
                                                     <div class="comment">
                                                         <a class="avatar">
-                                                            <span class="ui orange large label">
-                                                                {{ $child->getUserInitial() }}
-                                                            </span>
+                                                            <span class="ui orange large label"> {{ $child->getUserInitial() }} </span>
                                                         </a>
                                                         <div class="content">
-                                                            <a class="author">{{ $child->getUserName() }}</a>
+                                                            <a class="author"> {{ $child->getUserName() }} </a>
                                                             <div class="metadata">
                                                                 <span class="date">
                                                                     {{ $child->created_at->format('M d, Y h:i A') . ' | '. $child->created_at->diffForHumans()}}
                                                                 </span>
                                                             </div>
-                                                            <div align="justify"
-                                                                 class="text"> {{ $child->message }} </div>
+                                                            <div align="justify" class="text"> {{ $child->message }} </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
@@ -92,31 +91,28 @@
                                     </div>
                                 </div>
                             @endforeach
-                            @if($post->status == 0 && $post->status == 3)
+                            @if($post->status != 4 && $post->status != 3)
                                 <div class="comment">
                                     <a class="avatar">
-                                    <span class="teal large ui label">
-                                        {{ substr($user->first_name, 0, 1).substr($user->last_name, 0, 1) }}
-                                    </span>
+                                        <span class="teal large ui label">
+                                            {{ substr($user->first_name, 0, 1).substr($user->last_name, 0, 1) }}
+                                        </span>
                                     </a>
                                     <div class="content">
                                         <a class="author"> {{ $user->first_name . ' ' . $user->last_name}} </a>
                                         <div class="metadata">
-                                        <span class="date">
-                                            {{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}
-                                        </span>
+                                            <span class="date">{{ \Carbon\Carbon::now()->format('M d, Y h:i A') }}</span>
                                         </div>
                                         <div class="text">
                                             <form method="post" action="/ticket-details/{{ $post->ticket_number }}"
+                                                  onsubmit="$('.ui.submit.button').prop('disabled', true)"
                                                   class="ui form @if(sizeof($errors) > 0) error @endif">
-
                                                 {{ csrf_field() }}
-
                                                 @include('layout.errors')
                                                 <div class="field">
                                                     <textarea name="message" rows="2"></textarea>
                                                 </div>
-                                                <button type="submit" class="ui mini blue basic button">
+                                                <button type="submit" class="ui mini blue submit basic button">
                                                     Add Reply
                                                 </button>
                                             </form>
@@ -135,7 +131,19 @@
         $('.ui.form')
             .form({
                 fields: {
-                    message: 'empty'
+                    message: {
+                        identifier: 'message',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The message field is required.'
+                            }
+                        ]
+                    }
+                },
+                onFailure: function () {
+                    $('.ui.submit.button').prop('disabled', false);
+                    return false;
                 }
             });
     </script>

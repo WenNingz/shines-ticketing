@@ -13,6 +13,7 @@ class CreatePostsTable extends Migration
             $table->string('ticket_number')->unique()->nullable();
             $table->string('title');
             $table->text('message');
+            $table->string('category');
             $table->tinyInteger('status')->default(1);
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

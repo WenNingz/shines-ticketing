@@ -28,11 +28,11 @@
                 <div class="ui secondary menu">
                     <a href='/my-tickets' class="@if($my_ticket) active @endif item">
                         Active Tickets
-                        <div class="ui @if($my_ticket) teal @endif  label">{{ $active_posts->count() }}</div>
+                        <div class="ui @if($my_ticket) teal @endif  label">{{ \Auth::user()->activePostCount() }}</div>
                     </a>
                     <a href='/solved-tickets' class="@if($solved_tickets) active @endif item">
                         Solved Tickets
-                        <div class="ui @if($solved_tickets) teal @endif label">{{ $solved_posts->count() }}</div>
+                        <div class="ui @if($solved_tickets) teal @endif label">{{ \Auth::user()->solvedPostCount() }}</div>
                     </a>
                 </div>
             </div>
@@ -50,24 +50,20 @@
                         @if($my_ticket)
                             @if($active_posts->isEmpty())
                                 <tr>
-                                    <td colspan="5">There is no request</td>
+                                    <td colspan="5">There is no issues</td>
                                 </tr>
                             @else
                                 @foreach($active_posts as $post)
                                     <tr class="details" data-value="{{ $post->ticket_number }}">
                                         <td>{{ $post->title }}</td>
                                         <td>
-                                            @if($post->status == 0)
-                                                <span class="text red">Closed</span>
-                                            @elseif($post->status == 1)
+                                            @if($post->status == 1)
                                                 <span class="text blue">Open</span>
                                             @elseif($post->status == 2)
                                                 <span class="text orange">Replied</span>
-                                            @else
-                                                <span class="text green">Solved</span>
                                             @endif
                                         </td>
-                                        <td>{{ $post->replies->last()->updated_at->diffForHumans() }}</td>
+                                        <td>{{ $post->updated_at->diffForHumans() }}</td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -81,17 +77,13 @@
                                     <tr class="details" data-value="{{ $post->ticket_number }}">
                                         <td>{{ $post->title }}</td>
                                         <td>
-                                            @if($post->status == 0)
+                                            @if($post->status == 4)
                                                 <span class="text red">Closed</span>
-                                            @elseif($post->status == 1)
-                                                <span class="text blue">Open</span>
-                                            @elseif($post->status == 2)
-                                                <span class="text orange">Replied</span>
-                                            @else
+                                            @elseif ($post->status == 3)
                                                 <span class="text green">Solved</span>
                                             @endif
                                         </td>
-                                        <td>{{ $post->replies->last()->updated_at->diffForHumans() }}</td>
+                                        <td>{{ $post->updated_at->diffForHumans() }}</td>
                                     </tr>
                                 @endforeach
                             @endif

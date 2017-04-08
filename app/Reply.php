@@ -10,6 +10,8 @@ class Reply extends Model
         'post_id', 'message', 'user_id', 'parent_id'
     ];
 
+    protected $touches = ['post'];
+
     public function post() {
         return $this->belongsTo(Post::class);
     }

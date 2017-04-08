@@ -27,4 +27,14 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function activePostCount() {
+        return $this->posts()->where('status', 1)
+            ->orWhere('status', 2)->count();
+    }
+
+    public function solvedPostCount() {
+        return $this->posts()->where('status', 3)
+            ->orWhere('status', 4)->count();
+    }
+
 }
