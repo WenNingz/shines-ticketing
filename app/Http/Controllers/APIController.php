@@ -25,6 +25,6 @@ class APIController extends Controller
 
         $filename = Carbon::now()->timestamp . '.jpg';
 
-        Image::make('http://192.168.100.7:8000' . $data->image)->save('storage/' . $filename);
+        Image::make('http://192.168.1.4:8000' . $data->image)->save('storage/' . $filename);
     }
 }

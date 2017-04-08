@@ -22,6 +22,7 @@
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet six wide computer six wide large screen column">
                     <form method="POST" action="/change-password"
+                          onsubmit="$('.ui.submit.button').prop('disabled', true)"
                           class="ui form @if(sizeof($errors->all()) > 0)) error @endif @if(session('status')) success @endif">
                         <h4 class="ui dividing header">
                             Change Password
@@ -50,7 +51,7 @@
                                 <button type="reset" class="ui fluid basic red button">Cancel</button>
                             </div> &nbsp;
                             <div class="four wide field">
-                                <button type="submit" class="ui fluid basic teal button">Save</button>
+                                <button type="submit" class="ui fluid basic teal submit button">Save</button>
                             </div>
                         </div>
                     </form>
@@ -90,6 +91,10 @@
                             }
                         ]
                     }
+                },
+                onFailure: function () {
+                    $('.ui.submit.button').prop('disabled', false);
+                    return false;
                 }
             });
     </script>

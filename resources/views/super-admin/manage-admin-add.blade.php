@@ -21,7 +21,8 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <form method="post" action="/add-admin" class="ui form @if(sizeof($errors->all()) > 0)) error @endif">
+                    <form method="post" action="/add-admin" onsubmit="$('.ui.submit.button').prop('disabled', true)"
+                          class="ui form @if(sizeof($errors->all()) > 0)) error @endif">
                         <h4 class="ui dividing header">
                             Add Admin
                         </h4>
@@ -45,7 +46,7 @@
                             <input type="text" name="email" placeholder="E-mail">
                         </div>
                         <div class="two wide field">
-                            <button class="ui fluid basic teal button">Add</button>
+                            <button class="ui fluid basic teal submit button">Add</button>
                         </div>
                     </form>
                 </div>
@@ -73,6 +74,10 @@
                                 prompt: 'The email must be a valid email address.'
                             }]
                     }
+                },
+                onFailure: function () {
+                    $('.ui.submit.button').prop('disabled', false);
+                    return false;
                 }
             });
     </script>

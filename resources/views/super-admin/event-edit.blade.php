@@ -50,7 +50,8 @@
                         <div class="content">Event Description</div>
                     </div>
 
-                    <form method="POST" action="/edit-event/{{ $event->id }}" class="ui center aligned form">
+                    <form method="POST" action="/edit-event/{{ $event->id }}"
+                          onsubmit="$('.ui.submit.button').prop('disabled', true)" class="ui center aligned form">
                         {{ csrf_field() }}
 
                         <div class="fields">
@@ -80,9 +81,10 @@
 
                         <div class="field">
                             <div class="ui center aligned basic segment">
-                                <button type="submit" class="ui basic teal button">Save</button>
-                                <button type="submit" class="ui basic green button publish">Save & Publish</button>
-                                <button type="submit" class="ui basic red button reject">Reject</button>
+                                <button type="submit" class="ui basic teal submit button">Save</button>
+                                <button type="submit" class="ui basic green button submit publish">Save & Publish
+                                </button>
+                                <button type="submit" class="ui basic red button submit reject">Reject</button>
                             </div>
                         </div>
 

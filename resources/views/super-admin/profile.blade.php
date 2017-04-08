@@ -21,7 +21,8 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <form method="POST" action="/profile" class="ui form @if(sizeof($errors->all()) > 0)) error @endif
+                    <form method="POST" action="/profile" onsubmit="$('.ui.submit.button').prop('disabled', true)"
+                          class="ui form @if(sizeof($errors->all()) > 0)) error @endif
                           @if (session('status')) success @endif">
                         <h4 class="ui dividing header">
                             Basic Information
@@ -65,7 +66,7 @@
                                 <button type="reset" class="ui fluid small basic red button">Cancel</button>
                             </div> &nbsp;
                             <div class="two wide field">
-                                <button type="submit" class="ui fluid small basic blue button">Save</button>
+                                <button type="submit" class="ui fluid small basic blue submit button">Save</button>
                             </div>
                         </div>
                     </form>
@@ -103,6 +104,10 @@
                             }
                         ]
                     }
+                },
+                onFailure: function () {
+                    $('.ui.submit.button').prop('disabled', false);
+                    return false;
                 }
             });
     </script>

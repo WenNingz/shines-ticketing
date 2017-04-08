@@ -39,7 +39,8 @@
                         </tr>
                     </table>
 
-                    <form method="GET" action="profile" class="ui center aligned form segment">
+                    <form method="GET" action="profile" onsubmit="$('.ui.submit.button').prop('disabled', true)"
+                          class="ui center aligned form segment">
                         <h4 class="ui dividing header">
                             Add Payment
                         </h4>
@@ -93,7 +94,7 @@
                             </div>
                             &nbsp;
                             <div class="two wide field">
-                                <div class="ui fluid basic teal button">Add</div>
+                                <div class="ui fluid basic teal submit button">Add</div>
                             </div>
                         </div>
                     </form>
@@ -101,4 +102,43 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('.ui.form')
+            .form({
+                fields: {
+                    current_password: {
+                        identifier: 'current_password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'The current password field is required.'
+                            }
+                        ]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'minLength[8]',
+                                prompt: 'The password must be at least 8 characters.'
+                            }
+                        ]
+                    },
+                    password_confirmation: {
+                        identifier: 'password_confirmation',
+                        rules: [
+                            {
+                                type: 'match[password]',
+                                prompt: 'The password confirmation does not match.'
+                            }
+                        ]
+                    }
+                },
+                onFailure: function () {
+                    $('.ui.submit.button').prop('disabled', false);
+                    return false;
+                }
+            });
+    </script>
 @endsection

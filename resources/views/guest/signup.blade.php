@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui centered grid">
         <div class="thirteen wide mobile nine wide tablet five wide computer five wide large screen column">
-            <form action="/signup" method="POST"
+            <form action="/signup" method="POST" onsubmit="$('.ui.submit.button').prop('disabled', true)"
                   class="ui form center aligned padded segment @if(sizeof($errors->all()) > 0)) error @endif">
 
                 <h1 class="ui teal center aligned header">SIGN UP</h1>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <button class="ui fluid blue basic button">Sign Up</button>
+                <button class="ui fluid blue basic submit button">Sign Up</button>
                 <p>By signing up, you agree to our <a href="#">User Agreement and Privacy Notice</a></p>
             </form>
         </div>
@@ -102,6 +102,10 @@
                             }
                         ]
                     }
+                },
+                onFailure: function () {
+                    $('.ui.submit.button').prop('disabled', false);
+                    return false;
                 }
             });
     </script>
