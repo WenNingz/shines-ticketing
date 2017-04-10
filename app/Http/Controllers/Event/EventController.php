@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Event;
 
 use App\Event;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Exception;
@@ -14,43 +15,83 @@ class EventController extends Controller
     public function __construct() {
         $this->middleware('auth');
         $this->middleware('permission:event-index')->only('index');
-        $this->middleware('permission:event-create')->only('create');
+        $this->middleware('permission:event-show')->only('show');
         $this->middleware('permission:event-update')->only('update');
     }
 
     public function index() {
         $user = auth()->user();
-        $events = Event::where('status', 1)->paginate(10);
+        $q = Input::get('query');
+
+        switch (Input::get('status')) {
+            default:
+                $events = Event::where('status', 2)
+                    ->where(function ($query) use ($q) {
+                        $query->where('name', 'like', '%' . $q . '%')
+                            ->orWhere('description', 'like', '%' . $q . '%')
+                            ->orWhere('venue', 'like', '%' . $q . '%')
+                            ->orWhere('date', 'like', '%' . $q . '%');
+                    })->paginate(10);
+                break;
+            case 'ongoing':
+                $events = Event::where('status', 2)
+                    ->where(function ($query) use ($q) {
+                        $query->where('name', 'like', '%' . $q . '%')
+                            ->orWhere('description', 'like', '%' . $q . '%')
+                            ->orWhere('venue', 'like', '%' . $q . '%')
+                            ->orWhere('date', 'like', '%' . $q . '%');
+                    })
+                    ->where('date', '>=', Carbon::now())
+                    ->paginate(10);
+                break;
+            case 'complete':
+                $events = Event::where('status', 2)
+                    ->where(function ($query) use ($q) {
+                        $query->where('name', 'like', '%' . $q . '%')
+                            ->orWhere('description', 'like', '%' . $q . '%')
+                            ->orWhere('venue', 'like', '%' . $q . '%')
+                            ->orWhere('date', 'like', '%' . $q . '%');
+                    })
+                    ->where('date', '<=', Carbon::now())
+                    ->paginate(10);
+                break;
+        }
+
         if ($user->hasRole('super-admin'))
-            return view('super-admin.event-sync', [
-                '_active' => 'sync-event',
-                'events' => $events
+            return view('super-admin.event-list', [
+                '_active' => 'event-list',
+                'query' => $q,
+                'status' => Input::get('status'),
+                'events' => $events,
             ]);
         if ($user->hasRole('admin')) {
-            return view('admin.event-sync', [
-                '_active' => 'sync-event',
+            return view('admin.event-list', [
+                '_active' => 'event-list',
+                'query' => $q,
+                'status' => Input::get('status'),
                 'events' => $events
             ]);
         }
     }
 
-    public function create($id) {
+    public function show($id) {
         $user = auth()->user();
         try {
-            $event = Event::where('id', $id)->first();
+            $event = Event::find($id);
             if ($user->hasRole('super-admin')) {
-                return view('super-admin.event-edit', [
-                    '_active' => 'sync-event',
+                return view('super-admin.event-detail', [
+                    '_active' => 'event-list',
                     'event' => $event
                 ]);
             }
             if ($user->hasRole('admin')) {
-                return view('admin.event-edit', [
-                    '_active' => 'sync-event',
+                return view('admin.event-detail', [
+                    '_active' => 'event-list',
                     'event' => $event
                 ]);
             }
         } catch (ModelNotFoundException $e) {
+            Log::error($e);
             abort(404);
         }
     }

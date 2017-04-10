@@ -21,7 +21,7 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
-                    <a href="/sync-event" class="ui right floated basic tiny red icon button">Refresh</a>
+                    <a href="/sync-events" class="ui right floated basic tiny red icon button">Refresh</a>
                 </div>
 
                 <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
@@ -55,4 +55,3 @@
         </div>
     </div>
 @endsection
-{{--Concept: Use hidden checkbox to select multiple events--}}

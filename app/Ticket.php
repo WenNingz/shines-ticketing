@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    protected $fillable = [
+        'name', 'description', 'event_id', 'price', 'total', 'available', 'status'
+    ];
+
     public function event() {
         return $this->belongsTo(Event::class);
     }

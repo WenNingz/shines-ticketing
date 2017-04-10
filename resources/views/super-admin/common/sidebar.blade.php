@@ -2,11 +2,11 @@
     Home
 </a>
 
-<a href="event-list" class="@if($_active == 'event-list') active @endif item">
+<a href="/sync-events" class="item">
     Events
 </a>
 <div class="menu">
-    <a href="/sync-event" class="@if($_active == 'sync-event') active @endif item">
+    <a href="/sync-events" class="@if($_active == 'sync-event') active @endif item">
         Sync Event
         @if(\App\Event::where('status', 1)->count() != 0)
             <span class="ui mini red label">
@@ -25,7 +25,7 @@
     <a href="/manage-attendee" class="@if($_active == 'manage-attendee') active @endif item">Attendee</a>
 </div>
 
-<a href="ticket-list" class="item">
+<a href="/ticket-list" class="item">
     Support
 </a>
 <div class="menu">

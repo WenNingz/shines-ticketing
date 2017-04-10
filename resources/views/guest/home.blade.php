@@ -159,3 +159,6 @@
     </script>
 
 @endsection
+@section('footer')
+    @include('guest.footer')
+@endsection

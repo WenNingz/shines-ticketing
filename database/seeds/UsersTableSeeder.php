@@ -146,22 +146,34 @@ class UsersTableSeeder extends Seeder
             'description' => 'Close resolved ticket'
         ]);
 
+        $sync_index = Permission::create([
+            'name' => 'sync-index',
+            'display_name' => 'Sync Event Index',
+            'description' => 'View events list'
+        ]);
+
+        $sync_show = Permission::create([
+            'name' => 'sync-show',
+            'display_name' => 'Event Edit View',
+            'description' => 'View edit event page'
+        ]);
+
+        $sync_update = Permission::create([
+            'name' => 'sync-update',
+            'display_name' => 'Update Event',
+            'description' => 'Update new event'
+        ]);
+
         $event_index = Permission::create([
             'name' => 'event-index',
             'display_name' => 'Event Index',
             'description' => 'View events list'
         ]);
 
-        $event_create = Permission::create([
-            'name' => 'event-create',
-            'display_name' => 'Event Edit View',
-            'description' => 'View edit event page'
-        ]);
-
-        $event_update = Permission::create([
-            'name' => 'event-update',
-            'display_name' => 'Update Event',
-            'description' => 'Update new event'
+        $event_show = Permission::create([
+            'name' => 'event-show',
+            'display_name' => 'Show Event Details',
+            'description' => 'View events details'
         ]);
 
         $super_admin_role->attachPermissions(array(
@@ -172,8 +184,9 @@ class UsersTableSeeder extends Seeder
             $password_index, $password_edit,
             $queue_index, $ticket_index,
             $ticket_show, $ticket_store,
-            $event_index, $event_create,
-            $event_update
+            $sync_index,  $sync_show,
+            $sync_update, $event_index,
+            $event_show
         ));
 
         $admin_role->attachPermissions(array(
@@ -182,8 +195,9 @@ class UsersTableSeeder extends Seeder
             $profile_edit, $password_index,
             $password_edit, $queue_index,
             $ticket_index, $ticket_show,
-            $ticket_store,  $event_index,
-            $event_create, $event_update
+            $ticket_store, $sync_index,
+            $sync_show, $sync_update,
+            $event_index, $event_show
         ));
 
         $attendee_role->attachPermissions(array(

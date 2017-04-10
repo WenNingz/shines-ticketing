@@ -52,11 +52,15 @@ Route::post('/add-admin', 'User\AdminController@submit');
 
 Route::put('/suspend', 'User\AdminController@edit');
 
-Route::get('/sync-event', 'Event\EventController@index');
+Route::get('/sync-events', 'Event\SyncController@index');
 
-Route::get('/edit-event/{id}', 'Event\EventController@create');
+Route::get('/edit-event/{id}', 'Event\SyncController@show');
 
-Route::post('/edit-event/{id}', 'Event\EventController@update');
+Route::post('/edit-event/{id}', 'Event\SyncController@update');
+
+Route::get('event-list', 'Event\EventController@index');
+
+Route::get('event-details/{id}', 'Event\EventController@show');
 
     /* --- Admin --- */
 Route::get('/setup', 'SetupController@index');
@@ -85,16 +89,6 @@ Route::get('events', function () {
     return view('guest.event');
 });
 
-Route::get('event-detail', function () {
-    return view('guest.event-detail');
-});
-
-
-/* --- Attendee --- */
-
-Route::get('event-details', function () {
-    return view('attendee.event-detail');
-});
 
 /* --- Support Section --- */
 
@@ -114,9 +108,6 @@ Route::get('admin-dashboard', function () {
     return view('admin.dashboard');
 });
 
-Route::get('event-list', function () {
-    return view('admin.event-list');
-});
 
 Route::get('admin-event-detail', function () {
     return view('admin.event-detail');
@@ -153,13 +144,13 @@ Route::get('test', function (){
     $admin = App\Role::where('name', 'admin')->first();
     $attendee = App\Role::where('name', 'attendee')->first();
 
-    $permission = App\Permission::where('name', 'event-create')->first();
-//    $permission = App\Permission::create([
-//        'name' => 'event-update',
-//        'display_name' => 'Update Event',
-//        'description' => 'Update new event'
-//    ]);
-//    $super_admin->attachPermission($permission);
+//    $permission = App\Permission::where('name', 'event-create')->first();
+    $permission = App\Permission::create([
+        'name' => 'event-show',
+        'display_name' => 'Show Event Details',
+        'description' => 'View events details'
+    ]);
+    $super_admin->attachPermission($permission);
     $admin->attachPermission($permission);
 //    $attendee->attachPermission($permission);
 

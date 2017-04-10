@@ -6,27 +6,22 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTicketsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('status');
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->integer('event_id')->unsigned();
+            $table->foreign('event_id')->references('id')->on('events');
+            $table->decimal('price', 8, 2)->default(0);
+            $table->integer('total')->default(0);
+            $table->integer('available')->default(0);
+            $table->integer('status')->default(1);
             $table->timestamps();
-
-            $table->integer('event_id');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('tickets');
