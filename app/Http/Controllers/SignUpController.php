@@ -42,7 +42,7 @@ class SignUpController extends Controller
 
         Flash::message('Thanks for signing up! Please check your email.');
 
-        return redirect('/home');
+        return redirect('/');
     }
 
     public function confirm($email_token) {
