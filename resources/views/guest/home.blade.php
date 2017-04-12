@@ -8,14 +8,14 @@
 
 @section('content')
     @include('layout.flash')
-    <form action="events" action="GET" class="ui form center aligned raised segment">
+    <form action="/browse-events" action="GET" class="ui form center aligned raised padded segment">
         <h4 class="amatic-4">"The only source of Knowledge <br> is Experience"</h4>
         <span class="amatic-2">by Albert Einstein</span>
         <p class="font-2">Seek your knowledge</p>
 
         <div class="ui stackable centered grid">
             <div class="six wide mobile six wide tablet four wide computer four wide large screen column">
-                <input type="text" placeholder="Search events">
+                <input name="query" type="text" placeholder="Search events">
             </div>
             {{--<div class="three wide column">
                 <select class="ui fluid selection dropdown">
@@ -35,115 +35,34 @@
     </form>
 
     <div class="ui basic padded segment">
-        <div class="ui centered stackable grid">
-            <div class="ui four doubling stackable cards">
+        <div class="ui four doubling stackable cards">
+            @foreach($events as $event)
                 <div class="ui card">
-                    <a class="ui image" href="event-detail">
+                    <a class="ui image" href="/">
                         <div class="ui yellow ribbon label">Featured</div>
-                        <img src="http://placehold.it/250x150">
+                        @if($event->image == null)
+                            <img src="{{ asset('img/noImage.png') }}">
+                        @else
+                            <img src="{{ asset($event->image) }}">
+                        @endif
                     </a>
                     <div class="content">
-                        <a class="header" href="event-detail">Event Name #1</a>
+                        <a class="header" href="/">{{ $event->name }}</a>
                         <div class="description">
-                            Event #1 Location
+                            {{ $event->venue }}
                         </div>
                         <div class="meta">
-                            Date & Time
+                            {{ \Carbon\Carbon::parse($event->date)->toDayDateTimeString() }}
                         </div>
                     </div>
                     <div class="extra content">
-                    <span class="right floated">
-                        ### ticket available
-                    </span>
+                        <span class="right floated">{{ $event->ticketsCount() }} ticket available</span>
                         <i class="large right share teal alternate icon link" data-content="Share"></i>
                     </div>
                 </div>
-                <div class="ui card">
-                    <a class="ui image">
-                        <div class="ui red ribbon label">Hot</div>
-                        <img src="http://placehold.it/250x150">
-                    </a>
-                    <div class="content">
-                        <a class="header">Event Name #1</a>
-                        <div class="description">
-                            Event #1 Location
-                        </div>
-                        <div class="meta">
-                            Date & Time
-                        </div>
-                    </div>
-                    <div class="extra content">
-                    <span class="right floated">
-                        ### ticket available
-                    </span>
-                        <i class="large right share teal alternate icon link" data-content="Share"></i>
-                    </div>
-                </div>
-                <div class="ui card">
-                    <a class="ui image">
-                        <div class="ui green ribbon label">New</div>
-                        <img src="http://placehold.it/250x150">
-                    </a>
-                    <div class="content">
-                        <a class="header">Event Name #1</a>
-                        <div class="description">
-                            Event #1 Location
-                        </div>
-                        <div class="meta">
-                            Date & Time
-                        </div>
-                    </div>
-                    <div class="extra content">
-                    <span class="right floated">
-                        ### ticket available
-                    </span>
-                        <i class="large right share teal alternate icon link" data-content="Share"></i>
-                    </div>
-                </div>
-                <div class="ui card">
-                    <a class="ui image">
-                        <div class="ui teal ribbon label">Free</div>
-                        <img src="http://placehold.it/250x150">
-                    </a>
-                    <div class="content">
-                        <a class="header">Event Name #1</a>
-                        <div class="description">
-                            Event #1 Location
-                        </div>
-                        <div class="meta">
-                            Date & Time
-                        </div>
-                    </div>
-                    <div class="extra content">
-                    <span class="right floated">
-                        ### ticket available
-                    </span>
-                        <i class="large right share teal alternate icon link" data-content="Share"></i>
-                    </div>
-                </div>
-                <div class="ui card">
-                    <a class="ui image">
-                        <div class="ui teal ribbon label">Free</div>
-                        <img src="http://placehold.it/250x150">
-                    </a>
-                    <div class="content">
-                        <a class="header">Event Name #1</a>
-                        <div class="description">
-                            Event #1 Location
-                        </div>
-                        <div class="meta">
-                            Date & Time
-                        </div>
-                    </div>
-                    <div class="extra content">
-                    <span class="right floated">
-                        ### ticket available
-                    </span>
-                        <i class="large right share teal alternate icon link" data-content="Share"></i>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+        {{ $events->links('layout.semantic-paginate') }}
     </div>
 
     <script>

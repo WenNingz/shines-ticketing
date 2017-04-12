@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'All Events')
+@section('title', 'Browse Events')
 
 @section('navbar')
     @include('guest.navbar')
@@ -91,76 +91,50 @@
         </div>
 
         <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
-            <form class="ui form">
+            <form method="GET" action="/browse-events" class="ui form">
                 <div class="ui fluid icon input">
-                    <input type="text" name="event" placeholder="Search events">
+                    <input name="query" type="text" placeholder="Search events" value="{{ $query }}">
                     <i class="blue search icon"></i>
                 </div>
             </form>
 
             <div class="ui divided items">
-                <div class="item">
-                    <a class="image" href="event-detail"><img src="http://placehold.it/150x120"></a>
-                    <div class="content">
-                        <a href="event-detail" class="header">Event Name #1
-                            <span class="ui green label">New</span>
+                @foreach($events as $event)
+                    <div class="item">
+                        <a class="image" href="/view-event/{{ $event->id }}">
+                            @if($event->image == null)
+                                <img src="{{ asset('img/noImage.png') }}">
+                            @else
+                                <img src="{{ asset($event->image) }}">
+                            @endif
+                            <p>Free</p>
                         </a>
-                        <div class="meta">
-                            <span>Date & Time</span>
-                        </div>
-                        <div class="description">
-                            <p>Location</p>
-                        </div>
-                        <div class="extra">
-                            <p># Tickets available</p>
-                            <div>
-                                <i class="large right share teal alternate icon link" data-content="Share"></i>
-                                <a href="event-detail">
-                                    <div class="ui right floated tiny blue basic button">
+                        <div class="content">
+                            <a href="/view-event/{{ $event->id }}" class="header">{{ $event->name }}
+                                <span class="ui mini green label">New</span>
+                            </a>
+                            <div class="meta">
+                                <span>{{ \Carbon\Carbon::parse($event->date)->toDayDateTimeString() }}</span>
+                            </div>
+                            <div class="description">
+                                <p>{{ $event->venue }}</p>
+                            </div>
+                            <div class="extra">
+                                <div>{{ $event->ticketsCount() }} tickets available</div>
+                                <div>
+                                    <i class="large right share teal alternate icon link" data-content="Share"></i>
+                                    <a class="ui right floated tiny blue basic button">
                                         Buy tickets<i class="right chevron icon"></i>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="item">
-                    <a class="image" href="event-detail"><img src="http://placehold.it/150x120"></a>
-                    <div class="content">
-                        <a href="event-detail" class="header">Event Name #1
-                            <span class="ui red label">Hot</span>
-                        </a>
-                        <div class="meta">
-                            <span>Date & Time</span>
-                        </div>
-                        <div class="description">
-                            <p>Location</p>
-                        </div>
-                        <div class="extra">
-                            <p># Tickets available</p>
-                            <div>
-                                <i class="large right share teal alternate icon link" data-content="Share"></i>
-                                <a href="event-detail">
-                                    <div class="ui right floated tiny blue basic button">
-                                        Buy tickets<i class="right chevron icon"></i>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
-            {{-- Pagination --}}
-            <div class="ui horizontal segments">
-                <div class="ui teal left aligned segment">
-                    <a href="#"><i class="arrow circle outline left icon"></i> Previous</a>
-                </div>
-                <div class="ui teal center aligned segment">
-                    <p>1 of 1</p>
-                </div>
-                <div class="ui teal right aligned segment">
-                    <a href="">Next <i class="arrow circle outline right icon"></i></a>
-                </div>
+
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
+                {{ $events->links('layout.semantic-paginate') }}
             </div>
         </div>
     </div>

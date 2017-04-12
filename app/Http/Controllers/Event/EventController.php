@@ -28,7 +28,6 @@ class EventController extends Controller
                 $events = Event::where('status', 2)
                     ->where(function ($query) use ($q) {
                         $query->where('name', 'like', '%' . $q . '%')
-                            ->orWhere('description', 'like', '%' . $q . '%')
                             ->orWhere('venue', 'like', '%' . $q . '%')
                             ->orWhere('date', 'like', '%' . $q . '%');
                     })->paginate(10);
@@ -37,7 +36,6 @@ class EventController extends Controller
                 $events = Event::where('status', 2)
                     ->where(function ($query) use ($q) {
                         $query->where('name', 'like', '%' . $q . '%')
-                            ->orWhere('description', 'like', '%' . $q . '%')
                             ->orWhere('venue', 'like', '%' . $q . '%')
                             ->orWhere('date', 'like', '%' . $q . '%');
                     })
@@ -48,7 +46,6 @@ class EventController extends Controller
                 $events = Event::where('status', 2)
                     ->where(function ($query) use ($q) {
                         $query->where('name', 'like', '%' . $q . '%')
-                            ->orWhere('description', 'like', '%' . $q . '%')
                             ->orWhere('venue', 'like', '%' . $q . '%')
                             ->orWhere('date', 'like', '%' . $q . '%');
                     })
@@ -90,6 +87,14 @@ class EventController extends Controller
                     'event' => $event
                 ]);
             }
+
+            if($user->hasRole('attendee')) {
+                return view('attendee.event-detail', [
+                    '_active' => 'dashboard',
+                    'event' => $event
+                ]);
+            }
+
         } catch (ModelNotFoundException $e) {
             Log::error($e);
             abort(404);

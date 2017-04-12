@@ -40,7 +40,7 @@
                     <div class="ui teal dividing header">
                         <div class="content">Description</div>
                     </div>
-                    <div class="ui basic segment">
+                    <div align="justify" class="ui text container">
                         <img class="ui centered image" src="{{ asset($event->image) }}">
                         {!! $event->description !!}
                     </div>

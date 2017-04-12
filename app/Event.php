@@ -13,4 +13,13 @@ class Event extends Model
     public function tickets() {
         return $this->hasMany(Ticket::class);
     }
+
+    public function ticketsCount() {
+        $count = 0;
+        foreach($this->tickets as $ticket) {
+            $count += $ticket->available;
+        }
+
+        return $count;
+    }
 }

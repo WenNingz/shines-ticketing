@@ -72,13 +72,14 @@ Route::get('/new-ticket', 'Support\TicketController@create');
 
 Route::post('/new-ticket', 'Support\TicketController@submit');
 
+/* --- Web --- */
+Route::get('/', 'Website\WebController@index');
 
+Route::get('/browse-events', 'Website\WebController@browse');
 
+Route::get('/view-event/{id}', 'Website\WebController@show');
 
-
-
-
-
+Route::post('/buy-tickets/{id}', 'Website\WebController@checkout');
 
 
 Route::get('home', function () {
@@ -140,7 +141,7 @@ Route::get('500', function () {
 
 Route::get('test', function (){
 
-    $super_admin = App\Role::where('name', 'super-admin')->first();
+   /* $super_admin = App\Role::where('name', 'super-admin')->first();
     $admin = App\Role::where('name', 'admin')->first();
     $attendee = App\Role::where('name', 'attendee')->first();
 
@@ -152,6 +153,8 @@ Route::get('test', function (){
     ]);
     $super_admin->attachPermission($permission);
     $admin->attachPermission($permission);
-//    $attendee->attachPermission($permission);
-
+//    $attendee->attachPermission($permission);*/
+    return view('guest.payments');
+//   $lul = new \Intervention\Image\ImageManager();
+//   $lul->make('https://s-media-cache-ak0.pinimg.com/originals/5d/71/39/5d7139a3e90dd2b88e94e4a51e900164.jpg')->fit(300,200)->save('storage/lul.jpg');
 });

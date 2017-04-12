@@ -21,12 +21,12 @@
                         <div class="content">Event Details</div>
                     </div>
 
-                    <h2>Event Name #1</h2>
+                    <h2>{{ $event->name }}</h2>
                     <p>By Dina the Front End Developer</p>
                     <h4>Date and Time</h4>
-                    <p>Fri, April 2017</p>
-                    <p>08.00 a.m. - 02.00 p.m.</p>
-                    <p>City Square KZL</p>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
+                    <p>{{ $event->venue }}</p>
                 </div>
 
                 <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">
@@ -41,7 +41,10 @@
                     <div class="ui teal dividing header">
                         <div class="content">Description</div>
                     </div>
-                    <img class="ui centered image" src="http://placehold.it/800x200">
+                    <div align="justify" class="ui text container">
+                        <img class="ui centered image" src="{{ asset($event->image) }}">
+                        {!! $event->description !!}
+                    </div>
                 </div>
             </div>
         </div>

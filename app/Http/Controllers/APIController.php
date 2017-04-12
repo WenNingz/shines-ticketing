@@ -17,13 +17,18 @@ class APIController extends Controller
     public function webhook() {
         $data = \GuzzleHttp\json_decode(Input::all()[0]);
         Log::info(Input::all()[0]);
-        $filename = 'storage/' . Carbon::now()->timestamp . '.jpg';
-        Image::make('http://192.168.1.4:8000' . $data->image)->save($filename);
+        $filename = null;
+
+        if ($data->image != null) {
+            $filename = 'storage/' . Carbon::now()->timestamp . '.jpg';
+            Image::make('http://192.168.100.12:8000' . $data->image)->save($filename);
+            $filename = '/' . $filename;
+        }
 
         $event = Event::create([
             'name' => $data->name,
             'description' => $data->description,
-            'image' => '/'. $filename,
+            'image' => $filename,
             'date' => $data->date,
             'venue' => $data->venue
         ]);
