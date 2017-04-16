@@ -35,34 +35,36 @@
     </form>
 
     <div class="ui basic padded segment">
-        <div class="ui four doubling stackable cards">
-            @foreach($events as $event)
-                <div class="ui card">
-                    <a class="ui image" href="/">
-                        <div class="ui yellow ribbon label">Featured</div>
-                        @if($event->image == null)
-                            <img src="{{ asset('img/noImage.png') }}">
-                        @else
-                            <img src="{{ asset($event->image) }}">
-                        @endif
-                    </a>
-                    <div class="content">
-                        <a class="header" href="/">{{ $event->name }}</a>
-                        <div class="description">
-                            {{ $event->venue }}
+        <div class="ui container">
+            <div class="ui four doubling stackable cards">
+                @foreach($events as $event)
+                    <div class="ui card">
+                        <a class="ui image" href="/">
+                            <div class="ui yellow ribbon label">{{ \Carbon\Carbon::parse($event->date)->format('j M') }}</div>
+                            @if($event->image == null)
+                                <img src="{{ asset('img/noImage.png') }}">
+                            @else
+                                <img src="{{ asset($event->image) }}">
+                            @endif
+                        </a>
+                        <div class="content">
+                            <a class="header" href="/">{{ $event->name }}</a>
+                            <div class="description">
+                            </div>
+                            <div class="meta">
+                                {{ $event->venue }}
+                            </div>
                         </div>
-                        <div class="meta">
-                            {{ \Carbon\Carbon::parse($event->date)->toDayDateTimeString() }}
+                        <div class="extra content">
+                            <span class="right floated">{{ $event->ticketsCount() }} ticket available</span>
+                            <i class="large right share teal alternate icon link" data-content="Share"></i>
                         </div>
                     </div>
-                    <div class="extra content">
-                        <span class="right floated">{{ $event->ticketsCount() }} ticket available</span>
-                        <i class="large right share teal alternate icon link" data-content="Share"></i>
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
+
+            {{ $events->links('layout.semantic-paginate') }}
         </div>
-        {{ $events->links('layout.semantic-paginate') }}
     </div>
 
     <script>
