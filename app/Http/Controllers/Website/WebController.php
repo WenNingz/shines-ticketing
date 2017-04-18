@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Website;
 
 use App\Event;
 use App\Http\Controllers\Controller;
+use App\Item;
+use App\Pass;
+use App\Purchase;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -27,16 +30,36 @@ class WebController extends Controller
 
     public function browse() {
         $q = Input::get('query');
-        $events = Event::where('status', 2)
-            ->where('date', '>=', Carbon::now())
-            ->where(function ($query) use ($q) {
-                $query->where('name', 'like', '%' . $q . '%')
-                    ->orWhere('venue', 'like', '%' . $q . '%')
-                    ->orWhere('date', 'like', '%' . $q . '%');
-            })->paginate(10);
+        $start_date = Input::get('start_date');
+        $end_date = Input::get('end_date');
+
+        $events = Event::where(function ($query) use ($q) {
+            $query->where('status', 2)
+                ->where('date', '>=', Carbon::now())
+                ->where(function ($query) use ($q) {
+                    $query->where('name', 'like', '%' . $q . '%')
+                        ->orWhere('venue', 'like', '%' . $q . '%')
+                        ->orWhereHas('tags', function ($query) use ($q) {
+                            $query->where('name', 'like', '%' . $q . '%');
+                        });
+                });
+        });
+
+        if ($start_date != null) {
+//            $start_date = Carbon::parse($start_date)->format('Y-m-d');
+            $events = $events->where('date', '>=', $start_date);
+        }
+        if ($end_date != null) {
+//            $end_date = Carbon::parse($end_date)->format('Y-m-d');
+            $events = $events->where('date', '<=', $end_date);
+        }
+
+        $events = $events->paginate(10);
         return view('guest.browse-events', [
             'events' => $events,
-            'query' => $q
+            'query' => $q,
+            'start_date' => $start_date,
+            'end_date' => $end_date
         ]);
     }
 
@@ -52,31 +75,4 @@ class WebController extends Controller
             abort(404);
         }
     }
-
-    public function checkout($id) {
-        try {
-            DB::beginTransaction();
-
-            $event = Event::findOrFail($id);
-            foreach ($event->tickets as $ticket) {
-//                dd(Input::get('qty_' . $ticket->id));
-                $ticket->available -= Input::get('qty_' . $ticket->id);
-                $ticket->save();
-                DB::commit();
-            };
-
-            return redirect('view-event/'. $id);
-
-
-        } catch (ModelNotFoundException $e) {
-            Log::error($e);
-            abort(404);
-        } catch (\Exception $e) {
-            DB::rollback();
-            Log::error($e);
-            abort(500);
-        }
-    }
-
-
 }

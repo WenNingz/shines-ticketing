@@ -3,101 +3,48 @@
 @section('title', 'Browse Events')
 
 @section('navbar')
-    @include('guest.navbar')
+    @if(auth()->check())
+        @if(auth()->user()->hasRole('super-admin'))
+            @include('super-admin.common.navbar')
+        @elseif(auth()->user()->hasRole('admin'))
+            @include('admin.common.navbar')
+        @elseif(auth()->user()->hasRole('attendee'))
+            @include('attendee.common.navbar')
+        @endif
+    @else
+        @include('guest.navbar')
+    @endif
 @endsection
 
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui form">
-                <div class="row">
-                    <div class="column">
-                        <h4>Type</h4>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="featured">
-                                <label>Featured</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="hot">
-                                <label>Hot</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="free">
-                                <label>Free</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="new">
-                                <label>New</label>
-                            </div>
-                        </div>
+            <form method="GET" action="/browse-events" class="ui form">
+                <h4 class="ui blue header">SEARCH</h4>
+                <div class="field">
+                    <label>Query</label>
+                    <div class="ui icon input">
+                        <input name="query" type="text" placeholder="Search name" value="{{ $query }}">
+                        <i class="blue search icon"></i>
                     </div>
                 </div>
-                <br>
-                <div class="row">
-                    <div class="column">
-                        <h4>Dates</h4>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="today">
-                                <label>Today</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="tomorrow">
-                                <label>Tomorrow</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="week">
-                                <label>This Week</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="weekend">
-                                <label>This Weekend</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="nextWeek">
-                                <label>Next Week</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="month">
-                                <label>This Month</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="custom">
-                                <label>Custom Date</label>
-                            </div>
-                        </div>
-                    </div>
+                <div class="ui divider"></div>
+                <h4 class="ui blue header">Custom Date</h4>
+                <div class="field">
+                    <label>Start Date</label>
+                    <input name="start_date" type="text" id="from_datepicker" placeholder="Start Date"
+                           value="{{ $start_date }}">
                 </div>
-            </div>
+                <div class="field">
+                    <label>End Date</label>
+                    <input name="end_date" type="text" id="to_datepicker" placeholder="End Date"
+                           value="{{ $end_date }}">
+                </div>
+                <button type="submit" class="ui basic mini blue button">Submit</button>
+            </form>
         </div>
 
         <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
-            <form method="GET" action="/browse-events" class="ui form">
-                <div class="ui fluid icon input">
-                    <input name="query" type="text" placeholder="Search events" value="{{ $query }}">
-                    <i class="blue search icon"></i>
-                </div>
-            </form>
-
             <div class="ui divided items">
                 @foreach($events as $event)
                     <div class="item">
@@ -144,5 +91,23 @@
                 variation: "mini inverted"
             })
         ;
+
+        var start_date = $('#from_datepicker').val();
+
+        console.log(start_date);
+        $(function () {
+            $("#from_datepicker").datepicker({
+                minDate: 0,
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+
+        $(function () {
+            $("#to_datepicker").datepicker({
+                minDate: start_date,
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+
     </script>
 @endsection

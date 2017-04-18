@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Tag;
 use App\Ticket;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -21,7 +22,7 @@ class APIController extends Controller
 
         if ($data->image != null) {
             $filename = 'storage/' . Carbon::now()->timestamp . '.jpg';
-            Image::make('http://192.168.100.12:8000' . $data->image)->save($filename);
+            Image::make('http://192.168.100.13:8000' . $data->image)->save($filename);
             $filename = '/' . $filename;
         }
 
@@ -32,6 +33,13 @@ class APIController extends Controller
             'date' => $data->date,
             'venue' => $data->venue
         ]);
+
+        foreach ($data->tags as $tag) {
+            Tag::create([
+                'name' => $tag,
+                'event_id' => $event->id
+            ]);
+        }
 
         foreach ($data->types as $type) {
             Ticket::create([

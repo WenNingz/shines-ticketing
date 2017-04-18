@@ -19,7 +19,10 @@ class Event extends Model
         foreach($this->tickets as $ticket) {
             $count += $ticket->available;
         }
-
         return $count;
+    }
+
+    public function tags() {
+        return $this->hasMany(Tag::class);
     }
 }
