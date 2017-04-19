@@ -6,7 +6,6 @@ use App\Event;
 use App\Pass;
 use App\Purchase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -14,7 +13,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
-use Laracasts\Flash\Flash;
 use PayPal\Api\PaymentExecution;
 use Paypal\Exception\PayPalConnectionException;
 use PayPal\Api\Amount;
@@ -76,7 +74,8 @@ class PaypalController extends Controller
                 $qty = Input::get('qty')[$ticket->id];
 
                 $purchase = Purchase::create([
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'event_id' => $id
                 ]);
 
                 foreach ($event->tickets as $ticket) {
@@ -195,7 +194,8 @@ class PaypalController extends Controller
                 $event = Event::findOrFail($event_id);
 
                 $purchase = Purchase::create([
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'event_id' => $event->id
                 ]);
 
                 foreach ($event->tickets as $ticket) {
