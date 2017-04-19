@@ -22,16 +22,21 @@ class APIController extends Controller
 
         if ($data->image != null) {
             $filename = 'storage/' . Carbon::now()->timestamp . '.jpg';
+            $filename300 = 'storage/' . Carbon::now()->timestamp. '-300x200' . '.jpg';
             Image::make('http://192.168.100.13:8000' . $data->image)->save($filename);
+            Image::make('http://192.168.100.13:8000' . $data->image)->fit(300,200)->save($filename300);
             $filename = '/' . $filename;
+            $filename300 = '/' . $filename300;
         }
 
         $event = Event::create([
             'name' => $data->name,
             'description' => $data->description,
-            'image' => $filename,
+            'image_ori' => $filename,
+            'image_card' => $filename300,
             'date' => $data->date,
-            'venue' => $data->venue
+            'venue' => $data->venue,
+            'ext_id' => $data->id
         ]);
 
         foreach ($data->tags as $tag) {
@@ -48,7 +53,8 @@ class APIController extends Controller
                 'event_id' => $event->id,
                 'price' => $type->price,
                 'total' => $type->ticket_count,
-                'available' => $type->ticket_available
+                'available' => $type->ticket_available,
+                'ext_id' => $type->id
             ]);
         }
 
