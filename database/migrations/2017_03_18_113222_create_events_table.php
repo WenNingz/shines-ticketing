@@ -16,10 +16,12 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image_ori')->nullable();
+            $table->string('image_card')->nullable();
             $table->dateTime('date');
             $table->string('venue');
             $table->integer('status')->default(1);
+            $table->integer('ext_id');
             $table->timestamps();
         });
 

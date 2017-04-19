@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     protected $fillable = [
-        'name', 'description', 'image', 'date', 'venue', 'status'
+        'name', 'description', 'image_ori', 'image_card', 'date', 'venue', 'status', 'ext_id'
     ];
 
     public function tickets() {
