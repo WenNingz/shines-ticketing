@@ -49,12 +49,27 @@
                 @foreach($events as $event)
                     <div class="item">
                         <a class="image" href="/view-event/{{ $event->id }}">
-                            @if($event->image == null)
+                            @if($event->image_card == null)
                                 <img src="{{ asset('img/noImage.png') }}">
                             @else
-                                <img src="{{ asset($event->image) }}">
+                                <img src="{{ asset($event->image_card) }}">
                             @endif
-                            <p>Free</p>
+                            <p>
+                                @if($event->tickets()->count() == 1)
+                                    @if($event->tickets()->first()->price <= 0)
+                                        Free
+                                    @else
+                                        ${{ $event->tickets()->first()->price }}
+                                    @endif
+                                @else
+                                    @if($event->tickets()->min('price') == $event->tickets()->max('price'))
+                                        ${{ $event->tickets()->max('price') }}
+                                    @else
+                                        ${{ $event->tickets()->min('price') }}
+                                        - ${{ $event->tickets()->max('price') }}
+                                    @endif
+                                @endif
+                            </p>
                         </a>
                         <div class="content">
                             <a href="/view-event/{{ $event->id }}" class="header">{{ $event->name }}
@@ -69,9 +84,9 @@
                             <div class="extra">
                                 <div>{{ $event->ticketsCount() }} tickets available</div>
                                 <div>
-                                    <i class="large right share teal alternate icon link" data-content="Share"></i>
-                                    <a class="ui right floated tiny blue basic button">
-                                        Buy tickets<i class="right chevron icon"></i>
+                                    <i class="right share teal alternate icon link" data-content="Share"></i>
+                                    <a href="/view-event/{{ $event->id }}" class="ui right floated tiny blue basic icon button">
+                                        Buy tickets
                                     </a>
                                 </div>
                             </div>
@@ -92,9 +107,6 @@
             })
         ;
 
-        var start_date = $('#from_datepicker').val();
-
-        console.log(start_date);
         $(function () {
             $("#from_datepicker").datepicker({
                 minDate: 0,
@@ -102,6 +114,7 @@
             });
         });
 
+        var start_date = $('#from_datepicker').val();
         $(function () {
             $("#to_datepicker").datepicker({
                 minDate: start_date,

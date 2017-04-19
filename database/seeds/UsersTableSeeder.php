@@ -176,6 +176,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'View events details'
         ]);
 
+        $paypal_payment = Permission::create([
+            'name' => 'paypal-payment',
+            'display_name' => 'PayPal Payment',
+            'description' => 'Pay with paypal'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -206,7 +212,7 @@ class UsersTableSeeder extends Seeder
             $password_edit, $ticket_index,
             $ticket_create, $ticket_submit,
             $ticket_show, $ticket_store,
-            $ticket_close
+            $ticket_close, $paypal_payment
         ));
 
     }

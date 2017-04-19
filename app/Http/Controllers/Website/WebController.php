@@ -16,13 +16,11 @@ use Illuminate\Support\Facades\Log;
 
 class WebController extends Controller
 {
-    public function __construct() {
-        $this->middleware('auth')->only('checkout');
-    }
 
     public function index() {
         $events = Event::where('status', 2)
-            ->where('date', '>=', Carbon::now())->paginate(12);
+            ->where('date', '>=', Carbon::now())
+            ->orderBy('date', 'asc')->take(4)->get();
         return view('guest.home', [
             'events' => $events
         ]);
@@ -54,7 +52,7 @@ class WebController extends Controller
             $events = $events->where('date', '<=', $end_date);
         }
 
-        $events = $events->paginate(10);
+        $events = $events->orderBy('date', 'asc')->paginate(10);
         return view('guest.browse-events', [
             'events' => $events,
             'query' => $q,
@@ -65,7 +63,7 @@ class WebController extends Controller
 
     public function show($id) {
         try {
-            $event = Event::find($id);
+            $event = Event::findOrFail($id);
             return view('guest.event-detail', [
                 'event' => $event
             ]);

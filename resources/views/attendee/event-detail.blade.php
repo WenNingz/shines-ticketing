@@ -42,7 +42,10 @@
                         <div class="content">Description</div>
                     </div>
                     <div align="justify" class="ui text container">
-                        <img class="ui centered image" src="{{ asset($event->image) }}">
+                        @if($event->image_ori != null)
+                            <img class="ui centered image" src="{{ asset($event->image_ori) }}">
+                            <div class="ui divider"></div>
+                        @endif
                         {!! $event->description !!}
                     </div>
                 </div>

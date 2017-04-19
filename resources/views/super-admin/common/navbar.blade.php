@@ -5,7 +5,7 @@
         </a>
         <div class="right menu">
 
-            <a href="event" class="item">EVENT</a>
+            <a href="/browse-events" class="item">EVENT</a>
             <a href="#" class="item">HELP</a>
             <div class="ui simple dropdown item">
                 <i class="circular teal user icon"></i>

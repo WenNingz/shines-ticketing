@@ -59,7 +59,7 @@
                         <div class="fields">
                             <div class="six wide field">
                                 <div class="ui segment">
-                                    <img class="ui large rounded image" src="{{ asset($event->image) }}">
+                                    <img class="ui large rounded image" src="{{ asset($event->image_ori) }}">
                                     <div class="ui divider"></div>
                                     <a class="ui mini red basic button">Remove</a>
                                     <a id="js-img-adjust" class="ui mini basic teal button">Change</a>

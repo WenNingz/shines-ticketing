@@ -5,11 +5,11 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="{{ asset('js/jquery-3.1.1.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('jquery-ui/jquery-ui.js') }}"></script>
     <script src="{{ asset('semantic/semantic.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('semantic/semantic.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('jquery-ui/jquery-ui.css') }}">
 
     {{--<script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>--}}
 

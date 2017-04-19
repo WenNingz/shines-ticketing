@@ -18,6 +18,7 @@ class CreateTicketsTable extends Migration
             $table->integer('total')->default(0);
             $table->integer('available')->default(0);
             $table->integer('status')->default(1);
+            $table->integer('ext_id');
             $table->timestamps();
         });
     }

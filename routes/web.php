@@ -43,7 +43,7 @@ Route::post('/ticket-details/{ticket_number}', 'Support\TicketController@store')
 
 Route::get('/my-tickets/{ticket_number}/close', 'Support\TicketController@close');
 
-    /* --- Super-Admin --- */
+/* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
 Route::get('/add-admin', 'User\AdminController@create');
@@ -62,12 +62,12 @@ Route::get('event-list', 'Event\EventController@index');
 
 Route::get('event-details/{id}', 'Event\EventController@show');
 
-    /* --- Admin --- */
+/* --- Admin --- */
 Route::get('/setup', 'SetupController@index');
 
 Route::post('/setup', 'SetupController@submit');
 
-    /* --- Attendee --- */
+/* --- Attendee --- */
 Route::get('/new-ticket', 'Support\TicketController@create');
 
 Route::post('/new-ticket', 'Support\TicketController@submit');
@@ -79,82 +79,62 @@ Route::get('/browse-events', 'Website\WebController@browse');
 
 Route::get('/view-event/{id}', 'Website\WebController@show');
 
-Route::post('/buy-tickets/{id}', 'Website\WebController@checkout');
+Route::post('/buy-tickets/{id}', array('as' => 'payment', 'uses' => 'PaypalController@postPayment',));
 
+Route::get('payment/status', array('as' => 'payment.status', 'uses' => 'PaypalController@getPaymentStatus',));
 
-Route::get('home', function () {
-    return view('guest.home');
+Route::get('/payment-history', function () {
+    return view('attendee.payments', [
+        '_active' => 'payments',
+    ]);
 });
+/* --- Social --- */
+Route::get('/redirect', 'Social\SocialAuthController@redirect');
 
-Route::get('events', function () {
-    return view('guest.event');
-});
-
-
-/* --- Support Section --- */
+Route::get('/callback', 'Social\SocialAuthController@callback');
 
 
-/* --- Account Information Section --- */
-
-Route::get('linked-account', function () {
-    return view('attendee.linked-account');
-});
-
-Route::get('payments', function () {
-    return view('attendee.payments');
-});
-
-/* --- Admin --- */
-Route::get('admin-dashboard', function () {
-    return view('admin.dashboard');
-});
 
 
-Route::get('admin-event-detail', function () {
-    return view('admin.event-detail');
-});
-
-Route::get('admin-event-edit', function () {
-    return view('admin.event-edit');
-});
 
 
-Route::get('admin-profile', function () {
-    return view('admin.profile');
-});
 
-Route::get('admin-password', function () {
-    return view('admin.password');
-});
+Route::get('test', function () {
 
-Route::get('403', function () {
-    return view('errors.403');
-});
-
-Route::get('404', function () {
-    return view('errors.404');
-});
-
-Route::get('500', function () {
-    return view('errors.500');
-});
-
-Route::get('test', function (){
-
-   /* $super_admin = App\Role::where('name', 'super-admin')->first();
+    $super_admin = App\Role::where('name', 'super-admin')->first();
     $admin = App\Role::where('name', 'admin')->first();
     $attendee = App\Role::where('name', 'attendee')->first();
 
 //    $permission = App\Permission::where('name', 'event-create')->first();
     $permission = App\Permission::create([
-        'name' => 'event-show',
-        'display_name' => 'Show Event Details',
-        'description' => 'View events details'
+        'name' => 'paypal-payment',
+        'display_name' => 'Web Event Details',
+        'description' => 'View web events details'
     ]);
     $super_admin->attachPermission($permission);
     $admin->attachPermission($permission);
-//    $attendee->attachPermission($permission);*/
-    return view('guest.payments');
-//   $lul = new \Intervention\Image\ImageManager();
-//   $lul->make('https://s-media-cache-ak0.pinimg.com/originals/5d/71/39/5d7139a3e90dd2b88e94e4a51e900164.jpg')->fit(300,200)->save('storage/lul.jpg');
+    $attendee->attachPermission($permission);
+
+//    $lul = new \Intervention\Image\ImageManager();
+//    $lul->make('https://s-media-cache-ak0.pinimg.com/originals/5d/71/39/5d7139a3e90dd2b88e94e4a51e900164.jpg')->fit(300, 200)->save('storage/lul.jpg');
+//    \App\Event::create([
+//        'name' => 'BYOC Collaborative Coding Challenge',
+//        'date' => '2017-04-26 18:00:00',
+//        'venue' => 'Politeknik Negeri Batam, Batam Center, Jl. Ahmad Yani Tlk. Tering',
+//        'status' => 2
+//    ]);
+//    \App\Ticket::create([
+//        'name' => 'Early Bird',
+//        'event_id' => 1,
+//        'total' => 40,
+//        'available' => 40,
+//    ]);
+//
+//    \App\Ticket::create([
+//        'name' => 'Regular',
+//        'event_id' => 1,
+//        'total' => 30,
+//        'available' => 30,
+//    ]);
+
 });

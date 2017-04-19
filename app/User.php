@@ -37,4 +37,12 @@ class User extends Authenticatable
             ->orWhere('status', 4)->count();
     }
 
+    public function purchases() {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function socialAccounts() {
+        return $this->hasMany(SocialAccount::class);
+    }
+
 }
