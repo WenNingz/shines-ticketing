@@ -20,7 +20,9 @@
 <body>
 @yield('navbar')
 <div class="ui basic segment">
-    @yield('content')
+    <div class="ui fluid container">
+        @yield('content')
+    </div>
 </div>
 @yield('footer')
 </body>

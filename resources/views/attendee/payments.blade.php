@@ -16,129 +16,49 @@
 
         <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
             <h3 class="ui teal dividing header">
-                Account Information
+                Payment Transaction
             </h3>
 
-            <div class="ui stackable grid">
-                <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <h4 class="ui dividing header">
-                        Payment Option
-                    </h4>
-
-                    <a href=""><i class="teal add circle icon"></i> Add payment option</a>
-
-                    <table class="ui very basic table">
-                        <tbody>
+            <table class="ui unstackable celled table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Event</th>
+                    <th>View</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if($purchases->count() == 0)
+                    <tr colspan="4">
+                        <td>No data</td>
+                    </tr>
+                @else
+                    @foreach($purchases as $purchase)
                         <tr>
-                            <td><i class="teal large paypal card icon"></i></td>
-                            <td>Paypall Card</td>
-                        </tr>
-                        <tr>
-                            <td><i class="teal large visa icon"></i></td>
-                            <td>Visa Card</td>
-                        </tr>
-                    </table>
-
-                    <form method="GET" action="profile" onsubmit="$('.ui.submit.button').prop('disabled', true)"
-                          class="ui center aligned form segment">
-                        <h4 class="ui dividing header">
-                            Add Payment
-                        </h4>
-
-                        <img src="{{asset('img/paypal.png')}}">
-                        <div class="ui horizontal divider">OR</div>
-                        <img src="{{asset('img/mastercard.png')}}">
-                        <img src="{{asset('img/visa.png')}}">
-
-                        <div class="fields">
-                            <div class="seven wide field">
-                                <label>Card Number</label>
-                                <input type="text" name="card[number]" maxlength="16" placeholder="Card #">
-                            </div>
-
-                            <div class="three wide field">
-                                <label>CVC</label>
-                                <input type="text" name="card[cvc]" maxlength="3" placeholder="CVC">
-                            </div>
-
-                            <div class="six wide field">
-                                <label>Expiration</label>
-                                <div class="two fields">
-                                    <div class="field">
-                                        <select class="ui fluid search dropdown" name="card[expire-month]">
-                                            <option value="">Month</option>
-                                            <option value="1">January</option>
-                                            <option value="2">February</option>
-                                            <option value="3">March</option>
-                                            <option value="4">April</option>
-                                            <option value="5">May</option>
-                                            <option value="6">June</option>
-                                            <option value="7">July</option>
-                                            <option value="8">August</option>
-                                            <option value="9">September</option>
-                                            <option value="10">October</option>
-                                            <option value="11">November</option>
-                                            <option value="12">December</option>
-                                        </select>
-                                    </div>
-                                    <div class="field">
-                                        <input type="text" name="card[expire-year]" maxlength="4" placeholder="Year">
-                                    </div>
+                            <td>
+                                <div class="ui small header">{{ $purchase->created_at->format('j') }}
+                                    <div class="sub header">{{ $purchase->created_at->format('M y') }}</div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="fields">
-                            <div class="two wide field">
-                                <div class="ui fluid basic red button">Cancel</div>
-                            </div>
-                            &nbsp;
-                            <div class="two wide field">
-                                <div class="ui fluid basic teal submit button">Add</div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                            </td>
+                            <td>{{ $purchase->created_at->format('h:i:s A') }}</td>
+                            <td>{{ $purchase->event->name }}</td>
+                            <td>
+                                <a href="/payment-details/{{ $purchase->id }}"
+                                   class="ui mini fluid basic blue button">Details</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="4">
+                        {{ $purchases->links('layout.semantic-paginate') }}
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
-
-    <script>
-        $('.ui.form')
-            .form({
-                fields: {
-                    current_password: {
-                        identifier: 'current_password',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'The current password field is required.'
-                            }
-                        ]
-                    },
-                    password: {
-                        identifier: 'password',
-                        rules: [
-                            {
-                                type: 'minLength[8]',
-                                prompt: 'The password must be at least 8 characters.'
-                            }
-                        ]
-                    },
-                    password_confirmation: {
-                        identifier: 'password_confirmation',
-                        rules: [
-                            {
-                                type: 'match[password]',
-                                prompt: 'The password confirmation does not match.'
-                            }
-                        ]
-                    }
-                },
-                onFailure: function () {
-                    $('.ui.submit.button').prop('disabled', false);
-                    return false;
-                }
-            });
-    </script>
 @endsection

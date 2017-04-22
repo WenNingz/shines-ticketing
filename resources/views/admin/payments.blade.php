@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Manage Payments')
+@section('title', 'Payments List')
 
 @section('navbar')
     @include('admin.common.navbar')
@@ -19,58 +19,47 @@
                 Payment Transaction
             </h3>
 
-            <form class="ui form">
-                <div class="ui fluid icon input">
-                    <input type="text" name="event" placeholder="Search payment">
-                    <i class="blue search icon"></i>
-                </div>
-            </form>
+            {{--<form class="ui form">--}}
+                {{--<div class="ui fluid icon input">--}}
+                    {{--<input type="text" name="event" placeholder="Search payment">--}}
+                    {{--<i class="blue search icon"></i>--}}
+                {{--</div>--}}
+            {{--</form>--}}
 
-            <table class="ui fixed single line celled table">
+            <table class="ui unstackable celled table">
                 <thead>
                 <tr>
-                    <th class="four wide">Transaction No</th>
-                    <th class="two wide">Type</th>
-                    <th class="four wide">Name</th>
-                    <th class="four wide">Event</th>
-                    <th class="two wide">Status</th>
-                    <th class="two wide">Paid Date</th>
+                    <th>Event</th>
+                    <th>Name</th>
+                    <th>Payment Date</th>
+                    <th>View</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>RNV-123456</td>
-                    <td>Visa Card</td>
-                    <td>Attendee #1</td>
-                    <td>Event Name #1</td>
-                    <td>Pending</td>
-                    <td>Mar 15, 2017</td>
-                </tr>
-                <tr>
-                    <td>RNV-123456</td>
-                    <td>Master Card</td>
-                    <td>Attendee #1</td>
-                    <td>Event Name #1</td>
-                    <td>Complete</td>
-                    <td>Mar 15, 2017</td>
-                </tr>
+                @if($purchases->count() == 0)
+                    <tr colspan="5">
+                        <td>No data</td>
+                    </tr>
+                @else
+                    @foreach($purchases as $purchase)
+                        <tr>
+                            <td>{{ $purchase->event->name }}</td>
+                            <td>{{ $purchase->user->first_name . ' ' . $purchase->user->last_name }}</td>
+                            <td>{{ $purchase->created_at->toDayDateTimeString() }}</td>
+                            <td>
+                                <a href="/payment-details/{{ $purchase->id }}" class="ui mini fluid basic blue button">Details</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
                 <tfoot>
-                <tr><th colspan="6">
-                        <div class="ui tiny right floated pagination menu">
-                            <a class="icon item">
-                                <i class="left chevron icon"></i>
-                            </a>
-                            <a class="item">1</a>
-                            <a class="item">2</a>
-                            <a class="item">3</a>
-                            <a class="item">4</a>
-                            <a class="icon item">
-                                <i class="right chevron icon"></i>
-                            </a>
-                        </div>
+                <tr>
+                    <th colspan="5">
+                        {{ $purchases->links('layout.semantic-paginate') }}
                     </th>
-                </tr></tfoot>
+                </tr>
+                </tfoot>
             </table>
         </div>
     </div>
