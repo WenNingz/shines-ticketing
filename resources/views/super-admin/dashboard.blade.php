@@ -19,6 +19,9 @@
                 Dashboard
             </h3>
 
+            <h4 class="ui centered dividing header">
+                Weekly Records
+            </h4>
             <div class="ui four column center aligned doubling stackable grid">
                 <div class="ui equal width center aligned padded grid stretched column">
                     <div class="light-gray row">
@@ -27,47 +30,74 @@
                             <div class="ui horizontal divider"></div>
                             <div><b>TOTAL EVENTS</b></div>
                         </div>
-                        <div class="box column">
-                            1024
-                        </div>
+                        <h4 class="box column">{{ $total_events }}</h4>
                     </div>
                 </div>
-
-                <div class="ui equal width center aligned padded grid stretched column">
-                    <div class="light-gray row">
-                        <div class="yellow column">
-                            <div><i class="big thumbs outline up icon"></i></div>
-                            <div><b>FEATURED</b></div>
-                        </div>
-                        <div class="box column">
-                            Black
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ui equal width center aligned padded grid stretched  column">
-                    <div class="light-gray row">
-                        <div class="teal column">
-                            <div><i class="big star icon"></i></div>
-                            <div><b>FREE</b></div>
-                        </div>
-                        <div class="box column">
-                            Black
-                        </div>
-                    </div>
-                </div>
-
                 <div class="ui equal width center aligned padded grid stretched column">
                     <div class="light-gray row">
                         <div class="purple column">
                             <div><i class="big ticket icon"></i></div>
                             <div><b>TICKETS SOLD</b></div>
                         </div>
-                        <div class="box column">
-                            Black
-                        </div>
+                        <h4 class="box column">{{ $ticket_sold }}</h4>
                     </div>
                 </div>
+                <div class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray row">
+                        <div class="green column">
+                            <div><i class="big dollar icon"></i></div>
+                            <div><b>TOTAL SALES</b></div>
+                        </div>
+                        <h4 class="box column">${{ $sales }}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui centered dividing header">
+                Quick Menu
+            </h4>
+            <div class="ui six column center aligned doubling stackable grid">
+                <a href="/sync-events" class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray column">
+                        <div><i class="big black refresh icon"></i></div>
+                        <div><h3>Sync Events</h3></div>
+                    </div>
+                </a>
+
+                <a href="/manage-admin" class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray column">
+                        <div><i class="big black users icon"></i></div>
+                        <div><h3>Manage Users</h3></div>
+                    </div>
+                </a>
+
+                <a href="/ticket-list" class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray column">
+                        <div><i class="big black help icon"></i></div>
+                        <div><h3>Reply Support</h3></div>
+                    </div>
+                </a>
+
+                <a href="/profile" class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray column">
+                        <div><i class="big black edit icon"></i></div>
+                        <div><h3>Edit Profile</h3></div>
+                    </div>
+                </a>
+
+                <a href="/change-password" class="ui equal width center aligned padded stretched grid column">
+                    <div class="light-gray column">
+                        <div><i class="big black unlock alternate icon"></i></div>
+                        <div><h3>Change Password</h3></div>
+                    </div>
+                </a>
+
+                <a href="/payment-history" class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray column">
+                        <div><i class="big black money icon"></i></div>
+                        <div><h3>View Payments</h3></div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

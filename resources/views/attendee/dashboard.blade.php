@@ -16,68 +16,40 @@
 
         <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
             <h3 class="ui teal dividing header">
-                Upcoming Event
+                Dashboard
             </h3>
-            <div class="ui segment">
-                <div class="ui four fluid stackable link cards">
-                    <div id="js-event-1" class="card">
-                        <div class="content">
-                            <div class="header">Event Name #3</div>
-                            <div class="description">
-                                <p>Date & Time</p>
-                                <p>Location</p>
-                                <p>By ..... </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <h3 class="ui teal dividing header">
-                Purchased Tickets
-            </h3>
-            <div class="ui segment">
-                <div class="ui four fluid stackable link cards">
-                    <div id="js-event-2" class="card">
+            <h4 class="ui dividing header">
+                Purchased Ticket
+            </h4>
+            <div class="ui  middle aligned divided relaxed list">
+                @foreach($purchases as $purchase)
+                    <div class="item">
                         <div class="content">
-                            <div class="header">Event Name #3</div>
-                            <div class="description">
-                                <p>Date & Time</p>
-                                <p>Location</p>
-                                <p>By ..... </p>
+                            <div class="ui middle aligned divided horizontal list">
+                                <div class="item">
+                                    <div class="ui header">{{ $purchase->id }}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="content">
+                                        <a href="/purchase-details/{{ $purchase->id }}" class="ui header link">{{ $purchase->event->name }}</a>
+                                        {{ $purchase->event->date }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="js-event-2" class="card">
-                        <div class="content">
-                            <div class="header">Event Name #3</div>
-                            <div class="description">
-                                <p>Date & Time</p>
-                                <p>Location</p>
-                                <p>By ..... </p>
-                            </div>
+                        <div class="right floated content">
+                            <a href="/purchase-details/{{ $purchase->id }}" class="ui right floated icon link">
+                                View ticket
+                                <i class="angle right icon"></i>
+                            </a>
                         </div>
                     </div>
-                </div>
+                @endforeach
+            </div>
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
+                {{ $purchases->links('layout.semantic-paginate') }}
             </div>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $('.ui .item').on('click', function () {
-                $('.ui .item').removeClass('active');
-                $(this).addClass('active');
-            });
-        });
-
-        $("#js-event-1").click(function () {
-            window.location.href = "/event-details";
-        });
-
-        $("#js-event-2").click(function () {
-            window.location.href = "/event-details";
-        });
-
-    </script>
 @endsection

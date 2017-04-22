@@ -50,6 +50,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'View user dashboard'
         ]);
 
+        $dashboard_show = Permission::create([
+            'name' => 'dashboard-show',
+            'display_name' => 'Purchase Show',
+            'description' => 'Show purchase details'
+        ]);
+
         $user_admin_index = Permission::create([
             'name' => 'user-admin-index',
             'display_name' => 'Admin List',
@@ -182,6 +188,18 @@ class UsersTableSeeder extends Seeder
             'description' => 'Pay with paypal'
         ]);
 
+        $payment_index = Permission::create([
+            'name' => 'payment-index',
+            'display_name' => 'Payment Index',
+            'description' => 'View payment history'
+        ]);
+
+        $payment_show = Permission::create([
+            'name' => 'payment-show',
+            'display_name' => 'Payment Show',
+            'description' => 'Show payment history details'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -192,7 +210,8 @@ class UsersTableSeeder extends Seeder
             $ticket_show, $ticket_store,
             $sync_index,  $sync_show,
             $sync_update, $event_index,
-            $event_show
+            $event_show, $payment_index,
+            $payment_show
         ));
 
         $admin_role->attachPermissions(array(
@@ -203,7 +222,8 @@ class UsersTableSeeder extends Seeder
             $ticket_index, $ticket_show,
             $ticket_store, $sync_index,
             $sync_show, $sync_update,
-            $event_index, $event_show
+            $event_index, $event_show,
+            $payment_index, $payment_show
         ));
 
         $attendee_role->attachPermissions(array(
@@ -212,7 +232,9 @@ class UsersTableSeeder extends Seeder
             $password_edit, $ticket_index,
             $ticket_create, $ticket_submit,
             $ticket_show, $ticket_store,
-            $ticket_close, $paypal_payment
+            $ticket_close, $paypal_payment,
+            $payment_index, $payment_show,
+            $dashboard_show
         ));
 
     }
