@@ -50,7 +50,7 @@
     <a href="/change-password" class="@if($_active == 'change-password') active @endif item">Password</a>
 </div>
 
-<a href="admin-payments" class="@if($_active == 'admin-payments') active @endif item">
+<a href="/payment-history" class="@if($_active == 'payments') active @endif item">
     Payment
 </a>
 

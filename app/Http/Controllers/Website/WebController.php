@@ -73,4 +73,20 @@ class WebController extends Controller
             abort(404);
         }
     }
+
+    public function support() {
+        return view('guest.support');
+    }
+
+    public function supportSearch() {
+        return view('guest.support-search');
+    }
+
+    public function supportArticle() {
+        return view('guest.support-article');
+    }
+
+    public function supportContact() {
+        return view('/support')->with('status', 'Your request was successfully submitted');
+    }
 }
