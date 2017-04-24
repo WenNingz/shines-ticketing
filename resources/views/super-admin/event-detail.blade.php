@@ -45,7 +45,7 @@
                     <div class="ui teal dividing header">
                         <div class="content">Description</div>
                     </div>
-                    <div class="ui justified container">
+                    <div class="ui justified text container">
                         @if($event->image_ori != null)
                             <img class="ui centered image" src="{{ asset($event->image_ori) }}">
                             <div class="ui divider"></div>

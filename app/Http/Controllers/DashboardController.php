@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Item;
 use App\Pass;
 use App\Purchase;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -15,6 +18,7 @@ class DashboardController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:dashboard-index')->only('index');
         $this->middleware('permission:dashboard-show')->only('show');
+        $this->middleware('permission:dashboard-view')->only('view');
     }
 
     public function index() {
@@ -59,5 +63,18 @@ class DashboardController extends Controller
             '_active' => 'dashboard',
             'purchase' => $purchase
         ]);
+    }
+
+    public function view($pass_id) {
+        try {
+            $pass = Pass::findOrFail($pass_id);
+            return view('attendee.purchase-ticket', [
+                '_active' => 'dashboard',
+                'pass' => $pass
+            ]);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            abort(404);
+        }
     }
 }

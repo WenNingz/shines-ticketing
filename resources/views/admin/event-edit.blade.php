@@ -52,27 +52,38 @@
                         <div class="content">Event Description</div>
                     </div>
 
-                    <form method="POST" action="/edit-event/{{ $event->id }}"
+                    <form method="POST" action="/edit-event/{{ $event->id }}" enctype="multipart/form-data"
                           onsubmit="$('.ui.submit.button').prop('disabled', true)" class="ui center aligned form">
                         {{ csrf_field() }}
+
+                        <input type="hidden" name="image" id="hidden-input"
+                               value="{{ old('image') == null ? asset($event->image_ori):old('image') }}">
+                        <input type="hidden" name="image_300" id="hidden-input-300"
+                               value="{{ old('image_300') == null ? asset($event->image_card):old('image_300') }}">
 
                         <div class="fields">
                             <div class="six wide field">
                                 <div class="ui segment">
-                                    <img class="ui large rounded image" src="{{ asset($event->image) }}">
+                                    <img id='image-view' class="ui large rounded image"
+                                         onerror="this.src='{{ asset('img/noImage.png') }}'"
+                                         src="{{ old('image') == null ? asset($event->image_ori):old('image') }}">
+
+                                    <input accept="image/*" type="file" name="image_upload" id="invisible-input"
+                                           style="display: none">
                                     <div class="ui divider"></div>
-                                    <a class="ui mini red basic button">Remove</a>
-                                    <a id="js-img-adjust" class="ui mini basic teal button">Change</a>
-                                    <div class="description">Recommended using image at least xpx X xpx (x:x ratio)
-                                        that's no larger than xxMB
-                                    </div>
+
+                                    <label for="invisible-input" class="ui mini right floated basic teal icon button">
+                                        <i class="folder open outline icon"></i> Browse
+                                    </label>
+
+                                    <div class="description">Recommended using image at least 800px X 400px (2:1 ratio)</div>
                                 </div>
                             </div>
 
                             <div class="ten wide field">
                                 <div class="description">
                                     <textarea name="description"
-                                              id="js-event-description">{{ $event->description }}</textarea>
+                                              id="tiny">{{ $event->description }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -83,33 +94,10 @@
 
                         <div class="field">
                             <div class="ui center aligned basic segment">
-                                <button type="submit" class="ui basic teal submit button">Save</button>
-                                <button type="submit" class="ui basic green button submit publish">Save & Publish</button>
-                                <button type="submit" class="ui basic red button submit reject">Reject</button>
-                            </div>
-                        </div>
-
-                        {{--Modal--}}
-                        <div class="ui small modal">
-                            <i class="close icon"></i>
-                            <div class="header">
-                                Change Image
-                                <div class="ui mini right floated basic teal icon button">
-                                    <i class="folder open outline icon"></i> Browse
-                                </div>
-                            </div>
-                            <div class="image content">
-                                <div class="ui fluid image">
-                                    <img src="http://placehold.it/2160x1080">
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <div class="ui mini basic red cancel button">
-                                    Cancel
-                                </div>
-                                <div class="ui mini basic teal approve button">
-                                    Save
-                                </div>
+                                <button type="submit" class="ui basic teal mini submit button">Save</button>
+                                <button type="submit" class="ui basic green button mini submit publish">Save & Publish
+                                </button>
+                                <button type="submit" class="ui basic red button mini submit reject">Reject</button>
                             </div>
                         </div>
                     </form>
@@ -118,9 +106,58 @@
         </div>
     </div>
     <script>
-        $('.ui.small.modal')
-            .modal('attach events', '#js-img-adjust', 'show')
-        ;
+        $('#invisible-input').change(function () {
+            var progress_bar = $('.ui.progress');
+            var data = new FormData();
+            var image = $('#image-view');
+
+            var file = $('#invisible-input')[0].files[0];
+            /*var sizeKB = file.size / 10240;
+
+             if (sizeKB > 10240) {
+             var limitMessage = $("#js-image-limit-error-message");
+             $('html, body').animate({
+             scrollTop: limitMessage.offset().top
+             }, 200);
+             limitMessage.removeClass('hidden');
+             return false;
+             }*/
+
+            data.append('files', file);
+            data.append('_token', '{{ csrf_token() }}');
+            $.ajax({
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total * 100;
+                            progress_bar.progress({
+                                percent: percentComplete,
+                            });
+                        }
+                    }, false);
+                    return xhr;
+                },
+
+                url: '/image',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: data,
+
+                success: function (data) {
+                    console.log(data);
+                    image.attr('src', data.image_path);
+                    image.show();
+                    $('#hidden-input').val(data.image_path);
+                    $('#hidden-input-300').val(data.image_300_path);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+
+            })
+        });
 
         $('.icon.link')
             .popup({
@@ -134,10 +171,6 @@
 
         $('.reject').on('click', function () {
             $('#reject').val('true')
-        });
-
-        tinymce.init({
-            selector: '#js-event-description'
         });
     </script>
 @endsection

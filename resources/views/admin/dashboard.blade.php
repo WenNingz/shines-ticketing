@@ -48,7 +48,7 @@
                             <div><i class="big dollar icon"></i></div>
                             <div><b>TOTAL SALES</b></div>
                         </div>
-                        <h4 class="box column">${{ $sales }}</h4>
+                        <h4 class="box column">${{ number_format($sales, 2, '.', ',') }}</h4>
                     </div>
                 </div>
             </div>

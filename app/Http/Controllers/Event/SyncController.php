@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Event;
 use App\Event;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 
@@ -66,6 +65,8 @@ class SyncController extends Controller
             }
 
             $event->description = Input::get('description');
+            $event->image_ori = Input::get('image');
+            $event->image_card = Input::get('image_300');
             if (Input::get('publish') == 'true') {
                 $event->status = 2;
             }
