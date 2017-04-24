@@ -52,7 +52,7 @@ class WebController extends Controller
             $events = $events->where('date', '<=', $end_date);
         }
 
-        $events = $events->orderBy('date', 'asc')->paginate(10);
+        $events = $events->orderBy('date', 'asc')->paginate(8);
         return view('guest.browse-events', [
             'events' => $events,
             'query' => $q,

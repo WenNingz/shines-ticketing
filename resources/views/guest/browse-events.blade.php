@@ -73,7 +73,9 @@
                         </a>
                         <div class="content">
                             <a href="/view-event/{{ $event->id }}" class="header">{{ $event->name }}
-                                <span class="ui mini green label">New</span>
+                                @if($event->created_at->addDays(7) > \Carbon\Carbon::now())
+                                    <span class="ui mini green label">New</span>
+                                @endif
                             </a>
                             <div class="meta">
                                 <span>{{ \Carbon\Carbon::parse($event->date)->toDayDateTimeString() }}</span>
@@ -85,7 +87,8 @@
                                 <div>{{ $event->ticketsCount() }} tickets available</div>
                                 <div>
                                     <i class="right share teal alternate icon link" data-content="Share"></i>
-                                    <a href="/view-event/{{ $event->id }}" class="ui right floated tiny blue basic icon button">
+                                    <a href="/view-event/{{ $event->id }}"
+                                       class="ui right floated tiny blue basic icon button">
                                         Buy tickets
                                     </a>
                                 </div>
