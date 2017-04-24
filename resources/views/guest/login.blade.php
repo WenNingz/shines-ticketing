@@ -10,7 +10,7 @@
     @include('layout.flash')
     <div class="ui centered grid">
         <div class="thirteen wide mobile nine wide tablet five wide computer five wide large screen column">
-            <form method="POST" action="/login" onsubmit="$('.ui.submit.button').prop('disabled', true)"
+            <form method="POST" action="/login"
                   class="ui form center aligned padded segment @if(sizeof($errors->all()) > 0)) error @endif">
                 <h1 class="ui teal center aligned header">LOG IN</h1>
                 <div class="ui clearing divider"></div>
@@ -38,10 +38,10 @@
 
                 <p><a href="#">Forgot Password??</a></p>
                 <div class="ui horizontal divider">OR</div>
-                <div class="ui fluid facebook button">
+                <a href="/redirect" class="ui fluid facebook button">
                     Log-in with &nbsp;
                     <i class="facebook icon"></i>
-                </div>
+                </a>
                 <br>
                 <div class="ui fluid google plus button">
                     Log-in with &nbsp;
@@ -74,10 +74,6 @@
                         ]
                     }
                 },
-                onFailure: function () {
-                    $('.ui.submit.button').prop('disabled', false);
-                    return false;
-                }
             });
     </script>
 @endsection
