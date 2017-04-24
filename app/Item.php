@@ -14,7 +14,7 @@ class Item extends Model
         return $this->belongsTo(Ticket::class);
     }
 
-    public function purchases() {
+    public function purchase() {
         return $this->belongsTo(Purchase::class);
     }
 
