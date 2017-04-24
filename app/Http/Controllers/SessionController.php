@@ -29,7 +29,13 @@ class SessionController extends Controller
                 ]);
         }
 
-        Flash::message('Welcome back!');
+        if(auth()->user()->status == 0 || auth()->user()->status == 1) {
+            auth()->logout();
+            return back()
+                ->withErrors([
+                    'message' => 'Please check your credentials and try again'
+                ]);
+        }
 
         return redirect('/dashboard');
 
