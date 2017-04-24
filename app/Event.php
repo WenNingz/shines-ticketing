@@ -22,6 +22,10 @@ class Event extends Model
         return $count;
     }
 
+    public function purchases() {
+        return $this->hasMany(Purchase::class);
+    }
+
     public function tags() {
         return $this->hasMany(Tag::class);
     }
