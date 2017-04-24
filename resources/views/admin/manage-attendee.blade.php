@@ -109,7 +109,7 @@
 
         $('.suspend, .activate').click(function () {
             $.ajax({
-                url: '/suspend',
+                url: '/suspend-user',
                 method: 'POST',
                 data: {
                     _method: 'put',
