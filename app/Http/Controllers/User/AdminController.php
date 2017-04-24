@@ -91,6 +91,7 @@ class AdminController extends Controller
     public function edit() {
 
         $user = User::find(Input::get('user_id'));
+
         if ($user->hasRole('admin')) {
             switch (Input::get('action')) {
                 case 'suspend':
@@ -100,7 +101,7 @@ class AdminController extends Controller
                     }
                     break;
                 case 'activate':
-                    if ($user->status != 2 || $user->status != 3) {
+                    if ($user->status != 2 && $user->status != 3) {
                         $user->status += 2;
                         $user->save();
                     }

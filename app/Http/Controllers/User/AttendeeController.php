@@ -79,7 +79,7 @@ class AttendeeController extends Controller
                     }
                     break;
                 case 'activate':
-                    if ($user->status != 2 || $user->status != 3) {
+                    if ($user->status != 2 && $user->status != 3) {
                         $user->status += 2;
                         $user->save();
                     }
