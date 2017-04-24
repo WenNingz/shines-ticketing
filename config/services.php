@@ -40,4 +40,10 @@ return [
         'secret' => 'EIElAIzZEGg3v9QXApN_iRhx11H09GnPcmZOygFU3s9iHKYSa2GchPcPkWIbudRSPvBEyKxM4NO2gBms'
     ],
 
+    'facebook' => [
+        'client_id' => getenv('FACEBOOK_CLIENT_ID'),
+        'client_secret' => getenv('FACEBOOK_SECRET'),
+        'redirect' => 'http://localhost:8000/callback'
+    ],
+
 ];
