@@ -19,25 +19,28 @@ class APIController extends Controller
         $data = \GuzzleHttp\json_decode(Input::all()[0]);
         Log::info(Input::all()[0]);
         $filename = null;
+        $filename300 = null;
 
         if ($data->image != null) {
             $filename = 'storage/' . Carbon::now()->timestamp . '.jpg';
-            $filename300 = 'storage/' . Carbon::now()->timestamp. '-300x200' . '.jpg';
-            Image::make('http://192.168.100.13:8000' . $data->image)->save($filename);
-            Image::make('http://192.168.100.13:8000' . $data->image)->fit(300,200)->save($filename300);
+            $filename300 = 'storage/' . Carbon::now()->timestamp . '-300x200' . '.jpg';
+            Image::make(env('API_ADDRESS') . $data->image)->save($filename);
+            Image::make(env('API_ADDRESS') . $data->image)->fit(300, 200)->save($filename300);
             $filename = '/' . $filename;
             $filename300 = '/' . $filename300;
         }
 
-        $event = Event::create([
-            'name' => $data->name,
+        $event = Event::updateOrCreate([
+            'ext_id' => $data->id
+        ], ['name' => $data->name,
             'description' => $data->description,
             'image_ori' => $filename,
             'image_card' => $filename300,
             'date' => $data->date,
             'venue' => $data->venue,
-            'ext_id' => $data->id
         ]);
+
+        $event->tags()->delete();
 
         foreach ($data->tags as $tag) {
             Tag::create([
@@ -47,17 +50,14 @@ class APIController extends Controller
         }
 
         foreach ($data->types as $type) {
-            Ticket::create([
+            Ticket::firstOrCreate(['ext_id' => $type->id], [
                 'name' => $type->name,
                 'description' => $type->description,
                 'event_id' => $event->id,
                 'price' => $type->price,
                 'total' => $type->ticket_count,
                 'available' => $type->ticket_available,
-                'ext_id' => $type->id
             ]);
         }
-
-
     }
 }
