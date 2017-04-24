@@ -8,11 +8,10 @@ class SetupController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
-        $this->middleware('role:admin');
     }
 
     public function index() {
-        return view('admin.setup');
+        return view('guest.setup');
     }
 
     public function submit(Request $request) {
@@ -21,7 +20,7 @@ class SetupController extends Controller
         ]);
 
         $user = auth()->user();
-        $user->password = request('password');
+        $user->password = bcrypt(request('password'));
         $user->save();
 
         return redirect('/dashboard');

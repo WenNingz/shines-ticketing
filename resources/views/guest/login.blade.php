@@ -36,7 +36,7 @@
 
                 <button type="submit" class="ui fluid teal basic submit button">Log In</button>
 
-                <p><a href="#">Forgot Password??</a></p>
+                <p><a href="/reset-password">Forgot Password??</a></p>
                 <div class="ui horizontal divider">OR</div>
                 <a href="/redirect" class="ui fluid facebook button">
                     Log-in with &nbsp;
