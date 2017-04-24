@@ -85,20 +85,4 @@ class WebController extends Controller
     public function termsOfService() {
         return view('guest.terms-of-service');
     }
-
-    public function support() {
-        return view('guest.support');
-    }
-
-    public function supportSearch() {
-        return view('guest.support-search');
-    }
-
-    public function supportArticle() {
-        return view('guest.support-article');
-    }
-
-    public function supportContact() {
-        return redirect('/new-ticket');
-    }
 }
