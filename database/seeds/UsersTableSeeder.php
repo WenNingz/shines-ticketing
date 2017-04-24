@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
             'first_name' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
             'password' => bcrypt('super-secret'),
+            'status' => 3
         ]);
 
         $super_admin->attachRole($super_admin_role);
@@ -52,8 +53,14 @@ class UsersTableSeeder extends Seeder
 
         $dashboard_show = Permission::create([
             'name' => 'dashboard-show',
-            'display_name' => 'Purchase Show',
+            'display_name' => 'Dashboard Show',
             'description' => 'Show purchase details'
+        ]);
+
+        $dashboard_view = Permission::create([
+            'name' => 'dashboard-view',
+            'display_name' => 'Ticket Details',
+            'description' => 'Print ticket details'
         ]);
 
         $user_admin_index = Permission::create([
@@ -234,7 +241,7 @@ class UsersTableSeeder extends Seeder
             $ticket_show, $ticket_store,
             $ticket_close, $paypal_payment,
             $payment_index, $payment_show,
-            $dashboard_show
+            $dashboard_show, $dashboard_view
         ));
 
     }

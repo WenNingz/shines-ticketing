@@ -74,6 +74,18 @@ class WebController extends Controller
         }
     }
 
+    public function about() {
+        return view('guest.about');
+    }
+
+    public function privacyPolicy() {
+        return view('guest.privacy-policy');
+    }
+
+    public function termsOfService() {
+        return view('guest.terms-of-service');
+    }
+
     public function support() {
         return view('guest.support');
     }
@@ -87,6 +99,6 @@ class WebController extends Controller
     }
 
     public function supportContact() {
-        return view('/support')->with('status', 'Your request was successfully submitted');
+        return redirect('/new-ticket');
     }
 }

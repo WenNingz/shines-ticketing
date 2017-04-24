@@ -21,7 +21,7 @@ Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/manage-attendee', 'User\AttendeeController@index');
 
-Route::put('/suspend', 'User\AttendeeController@edit');
+Route::put('/suspend-user', 'User\AttendeeController@edit');
 
 Route::get('/profile', 'Account\ProfileController@index');
 
@@ -43,6 +43,10 @@ Route::post('/ticket-details/{ticket_number}', 'Support\TicketController@store')
 
 Route::get('/my-tickets/{ticket_number}/close', 'Support\TicketController@close');
 
+Route::get('/payment-history', 'Payment\PaymentController@index');
+
+Route::get('/payment-details/{id}', 'Payment\PaymentController@show');
+
 /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
@@ -58,6 +62,8 @@ Route::get('/edit-event/{id}', 'Event\SyncController@show');
 
 Route::post('/edit-event/{id}', 'Event\SyncController@update');
 
+Route::post('/image', 'ImageController@store');
+
 Route::get('event-list', 'Event\EventController@index');
 
 Route::get('event-details/{id}', 'Event\EventController@show');
@@ -72,6 +78,10 @@ Route::get('/new-ticket', 'Support\TicketController@create');
 
 Route::post('/new-ticket', 'Support\TicketController@submit');
 
+Route::get('/purchase-details/{id}', 'DashboardController@show');
+
+Route::get('/print-ticket/{id}', 'DashboardController@view');
+
 /* --- Web --- */
 Route::get('/', 'Website\WebController@index');
 
@@ -83,20 +93,44 @@ Route::post('/buy-tickets/{id}', array('as' => 'payment', 'uses' => 'PaypalContr
 
 Route::get('payment/status', array('as' => 'payment.status', 'uses' => 'PaypalController@getPaymentStatus',));
 
-Route::get('/payment-history', function () {
-    return view('attendee.payments', [
-        '_active' => 'payments',
-    ]);
-});
+Route::get('/about-us', 'Website\WebController@about');
+
+Route::get('/privacy-policy', 'Website\WebController@privacyPolicy');
+
+Route::get('/terms-of-service', 'Website\WebController@termsOfService');
+
+Route::get('/support', 'Website\WebController@support');
+
+Route::get('/support-search', 'Website\WebController@supportSearch');
+
+Route::get('/support-article', 'Website\WebController@supportArticle');
+
+Route::get('/new-request', 'Website\WebController@supportContact');
+
 /* --- Social --- */
 Route::get('/redirect', 'Social\SocialAuthController@redirect');
 
 Route::get('/callback', 'Social\SocialAuthController@callback');
 
 
+// Password reset link request routes...
+Route::get('/password/email', 'Auth\PasswordController@getEmail');
+
+Route::post('/password/email', 'Auth\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('/password/reset/{token}', 'Auth\PasswordController@getReset');
+
+Route::post('/password/reset', 'Auth\PasswordController@postReset');
 
 
 
+Route::get('mail', function () {
+    $passes = \App\Pass::where('id', '<',  3)->get();
+    return view('email.ticket', [
+        'passes' => $passes
+    ]);
+});
 
 
 Route::get('test', function () {
@@ -107,12 +141,12 @@ Route::get('test', function () {
 
 //    $permission = App\Permission::where('name', 'event-create')->first();
     $permission = App\Permission::create([
-        'name' => 'paypal-payment',
-        'display_name' => 'Web Event Details',
-        'description' => 'View web events details'
+        'name' => 'dashboard-view',
+        'display_name' => 'Ticket Details',
+        'description' => 'Print ticket details'
     ]);
-    $super_admin->attachPermission($permission);
-    $admin->attachPermission($permission);
+//    $super_admin->attachPermission($permission);
+//    $admin->attachPermission($permission);
     $attendee->attachPermission($permission);
 
 //    $lul = new \Intervention\Image\ImageManager();
@@ -121,20 +155,24 @@ Route::get('test', function () {
 //        'name' => 'BYOC Collaborative Coding Challenge',
 //        'date' => '2017-04-26 18:00:00',
 //        'venue' => 'Politeknik Negeri Batam, Batam Center, Jl. Ahmad Yani Tlk. Tering',
-//        'status' => 2
+//        'status' => 2,
+//        'ext_id' => 1
 //    ]);
 //    \App\Ticket::create([
 //        'name' => 'Early Bird',
 //        'event_id' => 1,
 //        'total' => 40,
 //        'available' => 40,
+//        'ext_id' => 1,
 //    ]);
 //
 //    \App\Ticket::create([
 //        'name' => 'Regular',
 //        'event_id' => 1,
 //        'total' => 30,
+//        'price' => 10.00,
 //        'available' => 30,
+//        'ext_id' => 1,
 //    ]);
 
 });
