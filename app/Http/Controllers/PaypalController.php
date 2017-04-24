@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Mail\PurchaseMail;
+use App\Mail\VerificationMail;
 use App\Pass;
 use App\Purchase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -39,6 +42,11 @@ class PaypalController extends Controller
     }
 
     public function postPayment($id) {
+        $user = auth()->user();
+        if($user->status != 3)
+        {
+            return back()->withErrors(['message' => 'Please verify your email']);
+        }
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
@@ -66,40 +74,52 @@ class PaypalController extends Controller
             return back()->withErrors(['message' => 'Please select ticket quantity']);
         }
 
-        if ($total == 0.00) {
+        if ($total <= 0) {
             try {
                 DB::beginTransaction();
-                $user = auth()->user();
+
                 $event = Event::findOrFail($id);
-                $qty = Input::get('qty')[$ticket->id];
 
                 $purchase = Purchase::create([
                     'user_id' => $user->id,
                     'event_id' => $id
                 ]);
 
-                foreach ($event->tickets as $ticket) {
-                    $item = \App\Item::create([
-                        'ticket_id' => $ticket->id,
-                        'purchase_id' => $purchase->id
-                    ]);
+                $passes = array();
 
-                    $passes = $qty;
-                    if ($passes != 0) {
-                        for ($pass = 1; $pass <= $passes; $pass++) {
-                            $ticket_no = uniqid();
-                            Pass::create([
-                                'number' => $ticket_no,
-                                'item_id' => $item->id,
-                                'price' => $ticket->price
-                            ]);
-                        }
+                foreach ($event->tickets as $ticket) {
+                    $qty = Input::get('qty')[$ticket->id];
+                    if ($qty > 0) {
+                        $item = \App\Item::create([
+                            'ticket_id' => $ticket->id,
+                            'purchase_id' => $purchase->id
+                        ]);
+
+                        $client = new \GuzzleHttp\Client();
+                        $ticket_no = json_decode($client->request('GET', env('API_ADDRESS') . '/api/getTicketNumber/' . env('API_KEY') . '/' . $event->ext_id . '/' . $ticket->ext_id)->getBody())[0];
+                        $pass = Pass::create([
+                            'number' => $ticket_no,
+                            'item_id' => $item->id,
+                            'price' => $ticket->price
+                        ]);
+
+                        array_push($passes, $pass);
                     }
                     $ticket->available -= $qty;
                     $ticket->save();
                 };
                 DB::commit();
-                return redirect('/payment-history/')->with('status', 'Purchase success');
+
+                $data = [
+                    'event' => $event,
+                    'user' => $user,
+                    'purchase' => $purchase,
+                    'passes' => $passes
+                ];
+                Mail::to($user->email)->queue(new PurchaseMail($data));
+                return redirect('/payment-history/')->with([
+                    'header' => 'Purchase Completed',
+                    'status' => 'An email has been sent to' . $user->email]);
 
             } catch (ModelNotFoundException $e) {
                 Log::error($e);
@@ -188,9 +208,9 @@ class PaypalController extends Controller
             Session::forget('event_id');
             Session::forget('qty');
 
+            $user = auth()->user();
             try {
                 DB::beginTransaction();
-                $user = auth()->user();
                 $event = Event::findOrFail($event_id);
 
                 $purchase = Purchase::create([
@@ -198,22 +218,30 @@ class PaypalController extends Controller
                     'event_id' => $event->id
                 ]);
 
+                $passes_no = array();
+
                 foreach ($event->tickets as $ticket) {
                     if ($ticket->available > 0) {
-                        $item = \App\Item::create([
-                            'ticket_id' => $ticket->id,
-                            'purchase_id' => $purchase->id
-                        ]);
 
                         $passes = $qty[$ticket->id];
                         if ($passes != 0) {
+
+                            $item = \App\Item::create([
+                                'ticket_id' => $ticket->id,
+                                'purchase_id' => $purchase->id
+                            ]);
+
                             for ($pass = 1; $pass <= $passes; $pass++) {
-                                $ticket_no = uniqid();
-                                Pass::create([
+                                //$ticket_no = uniqid();
+                                $client = new \GuzzleHttp\Client();
+                                $ticket_no = json_decode($client->request('GET', env('API_ADDRESS') . '/api/getTicketNumber/' . env('API_KEY') . '/' . $event->ext_id . '/' . $ticket->ext_id)->getBody())[0];
+                                $pass_no = Pass::create([
                                     'number' => $ticket_no,
                                     'item_id' => $item->id,
                                     'price' => $ticket->price
                                 ]);
+
+                                array_push($passes_no, $pass_no);
                             }
                         }
                         $ticket->available -= $qty[$ticket->id];
@@ -221,7 +249,17 @@ class PaypalController extends Controller
                     }
                 };
                 DB::commit();
-//                return redirect('/payment/' . $purchase->id);
+
+                $data = [
+                    'event' => $event,
+                    'user' => $user,
+                    'purchase' => $purchase,
+                    'passes' => $passes_no
+                ];
+                Mail::to($user->email)->queue(new PurchaseMail($data));
+                return redirect('/payment-history/')->with([
+                    'header' => 'Purchase Completed',
+                    'status' => 'An email has been sent to' . $user->email]);
 
             } catch (ModelNotFoundException $e) {
                 Log::error($e);
@@ -231,7 +269,11 @@ class PaypalController extends Controller
                 Log::error($e);
                 abort(500);
             }
-            return redirect('/payment-history')->with('status', 'Payment success');
+            Mail::to($user->email)->queue(new PurchaseMail());
+            return redirect('/payment-history')->with([
+                'header' => 'Purchase Completed',
+                'status' => 'An email has been sent to' . $user->email
+            ]);
         }
 
         return back()->withErrors(['message' => 'Payment failed']);

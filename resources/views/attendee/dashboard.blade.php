@@ -40,7 +40,7 @@
                         </div>
                         <div class="right floated content">
                             <a href="/purchase-details/{{ $purchase->id }}" class="ui right floated icon link">
-                                View ticket
+                                View purchase
                                 <i class="angle right icon"></i>
                             </a>
                         </div>
