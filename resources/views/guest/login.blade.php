@@ -38,15 +38,20 @@
 
                 <p><a href="/reset-password">Forgot Password??</a></p>
                 <div class="ui horizontal divider">OR</div>
-                <a href="/redirect" class="ui fluid facebook button">
+                <a href="/redirect/facebook" class="ui fluid facebook button">
                     Log-in with &nbsp;
                     <i class="facebook icon"></i>
                 </a>
                 <br>
-                <div class="ui fluid google plus button">
+                <a href="/redirect/twitter" class="ui fluid twitter button">
+                    Log-in with &nbsp;
+                    <i class="twitter icon"></i>
+                </a>
+                <br>
+                <a href="/redirect/google" class="ui fluid google plus button">
                     Log-in with &nbsp;
                     <i class="google plus icon"></i>
-                </div>
+                </a>
             </form>
         </div>
     </div>

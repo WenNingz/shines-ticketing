@@ -114,9 +114,9 @@ Route::get('/support-article', 'Website\WebController@supportArticle');
 Route::get('/new-request', 'Website\WebController@supportContact');
 
 /* --- Social --- */
-Route::get('/redirect', 'Social\SocialAuthController@redirect');
+Route::get('/redirect/{provider}', 'SocialAuthController@redirect');
 
-Route::get('/callback', 'Social\SocialAuthController@callback');
+Route::get('/{provider}/callback', 'SocialAuthController@callback');
 
 
 

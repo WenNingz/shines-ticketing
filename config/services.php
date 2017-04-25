@@ -41,9 +41,21 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => getenv('FACEBOOK_CLIENT_ID'),
-        'client_secret' => getenv('FACEBOOK_SECRET'),
-        'redirect' => 'http://localhost:8000/callback'
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect' => 'http://shines.app/facebook/callback'
+    ],
+
+    'twitter' => [
+        'client_id' => env('TWITTER_CLIENT_ID'),
+        'client_secret' => env('TWITTER_SECRET'),
+        'redirect' => 'http://shines.app/twitter/callback'
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_SECRET'),
+        'redirect' => 'http://shines.app/google/callback'
     ],
 
 ];

@@ -12,7 +12,7 @@ class User extends Authenticatable
     use EntrustUserTrait;
 
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'verified', 'email_token'
+        'first_name', 'last_name', 'email', 'password', 'verified', 'email_token', 'provider', 'provider_id'
     ];
 
     protected $hidden = [
