@@ -88,6 +88,10 @@ Route::get('/purchase-details/{id}', 'DashboardController@show');
 
 Route::get('/print-ticket/{id}', 'DashboardController@view');
 
+Route::get('/linked-accounts', 'Account\SocialAuthController@index');
+
+Route::post('/delete', 'Account\SocialAuthController@delete');
+
 /* --- Web --- */
 Route::get('/', 'Website\WebController@index');
 
@@ -114,19 +118,9 @@ Route::get('/support-article', 'Website\WebController@supportArticle');
 Route::get('/new-request', 'Website\WebController@supportContact');
 
 /* --- Social --- */
-Route::get('/redirect/{provider}', 'SocialAuthController@redirect');
+Route::get('/redirect/{provider}', 'Account\SocialAuthController@redirect');
 
-Route::get('/{provider}/callback', 'SocialAuthController@callback');
-
-
-
-Route::get('mail', function () {
-    $passes = \App\Pass::where('id', '<',  3)->get();
-    return view('email.ticket', [
-        'passes' => $passes
-    ]);
-});
-
+Route::get('/{provider}/callback', 'Account\SocialAuthController@callback');
 
 Route::get('test', function () {
 
@@ -135,14 +129,14 @@ Route::get('test', function () {
     $attendee = App\Role::where('name', 'attendee')->first();
 
 //    $permission = App\Permission::where('name', 'event-create')->first();
-    $permission = App\Permission::create([
-        'name' => 'dashboard-view',
-        'display_name' => 'Ticket Details',
-        'description' => 'Print ticket details'
-    ]);
+//    $permission = App\Permission::create([
+//        'name' => 'social-delete',
+//        'display_name' => 'Delete Social Account',
+//        'description' => 'Remove linked social account'
+//    ]);
 //    $super_admin->attachPermission($permission);
 //    $admin->attachPermission($permission);
-    $attendee->attachPermission($permission);
+//    $attendee->attachPermission($permission);
 
 //    $lul = new \Intervention\Image\ImageManager();
 //    $lul->make('https://s-media-cache-ak0.pinimg.com/originals/5d/71/39/5d7139a3e90dd2b88e94e4a51e900164.jpg')->fit(300, 200)->save('storage/lul.jpg');
@@ -169,5 +163,5 @@ Route::get('test', function () {
 //        'available' => 30,
 //        'ext_id' => 1,
 //    ]);
-
+//
 });

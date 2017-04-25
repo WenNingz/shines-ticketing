@@ -207,6 +207,18 @@ class UsersTableSeeder extends Seeder
             'description' => 'Show payment history details'
         ]);
 
+        $social_index = Permission::create([
+            'name' => 'social-index',
+            'display_name' => 'Social Account Index',
+            'description' => 'View linked social account'
+        ]);
+
+        $social_delete = Permission::create([
+            'name' => 'social-delete',
+            'display_name' => 'Delete Social Account',
+            'description' => 'Remove linked social account'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -241,7 +253,8 @@ class UsersTableSeeder extends Seeder
             $ticket_show, $ticket_store,
             $ticket_close, $paypal_payment,
             $payment_index, $payment_show,
-            $dashboard_show, $dashboard_view
+            $dashboard_show, $dashboard_view,
+            $social_index, $social_delete
         ));
 
     }

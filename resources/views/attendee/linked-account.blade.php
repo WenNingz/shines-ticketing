@@ -20,27 +20,52 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
-                    <form method="GET" action="profile" class="ui form">
-                        <h4 class="ui dividing header">
-                            Linked Account
-                        </h4>
+                    <h4 class="ui dividing header">
+                        Linked Account
+                    </h4>
 
-                        <table class="ui very basic table">
-                            <tbody>
+                    <table class="ui very basic table">
+                        <tbody>
+                        @foreach($social_accounts as $account)
                             <tr>
                                 <td><i class="large teal check circle outline icon"></i></td>
-                                <td>Google+</td>
-                                <td class="right aligned"><a href="https://plus.google.com/">Connected</a></td>
+                                @if($account->provider == 'facebook')
+                                    <td>Facebook</td>
+                                @elseif($account->provider == 'google')
+                                    <td>Google+</td>
+                                @elseif($account->provider == 'twitter')
+                                    <td>Twitter</td>
+                                @endif
+                                <td class="right aligned">
+                                    <b><a href="#" class="ui red text disconnect link" data-action="disconnect"
+                                          data-value="{{ $account->id }}">Disconnect</a></b>
+                                </td>
                             </tr>
-                            <tr>
-                                <td><i class="large red remove circle outline icon"></i></td>
-                                <td>Facebook</td>
-                                <td class="right aligned"><a href="https://www.facebook.com/">Connect</a></td>
-                            </tr>
-                        </table>
-                    </form>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('.disconnect').click(function () {
+            $.ajax({
+                url: '/delete',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    account_id: $(this).attr('data-value'),
+                    action: $(this).attr('data-action')
+                },
+                beforeSend: function (jqXHR, settings) {
+                    console.log(settings.data);
+                    return settings;
+                },
+                success: function (data, textStatus, jqXHR) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
 @endsection
