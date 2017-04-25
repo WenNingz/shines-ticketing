@@ -6,7 +6,6 @@
         <div class="right menu">
             <a href="/browse-events" class="item">BROWSE EVENT</a>
 
-            <a href="/support" class="ui simple dropdown item">HELP</a>
             <a href="/signup" class="item">SIGN UP</a>
             <a href="/login" class="item">LOG IN</a>
         </div>
