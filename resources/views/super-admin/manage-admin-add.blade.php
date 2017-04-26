@@ -31,7 +31,7 @@
                         @include('layout.errors')
 
                         <div class="two fields">
-                            <div class="field">
+                            <div class="required field">
                                 <label>First Name</label>
                                 <input type="text" name="first_name" placeholder="First Name">
                             </div>
@@ -41,12 +41,12 @@
                             </div>
                         </div>
 
-                        <label>E-mail</label>
-                        <div class="field">
+                        <div class="required field">
+                            <label>E-mail</label>
                             <input type="text" name="email" placeholder="E-mail">
                         </div>
                         <div class="two wide field">
-                            <button class="ui fluid basic teal submit button">Add</button>
+                            <button class="ui fluid basic mini blue submit button">Add</button>
                         </div>
                     </form>
                 </div>

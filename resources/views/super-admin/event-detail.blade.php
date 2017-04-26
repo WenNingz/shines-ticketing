@@ -22,7 +22,11 @@
                         <div class="content">Event Detail</div>
                     </div>
                     <h2>{{ $event->name }}</h2>
-                    <p class="blue text"><i class="unhide icon"></i> 1002 </p>
+                    <h5>Date and Time</h5>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
+                    <p>{{ $event->venue }}</p>
+                    {{--<p class="blue text"><i class="unhide icon"></i> 1002 </p>--}}
                     @if($event->tags()->count() > 0)
                         <span>Tags: </span>
                         @foreach($event->tags as $tag)
@@ -33,12 +37,33 @@
 
                 <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">
                     <div class="ui teal dividing header">
-                        <div class="content">Detail Info</div>
+                        <div class="content">Ticket Info</div>
                     </div>
-                    <h5>Date and Time</h5>
-                    <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
-                    <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
-                    <p>{{ $event->venue }}</p>
+                    <table class="ui unstackable small compact table">
+                        <thead>
+                        <tr>
+                            <th>Ticket Type</th>
+                            <th>Total</th>
+                            <th>Remaining</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($event->tickets as $ticket)
+                            <tr>
+                                <td>
+                                    <h5 class="ui header">{{ $ticket->name }}
+                                        <div class="sub header">{{ $ticket->description }}</div>
+                                    </h5>
+                                </td>
+                                <td>{{ $ticket->total }} Tickets</td>
+                                <td>{{ $ticket->available }} Tickets</td>
+                                <td>${{ $ticket->price }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">

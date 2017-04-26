@@ -30,6 +30,14 @@
                             <tr>
                                 <td><i class="large teal check circle outline icon"></i></td>
                                 @if($account->provider == 'facebook')
+                                    <td><i class="large blue facebook icon"></i></td>
+                                @elseif($account->provider == 'google')
+                                    <td><i class="large red google icon"></i></td>
+                                @elseif($account->provider == 'twitter')
+                                    <td><i class="large teal twitter icon"></i></td>
+                                @endif
+
+                                @if($account->provider == 'facebook')
                                     <td>Facebook</td>
                                 @elseif($account->provider == 'google')
                                     <td>Google+</td>

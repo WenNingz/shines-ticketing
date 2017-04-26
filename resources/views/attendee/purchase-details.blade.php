@@ -27,7 +27,7 @@
                                 <div class="meta">{{ $pass->number }}</div>
                             </div>
                             <div class="extra content">
-                                <a target="_blank" href="/print-ticket/{{ $pass->id }}"
+                                <a href="/print-ticket/{{ $pass->id }}"
                                    class="ui mini basic green button">
                                     Print Ticket
                                 </a>

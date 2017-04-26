@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Event Details')
+@section('title', 'Purchase Ticket')
 
 @section('navbar')
     @if(auth()->check())
@@ -20,16 +20,12 @@
     <div class="ui stackable grid">
         <div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
             <div class="ui teal dividing header">
-                <div class="content">Free Event</div>
+                <div class="content">Event Info</div>
             </div>
-            <div class="ui text container">
-                <h1 class="ui blue header">{{ $event->name }}
-                    <div class="sub header"></div>
-                </h1>
+                <h1 class="ui blue header">{{ $event->name }}</h1>
                 <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
                 <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
                 <p>{{ $event->venue }}</p>
-            </div>
         </div>
 
         <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">

@@ -50,8 +50,8 @@
                             <textarea name="message" placeholder="Describe your issue here in details"
                                       rows="6"></textarea>
                         </div>
-                        <a href='/my-tickets' class="ui basic black button">Back</a>
-                        <button type="submit" class="ui basic blue submit button">Submit</button>
+                        <a href='/my-tickets' class="ui basic mini red button">Back</a>
+                        <button type="submit" class="ui basic mini blue submit button">Submit</button>
                     </form>
                 </div>
             </div>

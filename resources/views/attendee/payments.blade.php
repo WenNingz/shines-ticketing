@@ -31,7 +31,7 @@
                 <tbody>
                 @if($purchases->count() == 0)
                     <tr colspan="4">
-                        <td>No data</td>
+                        <td>No purchased data</td>
                     </tr>
                 @else
                     @foreach($purchases as $purchase)

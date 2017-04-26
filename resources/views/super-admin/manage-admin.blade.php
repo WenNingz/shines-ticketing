@@ -89,8 +89,8 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="6">
-                        <a href="/add-admin" class="ui tiny basic blue button">Add User</a>
+                    <th colspan="5">
+                        <a href="/add-admin" class="ui mini basic blue button">Add User</a>
 
                         {{ $users->appends(['status' => $status, 'query' => $query])->links('layout.semantic-paginate') }}
                     </th>

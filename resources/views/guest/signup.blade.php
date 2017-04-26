@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="ui centered grid">
+    <div class="ui middle aligned center aligned grid">
         <div class="thirteen wide mobile nine wide tablet five wide computer five wide large screen column">
             <form action="/signup" method="POST"
                   class="ui form center aligned padded segment @if(sizeof($errors->all()) > 0)) error @endif">
@@ -59,7 +59,8 @@
                 </div>
 
                 <button class="ui fluid blue basic submit button">Sign Up</button>
-                <p>By signing up, you agree to our <a href="#">User Agreement and Privacy Notice</a></p>
+                <p>By signing up, you agree to our <a target="_blank" href="/terms-of-service">User Agreement</a> and
+                        <a href="/privacy-policy" target="_blank">Privacy Notice</a></p>
             </form>
         </div>
     </div>

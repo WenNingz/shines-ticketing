@@ -32,41 +32,36 @@
                         @include('layout.errors')
                         @include('layout.success')
 
-                        <label>Name</label>
-                        <div class="two fields">
-                            <div class="field">
-                                <input type="text" name="first_name" placeholder="First Name"
-                                       value="{{ $user->first_name }}">
-                            </div>
-                            <div class="field">
-                                <input type="text" name="last_name" placeholder="Last Name"
-                                       value="{{ $user->last_name }}">
+                        <div class="required field">
+                            <label>Name</label>
+                            <div class="two fields">
+                                <div class="field">
+                                    <input type="text" name="first_name" placeholder="First Name"
+                                           value="{{ $user->first_name }}">
+                                </div>
+                                <div class="field">
+                                    <input type="text" name="last_name" placeholder="Last Name"
+                                           value="{{ $user->last_name }}">
+                                </div>
                             </div>
                         </div>
 
-                        <label>Email</label>
-                        <div class="field">
+                        <div class="required field">
+                            <label>Email</label>
                             <input type="text" name="email" placeholder="E-mail" value="{{ $user->email }}">
                         </div>
 
-                        <label>Password</label>
-                        <div class="field">
+                        <div class="required field">
+                            <label>Password</label>
                             <input type="password" name="password" placeholder="Password">
-                        </div>
-
-                        <div class="field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" tabindex="0" class="hidden">
-                                <label>Subscribe Newsletter</label>
-                            </div>
                         </div>
 
                         <div class="fields">
                             <div class="two wide field">
-                                <button type="reset" class="ui fluid small basic red button">Cancel</button>
+                                <button type="reset" class="ui fluid mini basic red button">Cancel</button>
                             </div> &nbsp;
                             <div class="two wide field">
-                                <button type="submit" class="ui fluid small basic blue submit button">Save</button>
+                                <button type="submit" class="ui fluid mini basic blue submit button">Save</button>
                             </div>
                         </div>
                     </form>

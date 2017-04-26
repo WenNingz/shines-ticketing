@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         $admin_role = Role::create([
             'name' => 'admin',
             'display_name' => 'Admin',
-            'description' => ''
+            'description' => 'Full Access Control except Add Admin'
         ]);
 
         $attendee_role = Role::create([
@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
 
         $super_admin = User::create([
             'first_name' => 'Super Admin',
-            'email' => 'superadmin@gmail.com',
+            'email' => 'superadmin@shinesservices.com',
             'password' => bcrypt('super-secret'),
             'status' => 3
         ]);
@@ -37,30 +37,29 @@ class UsersTableSeeder extends Seeder
 
         $admin = User::create([
             'first_name' => 'Admin 1',
-            'email' => 'admin@gmail.com',
+            'email' => 'admin@shinesservices.com',
             'password' => bcrypt('secret'),
         ]);
 
         $admin->attachRole($admin_role);
 
-
         /* --- PERMISSION --- */
         $dashboard_index = Permission::create([
             'name' => 'dashboard-index',
             'display_name' => 'User Dashboard',
-            'description' => 'View user dashboard'
+            'description' => 'View dashboard'
         ]);
 
         $dashboard_show = Permission::create([
             'name' => 'dashboard-show',
-            'display_name' => 'Dashboard Show',
-            'description' => 'Show purchase details'
+            'display_name' => 'Attendee Purchase Details',
+            'description' => 'VIew purchase details'
         ]);
 
         $dashboard_view = Permission::create([
             'name' => 'dashboard-view',
-            'display_name' => 'Ticket Details',
-            'description' => 'Print ticket details'
+            'display_name' => 'Attendee Ticket',
+            'description' => 'Print ticket'
         ]);
 
         $user_admin_index = Permission::create([

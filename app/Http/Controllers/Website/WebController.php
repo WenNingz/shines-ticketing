@@ -20,7 +20,7 @@ class WebController extends Controller
     public function index() {
         $events = Event::where('status', 2)
             ->where('date', '>=', Carbon::now())
-            ->orderBy('date', 'asc')->take(4)->get();
+            ->orderBy('date', 'asc')->take(8)->get();
         return view('guest.home', [
             'events' => $events
         ]);

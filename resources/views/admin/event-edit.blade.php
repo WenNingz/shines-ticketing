@@ -23,7 +23,6 @@
                     </div>
 
                     <h1>{{ $event->name }}</h1>
-                    <p>By Dina the Front End Developer</p>
                 </div>
 
                 <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">

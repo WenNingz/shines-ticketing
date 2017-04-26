@@ -30,27 +30,27 @@
                         @include('layout.errors')
                         @include('layout.success')
 
-                        <div class="field">
+                        <div class="required field">
                             <label>Current Password</label>
                             <input type="password" name="current_password" placeholder="Current Password">
                         </div>
 
-                        <div class="field">
+                        <div class="required field">
                             <label>New Password</label>
                             <input type="password" name="password" placeholder="New Password">
                         </div>
 
-                        <div class="field">
+                        <div class="required field">
                             <label>Confirm Password</label>
                             <input type="password" name="password_confirmation" placeholder="Confirm Password">
                         </div>
 
                         <div class="fields">
                             <div class="four wide field">
-                                <button type="reset" class="ui fluid basic red button">Cancel</button>
+                                <button type="reset" class="ui fluid mini basic red button">Cancel</button>
                             </div> &nbsp;
                             <div class="four wide field">
-                                <button type="submit" class="ui fluid basic teal submit button">Save</button>
+                                <button type="submit" class="ui fluid mini basic teal submit button">Save</button>
                             </div>
                         </div>
                     </form>
