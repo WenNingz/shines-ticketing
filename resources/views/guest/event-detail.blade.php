@@ -94,9 +94,15 @@
 
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
             <span>Share with friends: </span>
-            <i class="teal circular facebook f icon link" data-content="Facebook"></i>
-            <i class="teal circular google icon link" data-content="Google+"></i>
-            <i class="teal circular twitter icon link" data-content="Twitter"></i>
+            <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->facebook() }}">
+                <i class="teal circular facebook f icon link" data-content="Facebook"></i>
+            </a>
+            <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->twitter() }}">
+                <i class="teal circular twitter icon link" data-content="Twitter"></i>
+            </a>
+            <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->gplus() }}">
+                <i class="teal circular google icon link" data-content="Google+"></i>
+            </a>
         </div>
 
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">

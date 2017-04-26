@@ -86,7 +86,17 @@
                             <div class="extra">
                                 <div>{{ $event->ticketsCount() }} tickets available</div>
                                 <div>
-                                    <i class="right share teal alternate icon link" data-content="Share"></i>
+
+                                    <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->facebook() }}">
+                                        <i class="facebook f icon link" data-content="Facebook"></i>
+                                    </a>
+                                    <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->twitter() }}">
+                                        <i class="twitter icon link" data-content="Twitter"></i>
+                                    </a>
+                                    <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->gplus() }}">
+                                        <i class="google icon link" data-content="Google+"></i>
+                                    </a>
+
                                     <a href="/view-event/{{ $event->id }}"
                                        class="ui right floated tiny blue basic icon button">
                                         Buy tickets
@@ -117,4 +127,7 @@
             });
         });
     </script>
+@endsection
+@section('footer')
+    @include('guest.footer')
 @endsection

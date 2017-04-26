@@ -168,6 +168,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Chencha\Share\ShareServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -238,6 +239,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Share' => Chencha\Share\ShareFacade::class,
 
     ],
 
