@@ -56,6 +56,23 @@
             </div>
         </div>
     </div>
+    <div class="ui divider"></div>
+    <div class="ui justified container">
+        <h3>Company Profile</h3>
+        <div class="ui basic segment">
+            <h5 class="ui header">Company Name:</h5>
+            <p>Shines Services Pte Ltd</p>
+        </div>
+        <div class="ui basic segment">
+            <h5 class="ui header">Address:</h5>
+            <p>60 Paya Lebar Road #09-38 Paya Lebar Square</p>
+            <p>Singapore, 409051</p>
+        </div>
+        <div class="ui basic segment">
+            <h5 class="ui header">Email Us:</h5>
+            <p>contact@shineservices.com</p>
+        </div>
+    </div>
 @endsection
 @section('footer')
     @include('guest.footer')
