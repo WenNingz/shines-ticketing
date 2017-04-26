@@ -22,10 +22,36 @@
             <div class="ui teal dividing header">
                 <div class="content">Event Info</div>
             </div>
-                <h1 class="ui blue header">{{ $event->name }}</h1>
-                <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
-                <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
-                <p>{{ $event->venue }}</p>
+            <div class="ui two equal width column stackable grid">
+                <div class="column">
+                    @if($event->image_card != null)
+                        <img class="ui centered fluid bordered image" src="{{ asset($event->image_ori) }}">
+                    @endif
+                    <div class="ui divider"></div>
+                    <span>Share with friends: </span>
+                    <a target="_blank"
+                       href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->facebook() }}">
+                        <i class="teal circular facebook f icon link" data-content="Facebook"></i>
+                    </a>
+                    <a target="_blank"
+                       href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->twitter() }}">
+                        <i class="teal circular twitter icon link" data-content="Twitter"></i>
+                    </a>
+                    <a target="_blank"
+                       href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->gplus() }}">
+                        <i class="teal circular google icon link" data-content="Google+"></i>
+                    </a>
+                </div>
+
+                <div class="column">
+                    <h2 class="ui blue header">{{ $event->name }}</h2>
+                    <strong>Date and Time</strong>
+                    <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }},
+                        {{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
+                    <strong>Location</strong>
+                    <p>{{ $event->venue }}</p>
+                </div>
+            </div>
         </div>
 
         <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">
@@ -89,35 +115,17 @@
         </div>
 
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
-            <span>Share with friends: </span>
-            <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->facebook() }}">
-                <i class="teal circular facebook f icon link" data-content="Facebook"></i>
-            </a>
-            <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->twitter() }}">
-                <i class="teal circular twitter icon link" data-content="Twitter"></i>
-            </a>
-            <a target="_blank" href="{{ \Chencha\Share\ShareFacade::load(url()->current(), $event->name)->gplus() }}">
-                <i class="teal circular google icon link" data-content="Google+"></i>
-            </a>
-        </div>
-
-        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
             <div class="ui teal dividing header">
                 <div class="content">Description</div>
             </div>
             <div class="ui justified text container">
-                @if($event->image_ori != null)
-                    <img class="ui centered image" src="{{ asset($event->image_ori) }}">
-                    <div class="ui divider"></div>
-                @endif
                 {!! $event->description !!}
                 @if($event->tags()->count() > 0)
-                    <div class="ui divider">
+                    <div class="ui divider"></div>
                         <span>Tags: </span>
                         @foreach($event->tags as $tag)
                             <a class="ui black basic label">{{ $tag->name}}</a>
                         @endforeach
-                    </div>
 
                 @endif
             </div>
@@ -135,4 +143,7 @@
             .dropdown()
         ;
     </script>
+@endsection
+@section('footer')
+    @include('guest.footer')
 @endsection
