@@ -16,25 +16,35 @@
 
         <div class="fifteen wide mobile eleven wide tablet thirteen wide computer thirteen wide large screen column">
             <div class="ui stackable grid">
-
                 <div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
                     <div class="ui teal dividing header">
-                        <div class="content">Event Detail</div>
+                        <div class="content">Event Info</div>
                     </div>
-                    <h2>{{ $event->name }}</h2>
-                    <h5>Date and Time</h5>
-                    <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }}</p>
-                    <p>{{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
-                    <p>{{ $event->venue }}</p>
-                    {{--<p class="blue text"><i class="unhide icon"></i> 1002 </p>--}}
-                    @if($event->tags()->count() > 0)
-                        <span>Tags: </span>
-                        @foreach($event->tags as $tag)
-                            <a class="ui black basic label">{{ $tag->name}}</a>
-                        @endforeach
-                    @endif
-                </div>
+                    <div class="ui two equal width column stackable grid">
+                        <div class="column">
+                            @if($event->image_ori != null)
+                                <img class="ui centered fluid bordered image" src="{{ asset($event->image_ori) }}">
+                            @endif
+                            @if($event->tags()->count() > 0)
+                                <div class="ui divider"></div>
+                                <span>Tags: </span>
+                                @foreach($event->tags as $tag)
+                                    <a class="ui black basic label">{{ $tag->name}}</a>
+                                @endforeach
 
+                            @endif
+                        </div>
+
+                        <div class="column">
+                            <h2 class="ui blue header">{{ $event->name }}</h2>
+                            <strong>Date and Time</strong>
+                            <p>{{ \Carbon\Carbon::parse($event->date)->format('l, j F Y') }},
+                                {{ \Carbon\Carbon::parse($event->date)->format('h:i A') }}</p>
+                            <strong>Location</strong>
+                            <p>{{ $event->venue }}</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">
                     <div class="ui teal dividing header">
                         <div class="content">Ticket Info</div>
@@ -49,7 +59,6 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach($event->tickets as $ticket)
                             <tr>
                                 <td>
@@ -65,16 +74,11 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">
                     <div class="ui teal dividing header">
                         <div class="content">Description</div>
                     </div>
                     <div class="ui justified text container">
-                        @if($event->image_ori != null)
-                            <img class="ui centered image" src="{{ asset($event->image_ori) }}">
-                            <div class="ui divider"></div>
-                        @endif
                         {!! $event->description !!}
                     </div>
                 </div>

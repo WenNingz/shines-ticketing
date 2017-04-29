@@ -18,13 +18,14 @@
 
 @section('content')
     <div class="ui stackable grid">
-        <div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
+
+        </div><div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
             <div class="ui teal dividing header">
                 <div class="content">Event Info</div>
             </div>
             <div class="ui two equal width column stackable grid">
                 <div class="column">
-                    @if($event->image_card != null)
+                    @if($event->image_ori != null)
                         <img class="ui centered fluid bordered image" src="{{ asset($event->image_ori) }}">
                     @endif
                     <div class="ui divider"></div>
@@ -52,7 +53,6 @@
                     <p>{{ $event->venue }}</p>
                 </div>
             </div>
-        </div>
 
         <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">
             <div class="ui teal dividing header">
