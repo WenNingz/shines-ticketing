@@ -32,12 +32,12 @@
                 <h4 class="ui blue header">Custom Date</h4>
                 <div class="field">
                     <label>Start Date</label>
-                    <input name="start_date" type="text" id="datepicker" placeholder="Start Date"
+                    <input name="start_date" type="text" class="datepicker" placeholder="Start Date"
                            value="{{ $start_date }}">
                 </div>
                 <div class="field">
                     <label>End Date</label>
-                    <input name="end_date" type="text" id="datepicker" placeholder="End Date"
+                    <input name="end_date" type="text" class="datepicker" placeholder="End Date"
                            value="{{ $end_date }}">
                 </div>
                 <button type="submit" class="ui basic mini blue button">Submit</button>
@@ -128,7 +128,7 @@
         ;
 
         $(function () {
-            $("datepicker").datepicker({
+            $(".datepicker").datepicker({
                 minDate: 0,
                 dateFormat: 'yy-mm-dd'
             });

@@ -218,6 +218,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'Remove linked social account'
         ]);
 
+        $report_index = Permission::create([
+            'name' => 'report-index',
+            'display_name' => 'Report Index',
+            'description' => 'View report index'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -229,7 +235,7 @@ class UsersTableSeeder extends Seeder
             $sync_index,  $sync_show,
             $sync_update, $event_index,
             $event_show, $payment_index,
-            $payment_show
+            $payment_show, $report_index
         ));
 
         $admin_role->attachPermissions(array(
@@ -241,7 +247,8 @@ class UsersTableSeeder extends Seeder
             $ticket_store, $sync_index,
             $sync_show, $sync_update,
             $event_index, $event_show,
-            $payment_index, $payment_show
+            $payment_index, $payment_show,
+            $report_index
         ));
 
         $attendee_role->attachPermissions(array(

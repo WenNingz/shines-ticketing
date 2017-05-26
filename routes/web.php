@@ -55,6 +55,8 @@ Route::get('/payment-history', 'Payment\PaymentController@index');
 
 Route::get('/payment-details/{id}', 'Payment\PaymentController@show');
 
+Route::get('/report', 'Report\ReportController@index');
+
 /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 

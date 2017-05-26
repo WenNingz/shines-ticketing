@@ -54,6 +54,11 @@
     Payment
 </a>
 
+
+<a href="/report" class="@if($_active == 'report') active @endif item">
+    Report
+</a>
+
 <a href="/logout" class="item">
     Log Out
 </a>
