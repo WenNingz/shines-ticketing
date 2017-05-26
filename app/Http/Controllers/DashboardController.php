@@ -32,8 +32,8 @@ class DashboardController extends Controller
             ]);
         }
         else {
-            $from_date = Carbon::now()->subDay()->startOfWeek()->toDateString();
-            $till_date = Carbon::now()->subDay()->startOfWeek()->addDays(7);
+            $from_date = Carbon::now()->startOfWeek();
+            $till_date = Carbon::now()->startOfWeek()->addDays(7);
             $total_events = Event::whereBetween('date', [$from_date, $till_date])->count();
             $ticket_sold = Pass::whereBetween('created_at', [$from_date, $till_date])->count();
             $sales = Pass::whereBetween('created_at', [$from_date, $till_date])->sum('price');

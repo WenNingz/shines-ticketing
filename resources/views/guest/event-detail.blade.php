@@ -19,7 +19,7 @@
 @section('content')
     <div class="ui stackable grid">
 
-        </div><div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
+        <div class="nine wide mobile nine wide tablet nine wide computer nine wide large screen column">
             <div class="ui teal dividing header">
                 <div class="content">Event Info</div>
             </div>
@@ -53,6 +53,7 @@
                     <p>{{ $event->venue }}</p>
                 </div>
             </div>
+        </div>
 
         <div class="seven wide mobile seven wide tablet seven wide computer seven wide large screen column">
             <div class="ui teal dividing header">

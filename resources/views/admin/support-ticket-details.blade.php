@@ -184,7 +184,7 @@
         });
 
         $('.reply').on('click', function () {
-            $('#close').val('true')
+            $('#close').val('false')
         });
     </script>
 @endsection
