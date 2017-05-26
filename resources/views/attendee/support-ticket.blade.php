@@ -24,17 +24,15 @@
                 $solved_tickets = \Route::current()->getName() == 'solved-tickets';
             @endphp
 
-            <div class="ui segment">
-                <div class="ui secondary menu">
-                    <a href='/my-tickets' class="@if($my_ticket) active @endif item">
-                        Active Tickets
-                        <div class="ui @if($my_ticket) teal @endif  label">{{ \Auth::user()->activePostCount() }}</div>
-                    </a>
-                    <a href='/solved-tickets' class="@if($solved_tickets) active @endif item">
-                        Solved Tickets
-                        <div class="ui @if($solved_tickets) teal @endif label">{{ \Auth::user()->solvedPostCount() }}</div>
-                    </a>
-                </div>
+            <div class="ui secondary pointing menu">
+                <a href='/my-tickets' class="@if($my_ticket) active @endif item">
+                    Active Tickets
+                    <div class="ui @if($my_ticket) teal @endif  label">{{ \Auth::user()->activePostCount() }}</div>
+                </a>
+                <a href='/solved-tickets' class="@if($solved_tickets) active @endif item">
+                    Solved Tickets
+                    <div class="ui @if($solved_tickets) teal @endif label">{{ \Auth::user()->solvedPostCount() }}</div>
+                </a>
             </div>
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer sixteen wide large screen column">

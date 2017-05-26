@@ -23,7 +23,9 @@ Route::get('/reset-password/verify/{email_token}', 'SessionController@confirmRes
 Route::get('error-email-token', 'ErrorController@errorEmailToken');
 
 /* --- Users - Common --- */
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+Route::get('/refund', 'DashboardController@index')->name('refund');
 
 Route::get('/manage-attendee', 'User\AttendeeController@index');
 
