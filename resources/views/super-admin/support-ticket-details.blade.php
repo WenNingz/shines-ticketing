@@ -10,7 +10,7 @@
 
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('super-admin.common.sidebar')
             </div>
         </div>
@@ -57,7 +57,8 @@
                                                                     {{ $child->created_at->format('M d, Y h:i A') . ' | '. $child->created_at->diffForHumans()}}
                                                                 </span>
                                                             </div>
-                                                            <div align="justify" class="text">{{ $child->message }}</div>
+                                                            <div align="justify"
+                                                                 class="text">{{ $child->message }}</div>
                                                         </div>
                                                     </div>
                                                 @endforeach
@@ -84,11 +85,13 @@
                                                                           class="ui form @if(sizeof($errors) > 0) error @endif">
                                                                         {{ csrf_field() }}
 
-                                                                        <input type="hidden" name="close" id="close" value="false">
+                                                                        <input type="hidden" name="close" id="close"
+                                                                               value="false">
 
                                                                         @include('layout.errors')
                                                                         <div class="field">
-                                                                            <textarea name="message" rows="2"></textarea>
+                                                                            <textarea name="message"
+                                                                                      rows="2"></textarea>
                                                                         </div>
                                                                         <button type="submit"
                                                                                 class="ui mini blue reply submit basic button">
@@ -129,11 +132,13 @@
                                                                           class="ui form @if(sizeof($errors) > 0) error @endif">
                                                                         {{ csrf_field() }}
 
-                                                                        <input type="hidden" name="close" id="close" value="false">
+                                                                        <input type="hidden" name="close" id="close"
+                                                                               value="false">
 
                                                                         @include('layout.errors')
                                                                         <div class="field">
-                                                                            <textarea name="message" rows="2"></textarea>
+                                                                            <textarea name="message"
+                                                                                      rows="2"></textarea>
                                                                         </div>
                                                                         <button type="submit"
                                                                                 class="ui mini blue reply submit basic button">

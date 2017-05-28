@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('super-admin.common.sidebar')
             </div>
         </div>
@@ -24,6 +24,8 @@
                         <div class="column">
                             @if($event->image_ori != null)
                                 <img class="ui centered fluid bordered image" src="{{ asset($event->image_ori) }}">
+                            @else
+                                <img class="ui centered fluid bordered image" src="{{ asset('img/noImage.png') }}">
                             @endif
                             @if($event->tags()->count() > 0)
                                 <div class="ui divider"></div>

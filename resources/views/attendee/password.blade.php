@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('attendee.common.sidebar')
             </div>
         </div>
@@ -21,7 +21,8 @@
 
             <div class="ui stackable grid">
                 <div class="sixteen wide mobile fourteen wide tablet six wide computer six wide large screen column">
-                    <form method="POST" action="/change-password" onsubmit="$('.ui.submit.button').prop('disabled', true)"
+                    <form method="POST" action="/change-password"
+                          onsubmit="$('.ui.submit.button').prop('disabled', true)"
                           class="ui form @if(sizeof($errors->all()) > 0)) error @endif @if(session('status')) success @endif">
                         <h4 class="ui dividing header">
                             Change Password

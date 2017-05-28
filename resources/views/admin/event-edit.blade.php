@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('admin.common.sidebar')
             </div>
         </div>
@@ -75,7 +75,9 @@
                                         <i class="folder open outline icon"></i> Browse
                                     </label>
 
-                                    <div class="description">Recommended using image at least 800px X 400px (2:1 ratio)</div>
+                                    <div class="description">Recommended using image at least 800px X 400px (2:1
+                                        ratio)
+                                    </div>
                                 </div>
                             </div>
 

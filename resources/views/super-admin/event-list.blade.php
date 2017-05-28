@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('super-admin.common.sidebar')
             </div>
         </div>
@@ -25,8 +25,11 @@
                         <div class="field">
                             <select name="status" class="ui fluid selection dropdown" id="select">
                                 <option value="all" @if($status == 'all') selected="selected" @endif>All</option>
-                                <option value="ongoing" @if($status == 'ongoing') selected="selected" @endif>On Going</option>
-                                <option value="complete" @if($status == 'complete') selected="selected" @endif>Completed</option>
+                                <option value="ongoing" @if($status == 'ongoing') selected="selected" @endif>On Going
+                                </option>
+                                <option value="complete" @if($status == 'complete') selected="selected" @endif>
+                                    Completed
+                                </option>
                             </select>
                         </div>
                     </div>

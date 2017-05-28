@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('attendee.common.sidebar')
             </div>
         </div>
@@ -31,7 +31,7 @@
 
                         @include('layout.errors')
 
-                        <div class="eight wide field">
+                        <div class="required eight wide field">
                             <label>Category</label>
                             <select name="category" class="ui fluid selection dropdown" id="select">
                                 <option value="">Choose one</option>
@@ -41,11 +41,11 @@
                                 <option value="other">Other</option>
                             </select>
                         </div>
-                        <div class="field">
+                        <div class="required field">
                             <label>Title</label>
                             <input type="text" name="title" placeholder="A brief of your issue ticket">
                         </div>
-                        <div class="field">
+                        <div class="required field">
                             <label>Message</label>
                             <textarea name="message" placeholder="Describe your issue here in details"
                                       rows="6"></textarea>

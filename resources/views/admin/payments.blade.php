@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('admin.common.sidebar')
             </div>
         </div>
@@ -18,13 +18,6 @@
             <h3 class="ui teal dividing header">
                 Payment Transaction
             </h3>
-
-            {{--<form class="ui form">--}}
-                {{--<div class="ui fluid icon input">--}}
-                    {{--<input type="text" name="event" placeholder="Search payment">--}}
-                    {{--<i class="blue search icon"></i>--}}
-                {{--</div>--}}
-            {{--</form>--}}
 
             <table class="ui unstackable celled table">
                 <thead>

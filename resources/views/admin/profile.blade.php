@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('admin.common.sidebar')
             </div>
         </div>
@@ -20,7 +20,7 @@
             </h3>
 
             <div class="ui stackable grid">
-                <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
+                <div class="sixteen wide mobile fourteen wide tablet ten wide computer ten wide large screen column">
                     <form method="POST" action="/profile" onsubmit="$('.ui.submit.button').prop('disabled', true)"
                           class="ui form @if(sizeof($errors->all()) > 0)) error @endif
                           @if (session('status')) success @endif">
@@ -32,14 +32,15 @@
                         @include('layout.errors')
                         @include('layout.success')
 
-                        <div class="required field">
-                            <label>Name</label>
+                        <div class="field">
                             <div class="two fields">
-                                <div class="field">
+                                <div class="required field">
+                                    <label>First Name</label>
                                     <input type="text" name="first_name" placeholder="First Name"
                                            value="{{ $user->first_name }}">
                                 </div>
                                 <div class="field">
+                                    <label>Last Name</label>
                                     <input type="text" name="last_name" placeholder="Last Name"
                                            value="{{ $user->last_name }}">
                                 </div>

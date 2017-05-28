@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('admin.common.sidebar')
             </div>
         </div>
@@ -28,15 +28,19 @@
                         <div class="field">
                             <select name="status" class="ui dropdown" id="select">
                                 <option value="all" @if($status == 'all') selected="selected" @endif>All</option>
-                                <option value="active" @if($status == 'active') selected="selected" @endif>Active</option>
-                                <option value="inactive" @if($status == 'inactive') selected="selected" @endif>Inactive</option>
+                                <option value="active" @if($status == 'active') selected="selected" @endif>Active
+                                </option>
+                                <option value="inactive" @if($status == 'inactive') selected="selected" @endif>
+                                    Inactive
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div class="twelve wide mobile sixteen wide tablet twelve wide computer twelve wide large screen column">
                         <div class="field">
                             <div class="ui icon input">
-                                <input type="text" name="query" placeholder="Search admins and emails" value="{{ $query }}">
+                                <input type="text" name="query" placeholder="Search admins and emails"
+                                       value="{{ $query }}">
                                 <i class="blue search icon"></i>
                             </div>
                         </div>
@@ -101,7 +105,7 @@
             .dropdown();
         ;
 
-        $('select').on('change', function() {
+        $('select').on('change', function () {
             var status = (this.value);
             this.form.submit();
             return status;

@@ -9,7 +9,7 @@
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
-            <div class="ui fluid secondary vertical menu">
+            <div class="ui teal fluid secondary vertical menu">
                 @include('super-admin.common.sidebar')
             </div>
         </div>
@@ -20,7 +20,7 @@
             </h3>
 
             <div class="ui stackable grid">
-                <div class="sixteen wide mobile fourteen wide tablet twelve wide computer twelve wide large screen column">
+                <div class="sixteen wide mobile fourteen wide tablet ten wide computer ten wide large screen column">
                     <form method="post" action="/add-admin" onsubmit="$('.ui.submit.button').prop('disabled', true)"
                           class="ui form @if(sizeof($errors->all()) > 0)) error @endif">
                         <h4 class="ui dividing header">
