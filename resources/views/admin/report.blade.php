@@ -3,14 +3,14 @@
 @section('title', 'Report')
 
 @section('navbar')
-    @include('super-admin.common.navbar')
+    @include('admin.common.navbar')
 @endsection
 
 @section('content')
     <div class="ui stackable grid">
         <div class="one wide mobile five wide tablet three wide computer three wide large screen column">
             <div class="ui teal fluid secondary vertical menu">
-                @include('super-admin.common.sidebar')
+                @include('admin.common.sidebar')
             </div>
         </div>
 

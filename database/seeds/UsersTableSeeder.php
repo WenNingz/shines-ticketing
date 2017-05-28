@@ -62,6 +62,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'Print ticket'
         ]);
 
+        $dashboard_refund = Permission::create([
+            'name' => 'dashboard-refund',
+            'display_name' => 'Attendee Refund',
+            'description' => 'Refund ticket'
+        ]);
+
         $user_admin_index = Permission::create([
             'name' => 'user-admin-index',
             'display_name' => 'Admin List',
@@ -224,6 +230,12 @@ class UsersTableSeeder extends Seeder
             'description' => 'View report index'
         ]);
 
+        $report_generate = Permission::create([
+            'name' => 'report-generate',
+            'display_name' => 'Report Generate',
+            'description' => 'Generate report'
+        ]);
+
         $super_admin_role->attachPermissions(array(
             $dashboard_index, $user_admin_index,
             $user_admin_create, $user_admin_edit,
@@ -235,7 +247,8 @@ class UsersTableSeeder extends Seeder
             $sync_index,  $sync_show,
             $sync_update, $event_index,
             $event_show, $payment_index,
-            $payment_show, $report_index
+            $payment_show, $report_index,
+            $report_generate
         ));
 
         $admin_role->attachPermissions(array(
@@ -248,7 +261,7 @@ class UsersTableSeeder extends Seeder
             $sync_show, $sync_update,
             $event_index, $event_show,
             $payment_index, $payment_show,
-            $report_index
+            $report_index, $report_generate,
         ));
 
         $attendee_role->attachPermissions(array(
@@ -260,7 +273,8 @@ class UsersTableSeeder extends Seeder
             $ticket_close, $paypal_payment,
             $payment_index, $payment_show,
             $dashboard_show, $dashboard_view,
-            $social_index, $social_delete
+            $social_index, $social_delete,
+            $dashboard_refund
         ));
 
     }

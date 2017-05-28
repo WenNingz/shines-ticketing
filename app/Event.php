@@ -16,7 +16,7 @@ class Event extends Model
 
     public function ticketsCount() {
         $count = 0;
-        foreach($this->tickets as $ticket) {
+        foreach ($this->tickets as $ticket) {
             $count += $ticket->available;
         }
         return $count;
@@ -24,6 +24,16 @@ class Event extends Model
 
     public function purchases() {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function countRows() {
+        $result = 0;
+        foreach ($this->purchases as $purchase) {
+            foreach ($purchase->items as $item) {
+                $result = $result + $item->passes()->count();
+            }
+        }
+        return $result;
     }
 
     public function tags() {

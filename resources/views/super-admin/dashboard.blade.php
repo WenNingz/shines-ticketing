@@ -56,7 +56,7 @@
             <h4 class="ui centered dividing header">
                 Quick Menu
             </h4>
-            <div class="ui six column center aligned doubling stackable grid">
+            <div class="ui seven column center aligned doubling stackable grid">
                 <a href="/sync-events" class="ui equal width center aligned padded grid stretched column">
                     <div class="light-gray column">
                         <div><i class="big black refresh icon"></i></div>
@@ -96,6 +96,13 @@
                     <div class="light-gray column">
                         <div><i class="big black money icon"></i></div>
                         <div><h3>View Payments</h3></div>
+                    </div>
+                </a>
+
+                <a href="/report" class="ui equal width center aligned padded grid stretched column">
+                    <div class="light-gray column">
+                        <div><i class="big black book icon"></i></div>
+                        <div><h3>Report</h3></div>
                     </div>
                 </a>
             </div>

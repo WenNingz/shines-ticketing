@@ -25,8 +25,6 @@ Route::get('error-email-token', 'ErrorController@errorEmailToken');
 /* --- Users - Common --- */
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-Route::get('/refund', 'DashboardController@index')->name('refund');
-
 Route::get('/manage-attendee', 'User\AttendeeController@index');
 
 Route::put('/suspend-user', 'User\AttendeeController@edit');
@@ -57,6 +55,8 @@ Route::get('/payment-details/{id}', 'Payment\PaymentController@show');
 
 Route::get('/report', 'Report\ReportController@index');
 
+Route::post('/report', 'Report\ReportController@generate');
+
 /* --- Super-Admin --- */
 Route::get('/manage-admin', 'User\AdminController@index');
 
@@ -84,11 +84,15 @@ Route::get('/setup', 'SetupController@index');
 Route::post('/setup', 'SetupController@submit');
 
 /* --- Attendee --- */
+Route::get('/refund', 'DashboardController@index')->name('refund');
+
 Route::get('/new-ticket', 'Support\TicketController@create');
 
 Route::post('/new-ticket', 'Support\TicketController@submit');
 
 Route::get('/purchase-details/{id}', 'DashboardController@show');
+
+Route::get('/refund/{payment_id}', 'DashboardController@refund');
 
 Route::get('/print-ticket/{id}', 'DashboardController@view');
 
