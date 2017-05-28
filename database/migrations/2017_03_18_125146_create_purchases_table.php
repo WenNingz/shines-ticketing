@@ -14,6 +14,9 @@ class CreatePurchasesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events');
+            $table->string('purchase_id')->default('FREE-ID');
+            $table->dateTime('refund_at')->nullable();
+            $table->dateTime('refunded_at')->nullable();
             $table->timestamps();
         });
     }

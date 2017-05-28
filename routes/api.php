@@ -18,3 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('webhook', 'APIController@webhook');
+
+Route::get('/approved/{payment_id}', 'APIController@approved');
+
+Route::get('/declined/{payment_id}', 'APIController@declined');
+
+Route::get('/used/{payment_id}/{number}', 'APIController@used');

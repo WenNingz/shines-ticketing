@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Mail\RefundMail;
+use App\Purchase;
 use App\Tag;
 use App\Ticket;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 
 class APIController extends Controller
 {
-    public function webhook() {
+    public function webhook()
+    {
         $data = \GuzzleHttp\json_decode(Input::all()[0]);
         Log::info(Input::all()[0]);
         $filename = null;
@@ -59,5 +61,64 @@ class APIController extends Controller
                 'available' => $type->ticket_available,
             ]);
         }
+    }
+
+
+    public function approved($purchase_id)
+    {
+        try {
+            $purchase = Purchase::where('purchase_id', $purchase_id)->firstOrFail();
+            $purchase->refunded_at = Carbon::now();
+            $purchase->save();
+
+            Mail::to($purchase->user->email)->queue(new RefundMail());
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            abort(500);
+        }
+
+        return response()->json();
+    }
+
+    public function declined($purchase_id)
+    {
+        try {
+            $purchase = Purchase::where('purchase_id', $purchase_id)->firstOrFail();
+            $purchase->refund_at = null;
+            $purchase->save();
+
+            //send email
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            abort(500);
+        }
+
+        return response()->json();
+    }
+
+    public function used($purchase_id, $number)
+    {
+        try {
+            $purchase = Purchase::where('purchase_id', $purchase_id)->firstOrFail();
+            foreach ($purchase->items as $item) {
+                foreach ($item->passes as $pass){
+                    if($pass->number == $number){
+
+                        $pass->used_on = Carbon::now();
+                        $pass->save();
+
+                        return response()->json();
+                    }
+                }
+            }
+            $purchase->save();
+
+            //send email
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            abort(500);
+        }
+
+        return response()->json();
     }
 }

@@ -29,7 +29,7 @@
                     Purchased Tickets
                 </a>
                 <a href='/refund' class="@if($refund) active @endif item">
-                    Refunded Tickets
+                    Refunding Tickets
                 </a>
             </div>
 
@@ -58,6 +58,38 @@
                                 </div>
                                 <div class="right floated content">
                                     <a href="/purchase-details/{{ $purchase->id }}" class="ui right floated icon link">
+                                        View purchase
+                                        <i class="angle right icon"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                @endif
+                @if($refund)
+                    @if($refunds->isEmpty())
+                        <div class="item">
+                            <div class="content">No refunding ticket</div>
+                        </div>
+                    @else
+                        @foreach($refunds as $refund)
+                            <div class="item">
+                                <div class="content">
+                                    <div class="ui middle aligned divided horizontal list">
+                                        <div class="item">
+                                            <div class="ui header">{{ $refund->id }}</div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="content">
+                                                <a href="/purchase-details/{{ $refund->id }}"
+                                                   class="ui header link">{{ $refund->event->name }}</a>
+                                                {{ $refund->event->date }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right floated content">
+                                    <a href="/purchase-details/{{ $refund->id }}" class="ui right floated icon link">
                                         View purchase
                                         <i class="angle right icon"></i>
                                     </a>

@@ -18,6 +18,17 @@
             <div class="ui teal dividing header">
                 <div class="content">Ticket Details</div>
             </div>
+            @if($purchase->refundable())
+                <div class="ui grid">
+                    <div class="ui column">
+                        @if($purchase->refunding())
+                            <div class="ui message warning">This Purchase is in refund process.</div>
+                        @else
+                            <a href="/refund/{{$purchase->purchase_id}}" class="ui right floated red basic mini button">Refund</a>
+                        @endif
+                    </div>
+                </div>
+            @endif
             <div class="ui four stackable doubling cards">
                 @foreach($purchase->items as $item)
                     @foreach($item->passes as $pass)
@@ -25,6 +36,11 @@
                             <div class="content">
                                 <a class="header">{{ $pass->item->ticket->name }}</a>
                                 <div class="meta">{{ $pass->number }}</div>
+                                <div class="description">
+                                    <p>{{ \Carbon\Carbon::parse($purchase->event->date)->format('D, j F Y') }},
+                                        {{ \Carbon\Carbon::parse($purchase->event->date)->format('h:i A') }}</p>
+                                    <p>{{ $purchase->event->venue }}</p>
+                                </div>
                             </div>
                             <div class="extra content">
                                 <a href="/print-ticket/{{ $pass->id }}"

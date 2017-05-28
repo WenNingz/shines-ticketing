@@ -96,7 +96,7 @@ class PaypalController extends Controller
                         ]);
 
                         $client = new \GuzzleHttp\Client();
-                        $ticket_no = json_decode($client->request('GET', env('API_ADDRESS') . '/api/getTicketNumber/' . env('API_KEY') . '/' . $event->ext_id . '/' . $ticket->ext_id)->getBody())[0];
+                        $ticket_no = json_decode($client->request('GET', env('API_ADDRESS') . '/api/getTicketNumber/' . env('API_KEY') . '/' . $event->ext_id . '/' . $ticket->ext_id . '/FREE-ID')->getBody())[0];
                         $pass = Pass::create([
                             'number' => $ticket_no,
                             'item_id' => $item->id,
@@ -212,10 +212,12 @@ class PaypalController extends Controller
             try {
                 DB::beginTransaction();
                 $event = Event::findOrFail($event_id);
+                $purchase_id = $result->getTransactions()[0]->getRelatedResources()[0]->getSale()->getId();
 
                 $purchase = Purchase::create([
                     'user_id' => $user->id,
-                    'event_id' => $event->id
+                    'event_id' => $event->id,
+                    'purchase_id' => $purchase_id
                 ]);
 
                 $passes_no = array();
@@ -234,7 +236,7 @@ class PaypalController extends Controller
                             for ($pass = 1; $pass <= $passes; $pass++) {
                                 //$ticket_no = uniqid();
                                 $client = new \GuzzleHttp\Client();
-                                $ticket_no = json_decode($client->request('GET', env('API_ADDRESS') . '/api/getTicketNumber/' . env('API_KEY') . '/' . $event->ext_id . '/' . $ticket->ext_id)->getBody())[0];
+                                $ticket_no = json_decode($client->request('GET', env('API_ADDRESS') . '/api/getTicketNumber/' . env('API_KEY') . '/' . $event->ext_id . '/' . $ticket->ext_id . '/' . $purchase_id)->getBody())[0];
                                 $pass_no = Pass::create([
                                     'number' => $ticket_no,
                                     'item_id' => $item->id,
