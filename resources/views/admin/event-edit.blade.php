@@ -56,9 +56,9 @@
                         {{ csrf_field() }}
 
                         <input type="hidden" name="image" id="hidden-input"
-                               value="{{ old('image') == null ? asset($event->image_ori):old('image') }}">
+                               value="{{ old('image') != null ? asset($event->image_ori):old('image') }}">
                         <input type="hidden" name="image_300" id="hidden-input-300"
-                               value="{{ old('image_300') == null ? asset($event->image_card):old('image_300') }}">
+                               value="{{ old('image_300') != null ? asset($event->image_card):old('image_300') }}">
 
                         <div class="fields">
                             <div class="six wide field">

@@ -27,6 +27,8 @@
                 <div class="column">
                     @if($event->image_ori != null)
                         <img class="ui centered fluid bordered image" src="{{ asset($event->image_ori) }}">
+                    @else
+                        <img class="ui centered fluid bordered image" src="{{ asset('img/noImage.png') }}">
                     @endif
                     <div class="ui divider"></div>
                     <span>Share with friends: </span>
